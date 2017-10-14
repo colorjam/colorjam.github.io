@@ -1,20 +1,13 @@
-extends partial/layout
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Proxifier配置 · Colorjam's Blog</title><meta name="description" content="Proxifier配置 - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Proxifier配置</h1><div class="post-info">Feb 2, 2017</div><div class="post-content"><p>npm install真是像大姨妈一样，安装包的时候阴晴不定 :triumph:<br>于是想起之前向大神问到的处理源的问题。Proxifier + shadowsocks。</p>
+<a id="more"></a>
+<p>Proxifier的设置很简单</p>
+<img src="/2017/02/02/Proxifier/201702021.png" alt="server" title="server">
 
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || page.title + ' - ' + config.author;
-    meta(name="description", content=desc)
-
-block container
-    include mixins/post
-    +post(page)
-
-block pagination
-    include mixins/paginator
-    +post()
-    include partial/comment
-
-block copyright
-    include partial/copyright
+<img src="/2017/02/02/Proxifier/201702022.png" alt="configure" title="configure">
+<p>​:point_right: 点击check</p>
+<img src="/2017/02/02/Proxifier/201702023.png" alt="test" title="test">
+<p>在这里要注意Port是<strong>本地端口</strong>，之前一直设置成服务器端口结果就报错了。<br>然后进行规则设置</p>
+<img src="/2017/02/02/Proxifier/201702024.png" alt="rules" title="rules">
+<img src="/2017/02/02/Proxifier/201702025.png" alt="rules" title="rules">
+<p>我的npm就复活啦 :sparkles:</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/03/22/我的XP虚拟机终于可以上网了/" class="prev">PREV</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><cript async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></cript><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

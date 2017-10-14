@@ -1,20 +1,39 @@
-extends partial/layout
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Mmachine Learning ex7 · Colorjam's Blog</title><meta name="description" content="Mmachine Learning ex7 - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Mmachine Learning ex7</h1><div class="post-info">Jun 13, 2017</div><div class="post-content"><p>这一章主要学习了 <strong>K-均值算法</strong> 和 <strong>PCA 算法</strong>，前者用于无监督学习中聚类的训练，后者用于压缩输入特征值的维度。</p>
+<a id="more"></a>
+<h3 id="K-means-Clustering"><a href="#K-means-Clustering" class="headerlink" title="K-means Clustering"></a>K-means Clustering</h3><p>我们先使用2维的数据集来感受一下K均值算法。接着我们要将写好的函数运用到图像压缩上。K-均值算法最核心的步骤如下：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">% Initialize centroids</span></div><div class="line">centroids = kMeansInitCentroids(X, K);</div><div class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:iterations</div><div class="line"><span class="comment">% Cluster assignment step: Assign each data point to the</span></div><div class="line"><span class="comment">% closest centroid. idx(i) corresponds to cˆ(i), the index</span></div><div class="line"><span class="comment">% of the centroid assigned to example i</span></div><div class="line">idx = findClosestCentroids(X, centroids);</div><div class="line"><span class="comment">% Move centroid step: Compute means based on centroid</span></div><div class="line"><span class="comment">% assignments</span></div><div class="line">centroids = computeMeans(X, idx, K);</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<p>第一步完成 <strong>findClosesCentroids</strong> 函数，计算每个样本到中心点的距离，用数值表示其所属类，返回聚类后的向量：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span> : <span class="built_in">size</span>(X,<span class="number">1</span>)</div><div class="line">  min = norm(X(<span class="built_in">i</span>,:) - centroids(<span class="number">1</span>,:), <span class="number">2</span>).^<span class="number">2</span>;</div><div class="line">  min_idx = <span class="number">1</span>;</div><div class="line">  <span class="keyword">for</span> <span class="built_in">j</span> = <span class="number">2</span> : K</div><div class="line">    cur = norm(X(<span class="built_in">i</span>,:) - centroids(<span class="built_in">j</span>,:), <span class="number">2</span>).^<span class="number">2</span>;</div><div class="line">    <span class="keyword">if</span>(cur &lt; min)</div><div class="line">      min = cur;</div><div class="line">      min_idx = <span class="built_in">j</span>;</div><div class="line">    <span class="keyword">end</span></div><div class="line">  <span class="keyword">end</span></div><div class="line">  idx(<span class="built_in">i</span>) = min_idx;</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<p>题解里说用一个for循环完成，但我先使用了两个，后面再进行优化好了。这其中出现了一个小问题，计算norm的时候，<code>norm(X(i,:) - centroids(j,:), 2).^2;</code> 主要包含所有列，否则只包含了单个数字。</p>
+<p>接下来完成 <strong>computeMeans</strong> 函数，通过同个类里的样本计算新的中心：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span> : K</div><div class="line">  <span class="comment">% 查找聚类样本</span></div><div class="line">  examples_idx = <span class="built_in">find</span>(idx == <span class="built_in">i</span>);</div><div class="line">  <span class="comment">% 计算中心值</span></div><div class="line">  X(examples_idx, :);</div><div class="line">  centroids(<span class="built_in">i</span>,:) = sum( X(examples_idx, :) ) / <span class="built_in">size</span>(examples_idx, <span class="number">1</span>);</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<p>这里出现的问题在<code>centroids(i,:) = sum( X(examples_idx, :) ) / size(examples_idx, 1);</code> 。注意包含centroids的所有列，和在计算szie()的时候，选择所有行的大小。</p>
+<p>然后我们就可以运行我们的K-均值算法来聚类了。可以看到初始化的时候三个中心点分别为（3,3）、（6,2）、（8,5）。</p>
+<img src="/2017/06/13/machine-learning-ex7/iter1.png" alt="iter1.png" title="">
+<p>经过6次迭代可以看到中心点逐渐往好的方向移动：</p>
+<img src="/2017/06/13/machine-learning-ex7/iter6.png" alt="iter6.png" title="">
+<p>经过10次迭代基本到达有模有样的聚类中心了：</p>
+<img src="/2017/06/13/machine-learning-ex7/iter10.png" alt="iter10.png" title="">
+<p>接下来我们要使用K均值算法来压缩图像了。每个像素用 <strong>24-bit</strong> 来表示颜色，即3个 <strong>8-bit</strong> 的无符号整形来表示RGB的值，目标压缩成用<strong>16-bit</strong> 来表示。</p>
+<p>我们使用 <strong>imread(A)</strong> 来读入图像，因为我们原始图像的大小为128x128，因此 A 为一个三维矩阵，<strong>size(A) = 128x128x3</strong> ，然后reshape图像变为 <strong>mX3</strong>（m = 16384 = 128x128） 的矩阵，用于后面执行K-均值算法。</p>
+<p>我们将K设置为16，对每个像素点进行聚类。获得最后的图像。原始图像需要 <strong>128 x 128 x 24 = 393,216</strong> bits。而压缩后我们使用 24bits存储16种颜色，但每个像素点只需要4bits 来进行定位。因此压缩后的图像为 <strong>16 x 24+128x128x4 = 65,920</strong> bits。（从pdf里理解是这样，然而真实的情况似乎并没有进行压缩，看了助教在论坛里的回答，完整的压缩过程还要创建一个新的图像，只使用4bit来表示，因为本课程只是关于聚类，而不是关于压缩图像的细节。）因此压缩后的图片如下：</p>
+<img src="/2017/06/13/machine-learning-ex7/compress.png" alt="compress.png" title="">
+<p>然后我们换一张自己的图片来看看效果：</p>
+<img src="/2017/06/13/machine-learning-ex7/compress2.png" alt="compress2.png" title="">
+<p>然后修改 <strong>K=5</strong> 再看看效果：</p>
+<img src="/2017/06/13/machine-learning-ex7/compress3.png" alt="compress3.png" title="">
+<h3 id="Principal-Component-Analysis"><a href="#Principal-Component-Analysis" class="headerlink" title="Principal Component Analysis"></a>Principal Component Analysis</h3><p>我们使用PCA来减少数据集的维度。先实验2D的数据集来了解一下PCA的运作，再将其运用更高的维度上。</p>
+<p>PCA的步骤为：1、正规化数据集。2、计算协方差矩阵。3、利用SVD函数计算主成分（U、S）。</p>
+<p>2、3步骤实现</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Sigma = X' * X / m;</div><div class="line">[U, S, V] = svd(Sigma);</div></pre></td></tr></table></figure>
+<p>可以看到特征向量如下图：</p>
+<p><strong>特征向量1</strong></p>
 
-block site_title
-    != page.title + " · " + config.title
+<p><strong>特征向量1 &amp; 2</strong></p>
 
-block description
-    - var desc = page.desc || page.title + ' - ' + config.author;
-    meta(name="description", content=desc)
-
-block container
-    include mixins/post
-    +post(page)
-
-block pagination
-    include mixins/paginator
-    +post()
-    include partial/comment
-
-block copyright
-    include partial/copyright
+<p>因为我们要降低到一维，即 <strong>K=1</strong> 因此在这次只会使用到U(:, 1)</p>
+<p>通过SVD函数计算出了主成分后，我们可以就利用特征向量U来将每个样本映射为更低的维度，x^(i)^ -&gt; z^(i)^ 。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">U_reduce = U(:, <span class="number">1</span>:K);</div><div class="line">Z = X * U_reduce;</div></pre></td></tr></table></figure>
+<p>重构出通过PCA映射后的点（红色）：</p>
+<img src="/2017/06/13/machine-learning-ex7/reconstruction.png" alt="reconstruction.png" title="">
+</div></article></div></main><footer><div class="paginator"><a href="/2017/06/16/machine-learning-ex8/" class="prev">PREV</a><a href="/2017/06/10/machine-learning-ex6/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><cript async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></cript><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

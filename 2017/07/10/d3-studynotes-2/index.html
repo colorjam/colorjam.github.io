@@ -1,20 +1,7 @@
-extends partial/layout
-
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || page.title + ' - ' + config.author;
-    meta(name="description", content=desc)
-
-block container
-    include mixins/post
-    +post(page)
-
-block pagination
-    include mixins/paginator
-    +post()
-    include partial/comment
-
-block copyright
-    include partial/copyright
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> d3-studynotes-1 · Colorjam's Blog</title><meta name="description" content="d3-studynotes-1 - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">d3-studynotes-1</h1><div class="post-info">Jul 10, 2017</div><div class="post-content"><p>今天开始一步步完成微博信息扩散的可视化。希望实现鼠标滑过圆圈，显示微博信息的功能。但是在利用单个数据的更新上产生了bug，一开始的代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">showDetail(d) &#123;</div><div class="line">	<span class="keyword">var</span> info = box.select(<span class="string">'div'</span>)</div><div class="line">		.data(d.data)</div><div class="line">	info.enter().append(<span class="string">'div'</span>)</div><div class="line">		....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在函数中<code>console(info)</code>发现data是null。这就奇怪了，明明我穿了数据进去呀？</p>
+<a id="more"></a>
+<p>我翻阅千山万水找到文章 <a href="https://bost.ocks.org/mike/selection/" target="_blank" rel="external">How Selections Work</a> ，其中说道，d3中的data是一个数组，当和元素进行匹配的时候，会自动成组进行。 这也解决了我之前不懂 selectAll().data() 为什么结点和数据可以很好的配对的疑惑。因此修改代码，将传入的data变为一个数组：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">showDetail(d) &#123;</div><div class="line">	<span class="keyword">var</span> dataArr = []</div><div class="line">	dataArr.push(d.data)</div><div class="line">	<span class="keyword">var</span> info = box.select(<span class="string">'div'</span>)</div><div class="line">		.data(dataArr)</div><div class="line">	info.enter().append(<span class="string">'div'</span>)</div><div class="line">		....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/07/10/d3-studynotes-1/" class="prev">PREV</a><a href="/2017/06/20/Tensorflow-test/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><cript async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></cript><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

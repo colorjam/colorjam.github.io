@@ -1,20 +1,30 @@
-extends partial/layout
-
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || page.title + ' - ' + config.author;
-    meta(name="description", content=desc)
-
-block container
-    include mixins/post
-    +post(page)
-
-block pagination
-    include mixins/paginator
-    +post()
-    include partial/comment
-
-block copyright
-    include partial/copyright
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Machine Learning ex2 · Colorjam's Blog</title><meta name="description" content="Machine Learning ex2 - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Machine Learning ex2</h1><div class="post-info">May 28, 2017</div><div class="post-content"><p>这一章是实践逻辑回归。两个大题目，一个就是正常的逻辑回归，另外一个是正则化的逻辑回归。记录下做作业的心路历程。</p>
+<a id="more"></a>
+<h3 id="plotData"><a href="#plotData" class="headerlink" title="plotData"></a>plotData</h3><p>一开始就感觉被难住，X是mx2的矩阵，y是m行向量。对于如何来显示图像示毫无头绪，然后发现pdf里给出了答案。get了两个函数，一个是find，另一个是plot。</p>
+<img src="/2017/05/28/machine-learning-ex2/find.png" alt="find.png" title="">
+<p>简单的看一下find根据查找条件返回查找矩阵的下标</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pos = <span class="built_in">find</span>(y == <span class="number">1</span>);</div><div class="line">neg = <span class="built_in">find</span>(y == <span class="number">0</span>);</div></pre></td></tr></table></figure>
+<p>因此这两句结果分类返回对应的训练集所在行数。</p>
+<img src="/2017/05/28/machine-learning-ex2/pos.png" alt="pos.png" title="">
+<p>看一下pos~就是返回一个向量，包括结果为1的行数。</p>
+<img src="/2017/05/28/machine-learning-ex2/plot.png" alt="plot.png" title="">
+<p>接下来就是显示啦，第一个参数是x轴的数值，第二个参数是y坐标的数值，分别取自对应分类的第一项成绩和第二项成绩。然后显示结果。</p>
+<img src="/2017/05/28/machine-learning-ex2/plot_result.png" alt="plot_result.png" title="">
+<h3 id="sigmoid"><a href="#sigmoid" class="headerlink" title="sigmoid"></a>sigmoid</h3><p>这个用下图这个公式变换一下函数</p>
+<img src="/2017/05/28/machine-learning-ex2/sigmoid.png" alt="sigmoid.png" title="">
+<p>一步一步来，先实现一个数字的转换：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">g = <span class="number">1</span> / (<span class="number">1</span> + <span class="built_in">exp</span>(x));</div></pre></td></tr></table></figure>
+<p>然后发现结果不正确，发现x还有可能是矩阵，也就是说矩阵的每一位都要做相应的变换</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:r</div><div class="line">  <span class="keyword">for</span> <span class="built_in">j</span> = <span class="number">1</span>:c</div><div class="line">  g(<span class="built_in">i</span>, <span class="built_in">j</span>) = <span class="number">1</span> / (<span class="number">1</span> + <span class="built_in">exp</span>(-z(<span class="built_in">i</span>,<span class="built_in">j</span>)));</div><div class="line">  <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<h3 id="costFunction"><a href="#costFunction" class="headerlink" title="costFunction"></a>costFunction</h3><p>首先公式很复杂，但是其实实现很简单</p>
+<img src="/2017/05/28/machine-learning-ex2/cost.png" alt="cost.png" title="">
+<img src="/2017/05/28/machine-learning-ex2/grad.png" alt="grad.png" title="">
+<p>我一开始弄了两层循环来遍历i和m，后面意识到，我们用了矩阵啊，然后变成了一层只对m的循环，然后发现还是不对，其实就。。。非常简单</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">% 计算hypothesis</span></div><div class="line">para =  X * theta;</div><div class="line"><span class="comment">% 计算cost</span></div><div class="line">J = (-y' * <span class="built_in">log</span>(sigmoid(para)) - (<span class="number">1</span> - y)' * (<span class="built_in">log</span>(<span class="number">1</span> - sigmoid(para)))) / m;</div><div class="line"><span class="comment">% 计算gradient</span></div><div class="line">grad = X' * (sigmoid(para) - y)/ m;</div></pre></td></tr></table></figure>
+<h3 id="costFunctionReg"><a href="#costFunctionReg" class="headerlink" title="costFunctionReg"></a>costFunctionReg</h3><p>正则化逻辑回归的函数，这里要注意的是，计算cost和gradient的时候都不能把theta~0~ 算进去，复杂的公式用矩阵带入就好简单呀，虽然花了一个下午完成练习，主要都花在纠结矩阵谁乘以谁，但是完成了就成就感满满~~</p>
+<p>修改一下lambda的值来测试一下整体化到底是什么鬼</p>
+<img src="/2017/05/28/machine-learning-ex2/lamda0.png" alt="lamda0.png" title="">
+<img src="/2017/05/28/machine-learning-ex2/lamda1.png" alt="lamda1.png" title="">
+<img src="/2017/05/28/machine-learning-ex2/lamda50.png" alt="lamda50.png" title="">
+<p>从图形的变化可以看出lamda太小会overfitting，1的时候切好是最正确的分界线，50就开始under fitting了。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/05/29/machine-learning-ex3/" class="prev">PREV</a><a href="/2017/05/24/Microcontrollermd/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><cript async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></cript><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

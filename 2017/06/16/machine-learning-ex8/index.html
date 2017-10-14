@@ -1,20 +1,15 @@
-extends partial/layout
-
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || page.title + ' - ' + config.author;
-    meta(name="description", content=desc)
-
-block container
-    include mixins/post
-    +post(page)
-
-block pagination
-    include mixins/paginator
-    +post()
-    include partial/comment
-
-block copyright
-    include partial/copyright
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Machine Learning ex8 · Colorjam's Blog</title><meta name="description" content="Machine Learning ex8 - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Machine Learning ex8</h1><div class="post-info">Jun 16, 2017</div><div class="post-content"><p>以光速刷课。。昨天一天刷完week9，今天又刷完week10，正在向week11进军。。还是要完成一下wee9的编程作业。</p>
+<p>这一章主要是讲了异常检测和推荐系统。异常检测算法使用的是以前概率论学过的正态（高斯）分布。只使用特征值X来计算出概率分布，根据临界值的大小再判断y是否异常。</p>
+<h3 id="Anomaly-detection"><a href="#Anomaly-detection" class="headerlink" title="Anomaly detection"></a>Anomaly detection</h3><p>首先计算出 <strong>μ</strong> 和 <strong>σ^2^ </strong>：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mu = mean(X)';</div><div class="line">sigma2 = var(X)'*(m<span class="number">-1</span>)/m;</div></pre></td></tr></table></figure>
+<p>在这里要注意函数 var() 除以的是m-1所以我们要修改一下函数。然后我们要利用交叉验证样本，计算 F~1~ Score 并挑选临界值 <strong>ε</strong>：</p>
+ <figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">% 获取验证集异常值坐标</span></div><div class="line">cvPredictions = (pval &lt; epsilon);</div><div class="line">tp = sum( (cvPredictions == <span class="number">1</span>) &amp; (yval == <span class="number">1</span>) );</div><div class="line">fp = sum( (cvPredictions == <span class="number">1</span>) &amp; (yval == <span class="number">0</span>) );</div><div class="line">fn = sum( (cvPredictions == <span class="number">0</span>) &amp; (yval == <span class="number">1</span>) );</div><div class="line"><span class="comment">% 计算精确率</span></div><div class="line">prec = tp / (tp + fp);</div><div class="line"><span class="comment">% 计算召回率</span></div><div class="line">rec = tp / (tp + fn);</div><div class="line">F1 = <span class="number">2</span> * prec * rec / (prec + rec);</div></pre></td></tr></table></figure>
+<p>然后可以看到红红的圈出的异常值：</p>
+<img src="/2017/06/16/machine-learning-ex8/detected.png" alt="detected.png" title="">
+<h3 id="Recommender-Systems"><a href="#Recommender-Systems" class="headerlink" title="Recommender Systems"></a>Recommender Systems</h3><p>说到推荐系统，以电影为例，一方面要预测用户对于某电影的评分，另一方面要寻找相似的电影，我们经常使用的算法是协同过滤算法。进一步了解这个算法，查了一些中文资料。原本的线性回归，我们只需要根据特征值计算出参数 <strong>θ</strong>，但是现在变态了，我们不光要预测用户的喜好，还要查找相似的特征向量，俩参数（都用矩阵表示）一起学习。</p>
+<p>首先我们完成未正规化的梯度和代价函数的计算：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">X_grad = (X * Theta' - Y) .* R * Theta;</div><div class="line">Theta_grad = (X * Theta' - Y)' .* R' * X;</div><div class="line"></div><div class="line">J = sum(( (X * Theta' - Y).^<span class="number">2</span> .* R )(:)) / <span class="number">2</span>;</div></pre></td></tr></table></figure>
+<p>期间完全忘记梯度是什么鬼。。回顾一下，是代价函数对变量求偏导~ 计算公式完全按照矩阵的大小来判断。接下来我们正规化代价函数，按照公式加上<code>J += lambda / 2 <em> sum(Theta.^2(:)) + lambda / 2 </em> sum(X.^2(:));</code>，但发现J变成了1x3的向量，发现问题在于sum中应该在平方的时候添加括号，修改代码如下：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">J += lambda / <span class="number">2</span> * sum((Theta.^<span class="number">2</span>)(:)) + lambda / <span class="number">2</span> * sum((X.^<span class="number">2</span>)(:));</div></pre></td></tr></table></figure>
+<p>然后继续完成梯度的正规化。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/06/20/Tensorflow-test/" class="prev">PREV</a><a href="/2017/06/13/machine-learning-ex7/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><cript async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></cript><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

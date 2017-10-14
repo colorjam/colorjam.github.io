@@ -1,20 +1,57 @@
-extends partial/layout
-
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || page.title + ' - ' + config.author;
-    meta(name="description", content=desc)
-
-block container
-    include mixins/post
-    +post(page)
-
-block pagination
-    include mixins/paginator
-    +post()
-    include partial/comment
-
-block copyright
-    include partial/copyright
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 看看共享单车吧 · Colorjam's Blog</title><meta name="description" content="看看共享单车吧 - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">看看共享单车吧</h1><div class="post-info">Oct 14, 2017</div><div class="post-content"><p>整理了<a href="http://www.woshipm.com/" target="_blank" rel="external">人人都是产品经理</a>《共享单车大对决》8篇系列文章，解读当下中国正火热的共享单车，通过对比小黄车和ofo了解互联网思维。去武汉的时候骑过小黄车，认证学生免押金，而且那几天都是免费的，大大便利了旅程，没有用摩拜就是觉得押金太贵了，还蛮好奇这种共享经济的兴起和其商业运营模式的，也跨出码字学习笔记第一步。</p>
+<a id="more"></a>
+<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>​    解决家到地铁站 / 地铁站到上班最后一到三公里的交通</p>
+<h2 id="公共自行车项目"><a href="#公共自行车项目" class="headerlink" title="公共自行车项目"></a>公共自行车项目</h2><ul>
+<li>绑定银行卡预存押金（手续复杂） </li>
+<li>固定停车场（自由度受限）</li>
+</ul>
+<h2 id="OFO小黄车"><a href="#OFO小黄车" class="headerlink" title="OFO小黄车"></a>OFO小黄车</h2><ul>
+<li><p>北大90后学生毕业之后创办，校园起步</p>
+</li>
+<li><p>鼓励校园内师生将自己单车共享出来使用，C2C模式</p>
+</li>
+<li><p>自购自行车，把自行车租给师生使用，转向B2C模式</p>
+</li>
+<li><p>创新点：<strong>网上取密码，解决有桩停放问题</strong></p>
+</li>
+<li><p>优点：押金少、成本低、轻巧醒目、更本土化</p>
+</li>
+<li><p>缺点：容易坏影响用户体验、难定位、未成年人骑行、乱停乱放</p>
+</li>
+</ul>
+<h2 id="摩拜单车"><a href="#摩拜单车" class="headerlink" title="摩拜单车"></a>摩拜单车</h2><ul>
+<li>项目创始人之一是媒体汽车记者胡玮炜，希望有一辆随时随地可以骑的自行车</li>
+<li>项目投资人易车公司懂事长，蔚来汽车创始人李斌启发，从城市进入</li>
+<li>职业经理人王晓峰将摩拜投入真实的市场环境</li>
+<li>重点解决<strong>大范围内共享单车的防盗和丢失问题</strong></li>
+<li>优点：开锁换车方便、后台GPS实时监控车辆轨迹、车辆结实不容易坏、运营回收与维修成本较低</li>
+<li>缺点：押金较高、颜色不醒目、硬件迭代较慢、单车成本较高、车辆较沉骑行费力、</li>
+</ul>
+<h2 id="互联网思维"><a href="#互联网思维" class="headerlink" title="互联网思维"></a>互联网思维</h2><ol>
+<li>尽可能更简单、更便利、更便宜</li>
+<li>互联网发展迅速，暴发性强</li>
+<li>能在短期内积累到海量用户</li>
+<li>互联网产品第一代不可能极致</li>
+<li>产品升级，盈利模式迁移</li>
+<li>随时随地的自由便利</li>
+<li>互联网的网络规模效应是大者恒大</li>
+<li>轻简快海量和高频</li>
+</ol>
+<h2 id="破窗效应（Broken-windows-theory）"><a href="#破窗效应（Broken-windows-theory）" class="headerlink" title="破窗效应（Broken windows theory）"></a>破窗效应（Broken windows theory）</h2><ul>
+<li>一幢有少许<strong>破窗</strong>的建筑为例，如果那些<strong>窗</strong>不被修理好，可能将会有破坏者破坏更多的窗户</li>
+<li>小黄车存在破窗效应，容易坏，折损率高。没有GPS定位，<strong>不修不回收，不及时更换的话，那就沦为城市的垃圾</strong></li>
+</ul>
+<h2 id="摩拜单车应对策略"><a href="#摩拜单车应对策略" class="headerlink" title="摩拜单车应对策略"></a>摩拜单车应对策略</h2><ol>
+<li>在局部地区，尤其大城市，针锋相对</li>
+<li>与大城市政府搞好关系，引导和加强这个市场的规范</li>
+<li>抢占有利地位，与微信形成顶级的无缝合作</li>
+<li>梅雨会对小黄车质量造成影响，在时间上打持久战</li>
+<li>舆论和营销，强调作为市场领导者的安全和规范</li>
+<li>通过免费打价格战</li>
+<li>抢先在三四五级城市布局</li>
+</ol>
+<p>相关阅读<br><a href="http://www.woshipm.com/it/636022.html" target="_blank" rel="external">创新案例解读：即将决战，共享单车的大蓝海到底在哪？</a></p>
+<p><a href="http://www.woshipm.com/it/638816.html" target="_blank" rel="external">共享单车大决战2：小黄车ofo的创业史</a></p>
+<p><a href="http://www.woshipm.com/it/639379.html" target="_blank" rel="external">共享单车大决战3：摩拜的创业史</a></p>
+<p><a href="http://www.woshipm.com/it/641354.html" target="_blank" rel="external">共享单车大对决4：以小黄车和摩拜为例，解读了8种互联网思维</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/10/14/Googles XSS Game/" class="prev">PREV</a><a href="/2017/10/14/node-study-2/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><cript async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></cript><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
