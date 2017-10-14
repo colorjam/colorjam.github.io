@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-29T02:18:48.000Z</updated>
+  <updated>2017-04-25T05:44:48.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,42 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>看看共享单车吧</title>
-    <link href="http://yoursite.com/2017/10/14/%E7%9C%8B%E7%9C%8B%E5%85%B1%E4%BA%AB%E5%8D%95%E8%BD%A6%E5%90%A7/"/>
-    <id>http://yoursite.com/2017/10/14/看看共享单车吧/</id>
-    <published>2017-10-14T01:38:53.000Z</published>
-    <updated>2017-04-29T02:18:48.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>整理了<a href="http://www.woshipm.com/" target="_blank" rel="external">人人都是产品经理</a>《共享单车大对决》8篇系列文章，解读当下中国正火热的共享单车，通过对比小黄车和ofo了解互联网思维。去武汉的时候骑过小黄车，认证学生免押金，而且那几天都是免费的，大大便利了旅程，没有用摩拜就是觉得押金太贵了，还蛮好奇这种共享经济的兴起和其商业运营模式的，也跨出码字学习笔记第一步。</p><a id="more"></a><h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>​    解决家到地铁站 / 地铁站到上班最后一到三公里的交通</p><h2 id="公共自行车项目"><a href="#公共自行车项目" class="headerlink" title="公共自行车项目"></a>公共自行车项目</h2><ul><li>绑定银行卡预存押金（手续复杂） </li><li>固定停车场（自由度受限）</li></ul><h2 id="OFO小黄车"><a href="#OFO小黄车" class="headerlink" title="OFO小黄车"></a>OFO小黄车</h2><ul><li><p>北大90后学生毕业之后创办，校园起步</p></li><li><p>鼓励校园内师生将自己单车共享出来使用，C2C模式</p></li><li><p>自购自行车，把自行车租给师生使用，转向B2C模式</p></li><li><p>创新点：<strong>网上取密码，解决有桩停放问题</strong></p></li><li><p>优点：押金少、成本低、轻巧醒目、更本土化</p></li><li><p>缺点：容易坏影响用户体验、难定位、未成年人骑行、乱停乱放</p></li></ul><h2 id="摩拜单车"><a href="#摩拜单车" class="headerlink" title="摩拜单车"></a>摩拜单车</h2><ul><li>项目创始人之一是媒体汽车记者胡玮炜，希望有一辆随时随地可以骑的自行车</li><li>项目投资人易车公司懂事长，蔚来汽车创始人李斌启发，从城市进入</li><li>职业经理人王晓峰将摩拜投入真实的市场环境</li><li>重点解决<strong>大范围内共享单车的防盗和丢失问题</strong></li><li>优点：开锁换车方便、后台GPS实时监控车辆轨迹、车辆结实不容易坏、运营回收与维修成本较低</li><li>缺点：押金较高、颜色不醒目、硬件迭代较慢、单车成本较高、车辆较沉骑行费力、</li></ul><h2 id="互联网思维"><a href="#互联网思维" class="headerlink" title="互联网思维"></a>互联网思维</h2><ol><li>尽可能更简单、更便利、更便宜</li><li>互联网发展迅速，暴发性强</li><li>能在短期内积累到海量用户</li><li>互联网产品第一代不可能极致</li><li>产品升级，盈利模式迁移</li><li>随时随地的自由便利</li><li>互联网的网络规模效应是大者恒大</li><li>轻简快海量和高频</li></ol><h2 id="破窗效应（Broken-windows-theory）"><a href="#破窗效应（Broken-windows-theory）" class="headerlink" title="破窗效应（Broken windows theory）"></a>破窗效应（Broken windows theory）</h2><ul><li>一幢有少许<strong>破窗</strong>的建筑为例，如果那些<strong>窗</strong>不被修理好，可能将会有破坏者破坏更多的窗户</li><li>小黄车存在破窗效应，容易坏，折损率高。没有GPS定位，<strong>不修不回收，不及时更换的话，那就沦为城市的垃圾</strong></li></ul><h2 id="摩拜单车应对策略"><a href="#摩拜单车应对策略" class="headerlink" title="摩拜单车应对策略"></a>摩拜单车应对策略</h2><ol><li>在局部地区，尤其大城市，针锋相对</li><li>与大城市政府搞好关系，引导和加强这个市场的规范</li><li>抢占有利地位，与微信形成顶级的无缝合作</li><li>梅雨会对小黄车质量造成影响，在时间上打持久战</li><li>舆论和营销，强调作为市场领导者的安全和规范</li><li>通过免费打价格战</li><li>抢先在三四五级城市布局</li></ol><p>相关阅读<br><a href="http://www.woshipm.com/it/636022.html" target="_blank" rel="external">创新案例解读：即将决战，共享单车的大蓝海到底在哪？</a></p><p><a href="http://www.woshipm.com/it/638816.html" target="_blank" rel="external">共享单车大决战2：小黄车ofo的创业史</a></p><p><a href="http://www.woshipm.com/it/639379.html" target="_blank" rel="external">共享单车大决战3：摩拜的创业史</a></p><p><a href="http://www.woshipm.com/it/641354.html" target="_blank" rel="external">共享单车大对决4：以小黄车和摩拜为例，解读了8种互联网思维</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;整理了&lt;a href=&quot;http://www.woshipm.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;人人都是产品经理&lt;/a&gt;《共享单车大对决》8篇系列文章，解读当下中国正火热的共享单车，通过对比小黄车和ofo了解互联网思维。去武汉的时候骑过小黄车，认证学生免押金，而且那几天都是免费的，大大便利了旅程，没有用摩拜就是觉得押金太贵了，还蛮好奇这种共享经济的兴起和其商业运营模式的，也跨出码字学习笔记第一步。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>express 4 Study</title>
-    <link href="http://yoursite.com/2017/10/14/node-study-2/"/>
-    <id>http://yoursite.com/2017/10/14/node-study-2/</id>
-    <published>2017-10-14T01:38:53.000Z</published>
-    <updated>2017-04-23T08:42:19.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>用vue-resouce结合express的接口时，post的时候发现怎么也不对<br>别人的代码明明就是输出req.body嘛，然而我只有undefined :weary:</p><a id="more"></a><p>用vue-resouce结合express的接口时，post的时候发现怎么也不对<br>别人的代码明明就是输出req.body嘛，然而我只有undefined :weary:<br>坐着光看着好久，果然还是要动手，google大法好<br>Express 4移除了一些中间件，所以要手动把它装上<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install body-parser --save</div></pre></td></tr></table></figure></p><p>首先在服务器的代码中加上这一句<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.use(bodyParser.urlencoded(&#123;<span class="attr">extended</span>: <span class="literal">false</span>&#125;))</div></pre></td></tr></table></figure></p><p>这时候返回的是{}，然后加上<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.use(bodyParse.json())</div></pre></td></tr></table></figure></p><p>返回正常了！开心 :relaxed:</p><p>参考：<a href="http://stackoverflow.com/questions/9177049/express-js-req-body-undefined" target="_blank" rel="external">http://stackoverflow.com/questions/9177049/express-js-req-body-undefined</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;用vue-resouce结合express的接口时，post的时候发现怎么也不对&lt;br&gt;别人的代码明明就是输出req.body嘛，然而我只有undefined :weary:&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>Node Study</title>
@@ -64,29 +28,6 @@
     <summary type="html">
     
       &lt;p&gt;立谈之间便度过了寒假的上半场，要静下心来好好学习了  :muscle:&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Googles XSS Game</title>
-    <link href="http://yoursite.com/2017/10/14/Googles%20XSS%20Game/"/>
-    <id>http://yoursite.com/2017/10/14/Googles XSS Game/</id>
-    <published>2017-10-14T01:38:53.000Z</published>
-    <updated>2017-04-23T08:43:10.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>前面三关没有想起来要记录 // 尴尬.jpg  </p><p>懒得再回去敲一遍了，让我们直接从Level4开始你的表演吧！</p><h2 id="Level-4"><a href="#Level-4" class="headerlink" title="Level 4"></a>Level 4</h2><p><img src="D:\5_Front-End\blog\source\images\20170320 level4_1.png" alt="20170320 level4_1"></p><p>检查了一下源代码发现上面加载的图片有猫腻</p><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/static/loading.gif"</span> <span class="attr">onload</span>=<span class="string">"startTimer('&#123;&#123; timer &#125;&#125;');"</span> /&gt;</span></div></pre></td></tr></table></figure><p>于是就想到在onload里面直接执行alert</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">'); alert('</span>hello<span class="string">');""('</span></div></pre></td></tr></table></figure><p><img src="D:\5_Front-End\blog\source\images\20170320level4_2.png" alt="20170320level4_2"></p><h2 id="Level-5"><a href="#Level-5" class="headerlink" title="Level 5"></a>Level 5</h2><p>点击signup跳转至如下页面</p><p><img src="D:\5_Front-End\blog\source\images\20170320 level5_1.png" alt="20170320 level5_1"></p><p>随便输入几个字母，Next &gt;&gt; 跳回注册页面</p><p>这时候F12查看源代码，有一句注释</p><p><img src="D:\5_Front-End\blog\source\images\20170320level5_3.png" alt="20170320level5_3"></p><p>好的，这下I know了</p><p>然后发现 window.location 的 next=cofirm 嗯有猫腻，那我改一下</p><p>直接把 next=cofrim 改成 next=javascript:alert(‘hello’); 完美！</p><h2 id="Level6"><a href="#Level6" class="headerlink" title="Level6"></a>Level6</h2><p><img src="D:\5_Front-End\blog\source\images\20170320 level6.png" alt="20170320 level6"></p><p>羞愧偷了一下别人的代码&gt;&lt; </p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https:<span class="comment">//xss-game.appspot.com/level6/frame#htTps://pastebin.com/raw.php?i=15S5qZs0</span></div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;前面三关没有想起来要记录 // 尴尬.jpg  &lt;/p&gt;
-&lt;p&gt;懒得再回去敲一遍了，让我们直接从Level4开始你的表演吧！&lt;/p&gt;
-&lt;h2 id=&quot;Level-4&quot;&gt;&lt;a href=&quot;#Level-4&quot; class=&quot;headerlink&quot; title=&quot;Level 4&quot;
-      
     
     </summary>
     
@@ -109,47 +50,6 @@
         &lt;p&gt;第一部分应该是根据作者2012年的文章进行的，第二部分根据作者2016年新的文章，在命令行显示人口密度。&lt;/p&gt;
 &lt;h1 id=&quot;第一部分&quot;&gt;&lt;a href=&quot;#第一部分&quot; class=&quot;headerlink&quot; title=&quot;第一部分&quot;&gt;&lt;/a&gt;第一部分&lt;/h1&gt;&lt;h3 i
       
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>d3-studynotes-1</title>
-    <link href="http://yoursite.com/2017/07/10/d3-studynotes-1/"/>
-    <id>http://yoursite.com/2017/07/10/d3-studynotes-1/</id>
-    <published>2017-07-10T07:36:56.000Z</published>
-    <updated>2017-07-10T09:45:01.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>学习d3的时候遇到的第一个费解的问题是，为什么是先选择一些不存在的元素然后才创建？根据作者2012年写的文章 <a href="https://bost.ocks.org/mike/join/" target="_blank" rel="external">Thinking withe joins</a>，来理解一下数据连接。</p><blockquote><p>Instead of telling D3 <em>how</em> to do something, tell D3 <em>what</em> you want. You want the circle elements to correspond to data. You want one circle per datum. Instead of instructing D3 to create circles, then, tell D3 that the selection <code>&quot;circle&quot;</code> should correspond to data. This concept is called the <em>data join</em>:</p></blockquote><p>告诉D3你想要什么而不是怎么做。你想要一个圆形的元素来代表一个数据，不要告诉D3创建一个圆形，告诉D3你要选择一个圆形来代表这个数据。这个概念便叫做数据连接：</p><img src="/2017/07/10/d3-studynotes-1/datajoin.png" alt="datajoin.png" title=""><blockquote><p>Data points joined to existing elements produce the <em>update</em> (inner) selection. Leftover unbound data produce the <em>enter</em> selection (left), which represents missing elements. Likewise, any remaining unbound elements produce the <em>exit</em> selection (right), which represents elements to be removed.</p></blockquote><p>连接数据到已存在的元素产生 <em>更新(update)</em> 选择，未绑定的数据产生 <em>进入(enter)</em> 选择选择，表示数据缺少装它的元素。未绑定的元素产生<em>退出(exit)</em> 选择，表示元素将会被删除。大致理解了三个状态。</p><p>但是最新的v4还有一个很迷的函数 <a href="https://github.com/d3/d3-selection#selection_merge" target="_blank" rel="external">selection.merge</a> 需要理解，顺藤摸瓜看到作者关于 <em>merge</em> 的回答，并用3中方法改了一个例子，好强 <a href="https://github.com/d3/d3-selection/issues/86" target="_blank" rel="external">https://github.com/d3/d3-selection/issues/86</a></p><p>结合 <a href="https://github.com/d3/d3-selection#selection_data" target="_blank" rel="external">selection_data</a> 中的代码理解一下整个过程：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> circle = svg.selectAll(<span class="string">"circle"</span>) <span class="comment">// 1</span></div><div class="line">  .data(data) <span class="comment">// 2</span></div><div class="line">    .style(<span class="string">"fill"</span>, <span class="string">"blue"</span>); <span class="comment">// 3</span></div><div class="line"></div><div class="line">circle.exit().remove(); <span class="comment">// 4</span></div><div class="line"></div><div class="line">circle.enter().append(<span class="string">"circle"</span>) <span class="comment">// 5</span></div><div class="line">    .style(<span class="string">"fill"</span>, <span class="string">"green"</span>) <span class="comment">// 6</span></div><div class="line">  .merge(circle) <span class="comment">// 7</span></div><div class="line">    .style(<span class="string">"stroke"</span>, <span class="string">"black"</span>); <span class="comment">// 8</span></div></pre></td></tr></table></figure><ol><li>选择所有存在的圆。</li><li>将这些圆与数据连接，返回匹配的圆：<em>update</em> 选择。</li><li>这些更新的圆是蓝色的。</li><li>所有不存在的<strong>圆</strong>即不匹配新数据的圆， 通过 <em>exit</em> 选择移除。</li><li>为不存在匹配圆的<strong>数据</strong>添加新的圆：<em>enter</em> 选择。</li><li>这些进入的圆是绿色的。</li><li>产生一个合并进入圆和更新圆的新选择。</li><li>这些合并后的圆是黑色的边线。</li></ol><blockquote><p>Thinking with joins means declaring a relationship between a selection (such as <code>&quot;circle&quot;</code>) and data, and then implementing this relationship through the three <em>enter</em>, <em>update</em> and <em>exit</em> states.</p></blockquote><p>思考连接意味着声明一个选择器（比如圆）和数据的关系，然后通过 <em>enter</em> 、 <em>update</em> 、<em>exit</em> 三个状态来实现这个关系。</p><blockquote><p>If the new dataset is smaller than the old one, the surplus elements end up in the exit selection and get removed. If the new dataset is larger, the surplus data ends up in the enter selection and new nodes are added. If the new dataset is exactly the same size, then all the elements are simply updated with new positions, and no elements are added or removed.</p></blockquote><p>如果新的数据器小于旧的，则剩余元素最终会在 <em>exit</em> 选择中被移除；如果新数据集比较大，剩余数据将在输入选择中添加新节点。如果新旧数据集大小相同，则所有元素都将以新的位置进行更新，并且不添加或删除元素。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;学习d3的时候遇到的第一个费解的问题是，为什么是先选择一些不存在的元素然后才创建？根据作者2012年写的文章 &lt;a href=&quot;https://bost.ocks.org/mike/join/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Thinking
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>d3-studynotes-1</title>
-    <link href="http://yoursite.com/2017/07/10/d3-studynotes-2/"/>
-    <id>http://yoursite.com/2017/07/10/d3-studynotes-2/</id>
-    <published>2017-07-10T07:36:56.000Z</published>
-    <updated>2017-07-22T06:52:19.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天开始一步步完成微博信息扩散的可视化。希望实现鼠标滑过圆圈，显示微博信息的功能。但是在利用单个数据的更新上产生了bug，一开始的代码如下：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">showDetail(d) &#123;</div><div class="line"><span class="keyword">var</span> info = box.select(<span class="string">'div'</span>)</div><div class="line">.data(d.data)</div><div class="line">info.enter().append(<span class="string">'div'</span>)</div><div class="line">....</div><div class="line">&#125;</div></pre></td></tr></table></figure><p>在函数中<code>console(info)</code>发现data是null。这就奇怪了，明明我穿了数据进去呀？</p><a id="more"></a><p>我翻阅千山万水找到文章 <a href="https://bost.ocks.org/mike/selection/" target="_blank" rel="external">How Selections Work</a> ，其中说道，d3中的data是一个数组，当和元素进行匹配的时候，会自动成组进行。 这也解决了我之前不懂 selectAll().data() 为什么结点和数据可以很好的配对的疑惑。因此修改代码，将传入的data变为一个数组：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">showDetail(d) &#123;</div><div class="line"><span class="keyword">var</span> dataArr = []</div><div class="line">dataArr.push(d.data)</div><div class="line"><span class="keyword">var</span> info = box.select(<span class="string">'div'</span>)</div><div class="line">.data(dataArr)</div><div class="line">info.enter().append(<span class="string">'div'</span>)</div><div class="line">....</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天开始一步步完成微博信息扩散的可视化。希望实现鼠标滑过圆圈，显示微博信息的功能。但是在利用单个数据的更新上产生了bug，一开始的代码如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;showDetail(d) &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; info = box.select(&lt;span class=&quot;string&quot;&gt;&#39;div&#39;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;		.data(d.data)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;	info.enter().append(&lt;span class=&quot;string&quot;&gt;&#39;div&#39;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;		....&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;在函数中&lt;code&gt;console(info)&lt;/code&gt;发现data是null。这就奇怪了，明明我穿了数据进去呀？&lt;/p&gt;
     
     </summary>
     
@@ -413,6 +313,42 @@
     <summary type="html">
     
       &lt;p&gt;今天的翻译来源于 &lt;a href=&quot;http://facebook.design&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://facebook.design&lt;/a&gt; ，一直觉得未来的VR会超屌的，就进一步了解一下。先是来到 &lt;a href=&quot;http://facebook.design/virtual-hands#scroll&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://facebook.design/virtual-hands#scroll&lt;/a&gt; 下载了Virtual Hands，各种手势的png麻溜的存起来，保不准以后有用呢。页面上有一个链接跳转到Christophe Tauziet制作VR手势交互的文章 &lt;a href=&quot;https://medium.com/facebook-design/designing-for-hands-in-vr-61e6815add99&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Designing for Hands in VR&lt;/a&gt; 这篇文章。那今天就翻译这篇吧~&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>如何设计更好的按钮</title>
+    <link href="http://yoursite.com/2017/04/29/Daily-Translation-01/"/>
+    <id>http://yoursite.com/2017/04/29/Daily-Translation-01/</id>
+    <published>2017-04-28T23:03:14.000Z</published>
+    <updated>2017-05-30T03:05:07.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>原文链接<a href="https://www.smashingmagazine.com/2016/11/a-quick-guide-for-designing-better-buttons/" target="_blank" rel="external">How To Design Better Buttons</a>。按钮是交互设计中最常见的元素。尽管它们看起来可能是一个非常简单的用户界面元素，它们却是最重要的元素之一。在今天的文章中，我们将讨论为了<strong>提升用户体验而创建有效的控件</strong>你应该知道的基本的要点。</p><a id="more"></a><h2 id="让按钮看起来像一个按钮"><a href="#让按钮看起来像一个按钮" class="headerlink" title="让按钮看起来像一个按钮"></a>让按钮看起来像一个按钮</h2><p>人们如何理解一个元素是一个按钮？回答很简单。<em>视觉暗示</em>帮助人们确认其可点击性。使用恰当的指示在可点击的元素上使它们看起来像按钮。</p><p><strong>形状</strong></p><p>一个安全牌是让按钮为矩形或带有圆角的矩形，这取决于网站或app的风格。矩形的按钮在很久以前就被引入数字世界，用户对它们非常熟悉。</p><img src="/2017/04/29/Daily-Translation-01/Windows-95-at-first-run-large-opt.png" alt="Windows 95" title="Windows 95"><p>当然，你可以更富创造性使用其他形状（圆形、三角形甚至定制形状），但是记住独特的想法可以证明有点儿有危险。你需要确保人们能够容易的辨认出每一个变化的形状是一个按钮。</p><img src="/2017/04/29/Daily-Translation-01/Floating-Action-Button-preview-opt.png" alt="Floating-Action-Button-preview-opt.png" title=""><p>不管你选择了什么形状，确保<em>一致性</em>贯穿你的界面控件，用户才能够发现和认出所有是按钮的界面元素。</p><p><strong>为什么一致性如此重要？</strong>因为不管是否一致人们会记住细节。比如，人们会联想一个特殊形状的元素是“按钮”。因此，保持一致不仅是为了一个好看的设计，还为用户提供了一个熟悉的体验。</p><p>下面的图片完美说明了这个栗子。在你的app的一部分（比如系统工具栏）使用三个不一样的形状（比如系统工具栏）不仅会使用户难以理解，也是不正确的设计实例。</p><img src="/2017/04/29/Daily-Translation-01/consistent-preview-opt.png" alt="consistent-preview-opt.png" title=""><p><strong>阴影和高亮</strong></p><p>阴影是很有用的线索，告诉用户他们正在寻找哪个界面元素。阴影使元素从背景中脱颖而出并能简单辨认出是一个可敲击或可点击的元素，因为目标元素呈现凸起好像他们能被按下（敲击或点击）。即使扁平的按钮（准确的说，是几乎扁平），它们依然给出轻微的暗示。</p><img src="/2017/04/29/Daily-Translation-01/button-casts-a-subtle-shadow-preview-opt.png" alt="button-casts-a-subtle-shadow-preview-opt.png" title=""><h2 id="明确按钮标签"><a href="#明确按钮标签" class="headerlink" title="明确按钮标签"></a>明确按钮标签</h2><p>用户会避开没有清楚含义的界面元素。因此，在你的界面的每个按钮应该有一个恰当的标签获图标。这种选择基于最少惊讶原则是一个很好的想法：如果一个必需的按钮具有高度的惊讶因素，那么可能需要更换这个按钮的标签获图标。</p><p><strong>清晰的标签</strong></p><p>动作界面元素的标签，比如按钮，应该一直与它将为用户做什么绑定。用户会感到更舒适当他们理解一个按钮会做什么<em>动作</em>。不明确的标签像’提交’,或者如下面栗子显示的抽象标签，不能为动作提供足够的信息。</p><img src="/2017/04/29/Daily-Translation-01/designing-interface-elements-that-make-people-wonder-what-they-do-preview-opt.png" alt="避免设计的界面元素使人们思考他们将做什么" title="避免设计的界面元素使人们思考他们将做什么"><p>动作按钮应该申明它们的任务，因此用户能准确知道他们点击按钮将会发生什么。<em>使用动词</em>表明按钮的作用是很重要的。比如，如果用户注册一个账号，按钮写着’创建账户’，表明了按下按钮后会输出什么。这是很清晰和具体的任务。像这样准确的标签提供即时的帮助，给用户选择正确动作的信息。</p><img src="/2017/04/29/Daily-Translation-01/button’s-label-preview-opt.png" alt="一个按钮标签应该说明准确按下它以后将会发生什么" title="一个按钮标签应该说明准确按下它以后将会发生什么"><h2 id="把按钮放在用户可以找到它们的地方"><a href="#把按钮放在用户可以找到它们的地方" class="headerlink" title="把按钮放在用户可以找到它们的地方"></a>把按钮放在用户可以找到它们的地方</h2><p>不要让用户寻找按钮；把按钮放在用户容易找到或者期望看到的地方。</p><p><strong>位置和顺序</strong></p><p>如果你正在设计一个本地app，当你为按钮选择合适的位置和顺序时，你应该遵循平台的图形界面指南。为什么？因为应用<em>一致的设计遵循用户的期望</em> ，节约用户的时间。</p><img src="/2017/04/29/Daily-Translation-01/web-based-apps-preview-opt.png" alt="web-based-apps-preview-opt.png" title=""><p>基于网页的app，你应该考虑哪个布局真正适合你的用户。最正确的方法来决定布局是通过<em>测试</em> 。</p><p>如果你设计移动端导航那么很值得注意按钮位置的最佳做法。文章<a href="https://www.smashingmagazine.com/2016/11/the-golden-rules-of-mobile-navigation-design/" target="_blank" rel="external">[The Golden Rules Of Bottom Navigation Design]</a>讨论了这个话题。</p><h2 id="让用户与按钮的交互更简单"><a href="#让用户与按钮的交互更简单" class="headerlink" title="让用户与按钮的交互更简单"></a>让用户与按钮的交互更简单</h2><p>按钮的尺寸和视觉反馈扮演很重要的角色帮助用户与按钮交互。</p><p><strong>尺寸和间隔</strong></p><p>考虑一个按钮多大与页面中其他元素相关。同时，你需要保证你设计的按钮足够大让人们能够与之交互。</p><img src="/2017/04/29/Daily-Translation-01/Smaller-touch-targets-preview-opt.png" alt="较小的接触目标相对于较大的对用户来说更难点击" title="较小的接触目标相对于较大的对用户来说更难点击"><p>在你的app或网站中，当一个点击被用做主要的输入方法，你可以依赖<a href="http://touchlab.mit.edu/publications/2003_009.pdf" target="_blank" rel="external">MIT Touch Lab</a> 的研究为你的按钮选择一个合适的尺寸。这个研究发现平均指垫的尺寸在10 - 14mm，指尖为8 - 10mm，使用10mm x 10mm是一个最优且最小的接触目标尺寸。当一个鼠标和键盘是主要的输入方法时，按钮尺寸可以稍微减小以容纳密集的界面元素。</p><img src="/2017/04/29/Daily-Translation-01/10mm-x-10mm-is-a-good-minimum-touch-target-size-preview-opt.png" alt="10mm-x-10mm-is-a-good-minimum-touch-target-size-preview-opt.png" title=""><p>在考虑按钮元素尺寸的同时，你也应该考虑可点击元素之间的间隔，因为间隔帮助分离空间并给你的用户界面足够的呼吸空间。</p><img src="/2017/04/29/Daily-Translation-01/Padding-between-buttons-preview-opt.png" alt="Padding-between-buttons-preview-opt.png" title=""><p><strong>提供视觉反馈</strong></p><p>这个需求不是关于按钮最初给用户的看法，而是关于用户界面元素的交互体验。通常，一个按钮不是一个一种状态的对象。它有很多种状态，提供视觉反馈给用户以指示当前的状态应该是一个首要任务。下面有用的示例图来自<a href="https://material.google.com/" target="_blank" rel="external">Material Design</a>说明了如何表达不同按钮的状态：</p><img src="/2017/04/29/Daily-Translation-01/hover-tap-states-and-active-states-of-the-button-preview-opt.png" alt="hover-tap-states-and-active-states-of-the-button-preview-opt.png" title=""><h2 id="视觉高亮最重要的按钮"><a href="#视觉高亮最重要的按钮" class="headerlink" title="视觉高亮最重要的按钮"></a>视觉高亮最重要的按钮</h2><p>确保设计强调主要的和最重要的动作。使用颜色和对比使用户关注动作，把按钮放置在用户容易注意到的显眼的位置。</p><p><strong>呼叫动作按钮</strong></p><p>重要的按钮（比如CTAs）意在指导用户做出你想让他们做出的动作。为了创建一个有效的呼叫动作按钮（抓住用户注意力并引导他们点击的按钮），你应该使用与背景形成强烈对比的颜色并把按钮放置在用户的路径中。</p><p>我们看一下 <a href="https://mail.google.com/" target="_blank" rel="external">Gmail’s UI</a>，界面非常简单并几乎是一色的，带有期望按钮’Send’。只要人们写完一条信息，就会立即注意到这个吸引人的蓝色的按钮。</p><img src="/2017/04/29/Daily-Translation-01/Adding-one-color-to-a-grayscale-UI-preview-opt.png" alt="Adding-one-color-to-a-grayscale-UI-preview-opt.png" title=""><p>同样的规则也适用于网页。我们以<a href="https://www.behance.net/" target="_blank" rel="external">Behance</a>作为栗子，抓住你注意力的第一件事是”Sign Up”呼叫动作按钮。在这个案例中，按钮的颜色和位置比它的文字更重要。</p><img src="/2017/04/29/Daily-Translation-01/The-most-important-call-to-action-button-preview-opt.png" alt="The-most-important-call-to-action-button-preview-opt.png" title=""><p><strong>视觉上区别主要和次要的按钮</strong></p><p>你可以在窗体和对话框中找到其他抓住用户注意力的栗子。当选择主要和次要的动作时，视觉上的区分是一个很有用的帮助人们做出坚实的选择的方法：</p><ul><li>主要积极的动作相关联的按钮需要承载一个<em>更强的视觉重量</em> 。它应该在视觉上起主导作用。</li><li>次要动作（比如选项‘Cancel’ 或者 ‘Go Back），应该使用更弱的视觉重量，因为减少次要按钮在视觉上的突出能将发生潜在错误的危险降到最低，并进一步指引人们前往预期的结果。</li></ul><h2 id="按钮设计清单"><a href="#按钮设计清单" class="headerlink" title="按钮设计清单"></a>按钮设计清单</h2><p>尽管每一个设计都是独特的，每一个设计也有一系列共有的要素。因此一个好的设计清单应运而生。确保你的按钮设计对你的用户是有利的，并且你需要回答以下几个问题：</p><ul><li><strong>用户能够辨认出你的元素是一个按钮吗？</strong>思考如何使设计传达实际的用途。让一个按钮像一个按钮（使用尺寸、形状、阴影和颜色达到这个目的）。</li><li><strong>按钮标签提供一个清晰的信息</strong>关于点击后会发生的事吗？命名一个按钮，解释它是做什么的，比使用一个一般的标签（像”OK”）来得更好。</li><li><strong>你的用户容易找到按钮吗？</strong>你把按钮放在页面中的什么位置与它的形状、颜色、标签同样重要。思考用户在页面上的路径并且把按钮放在用户能够容易找到或者期望找到的位置。</li><li>如果在你的界面上你有两个或更多的按钮（比如对话框），<strong>主要动作按钮是否有最强的视觉重量？</strong>通过在每一个按钮上使用不同的视觉重量来使两个选项的区别更明显。</li></ul><img src="/2017/04/29/Daily-Translation-01/visual-distinctions-opt.jpg" alt="visual-distinctions-opt.jpg" title=""><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>按钮在创造一个平滑的用户体验中是最基本的元素，因此值得注意按钮的最佳实践。一个快速回顾：</p><ul><li>让按钮看起来像一个按钮</li><li>按钮的标签清晰表明他们为用户做什么</li><li>把按钮放在用户能找到或者期望看到的位置</li><li>让用户与每个按钮的交互更简单</li><li>让最重要的按钮清晰辨认</li></ul><p>当你设计你自己的按钮时，从最重要的开始，并且牢记按钮的设计一直与<em>识别和明确</em>相关。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;原文链接&lt;a href=&quot;https://www.smashingmagazine.com/2016/11/a-quick-guide-for-designing-better-buttons/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;How To Design Better Buttons&lt;/a&gt;。按钮是交互设计中最常见的元素。尽管它们看起来可能是一个非常简单的用户界面元素，它们却是最重要的元素之一。在今天的文章中，我们将讨论为了&lt;strong&gt;提升用户体验而创建有效的控件&lt;/strong&gt;你应该知道的基本的要点。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Proxifier配置</title>
+    <link href="http://yoursite.com/2017/02/02/Proxifier/"/>
+    <id>http://yoursite.com/2017/02/02/Proxifier/</id>
+    <published>2017-02-02T05:35:53.000Z</published>
+    <updated>2017-05-30T03:15:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>npm install真是像大姨妈一样，安装包的时候阴晴不定 :triumph:<br>于是想起之前向大神问到的处理源的问题。Proxifier + shadowsocks。</p><a id="more"></a><p>Proxifier的设置很简单</p><img src="/2017/02/02/Proxifier/201702021.png" alt="server" title="server"><img src="/2017/02/02/Proxifier/201702022.png" alt="configure" title="configure"><p>​:point_right: 点击check</p><img src="/2017/02/02/Proxifier/201702023.png" alt="test" title="test"><p>在这里要注意Port是<strong>本地端口</strong>，之前一直设置成服务器端口结果就报错了。<br>然后进行规则设置</p><img src="/2017/02/02/Proxifier/201702024.png" alt="rules" title="rules"><img src="/2017/02/02/Proxifier/201702025.png" alt="rules" title="rules"><p>我的npm就复活啦 :sparkles:</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;npm install真是像大姨妈一样，安装包的时候阴晴不定 :triumph:&lt;br&gt;于是想起之前向大神问到的处理源的问题。Proxifier + shadowsocks。&lt;/p&gt;
     
     </summary>
     
