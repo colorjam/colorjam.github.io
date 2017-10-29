@@ -1,0 +1,53 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 《Machine Learning in Action》学习笔记四：支持向量机 · Colorjam's Blog</title><meta name="description" content="《Machine Learning in Action》学习笔记四：支持向量机 - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">《Machine Learning in Action》学习笔记四：支持向量机</h1><div class="post-info">Oct 22, 2017</div><div class="post-content"><p>支持向量机（Support Vector Machine）真的不是很好理解啊，虽然作者给出了代码，emmmmm…..还是稍微记录一下吧。</p>
+<p>上一章学习的「对数几率函数」中，我们提到了</p>
+<blockquote>
+<p>利用线性回归模型的预测结果去逼近真实标记的对数几率</p>
+</blockquote>
+<p>标记结果为1／0。但SVM中，我们目标是找出具有“最大间隔”（maximum margin）的「划分超平面」，标记结果为-1／1。</p>
+<p>上面一句话出现了两个好像似懂非懂的名词：最大间隔和划分超平面。</p>
+
+<p>👆🏻有一条线把苹果和香蕉分开了（在二维空间中就是一条线），这样分开不同训练样本的线就称为「划分超平面」。距离这条线最近的几个点就是「支持向量」，它们到这条线的距离就为「间隔」。那么我们再来回顾一下刚说的一句话：</p>
+<blockquote>
+<p>找出具有“最大间隔”（maximum margin）的「划分超平面」</p>
+</blockquote>
+<p>能够划分训练样本的超平面可能有很多，我们应该要找的，是位于“正中间”的那个划分超平面，也就是距离不同类别都尽可能远的那个超平面。这样进行预测时误差才会尽可能小。</p>
+<p>说到这里，我们可以明确一下SVM算法的设计问题了。因为越接近超平面的点越“难”分割，找到这些点就万事大吉了。因此SVM学习分类器最重要的是找到哪些样本作为「支持向量」。其本质是一个最优化问题。</p>
+<p>一个最优化问题通常有两个最基本的因素：1）目标函数：希望什么东西的指标达到最好；2）优化对象：你希望通过改变哪些因素使目标函数达到最优。在SVM中，目标函数是「最大间隔」，优化对象就是「划分超平面」。下面我们就需要对这两个基本因素进行数学描述。</p>
+<a id="more"></a>
+<p>###SVM的数学建模</p>
+
+<p>划分超平面的线性方程：<br>$$<br>w^Tx + b = 0<br>$$<br>其中，<strong>w</strong> = （w~1~； w~2~；… ； w~d~）为法向量。样本空间中任意点 <strong>x</strong> 到超平面的距离（几何间隔）可写为：<br>$$<br>d = \frac{|w^Tx + b|}{||w||}<br>$$<br>其中，||<strong>w</strong>||为向量的模。前面我们说到，SVM的分类结果是+1／-1，令：<br>$$<br>\begin{cases}w^Tx + b≥+1,\quad y_i = +1\w^Tx + b≤-1, \quad y_i = -1<br>\end{cases}<br>$$<br>支持向量使得等号成立。两个异类支持向量到超平面的距离之和为<br>$$<br>𝜸 = \frac{2}{||w||}<br>$$<br>显然，为了最大化间隔，仅需最大化||<strong>w</strong>||^-1^，等价于最小化||<strong>w</strong>||^2^。</p>
+<p>到这里，我们可以给出SVM的数学描述：<br>$$<br>min_{w,b}\quad\frac{1}{2}||w||^2<br>$$</p>
+<p>$$<br>s.t. \quad y_i(w^Tx+b) ≥1,i = 1,2,…,m<br>$$</p>
+<p>缩写s. t. 表示“Subject to”，是“服从某某条件”的意思。根据参考链接[3]解释一下这个条件的含义。我们定义「函数间隔」为<br>$$<br>y(w^Tx+b)=yf(x)≥𝜸<br>$$<br>前面乘上类别 y 之后保证间隔的非负性（因为 f(x)&lt;0 对应于 y=−1 的那些点）。</p>
+<p>###对偶问题</p>
+<p>上面SVM的数学描述其实是一个<strong>二次优化问题</strong>——目标函数是二次的，约束条件是线性的。引入「拉格朗日乘子法」求解，对每条约束添加拉格朗日乘子𝜶~i~ ≥ 0，则该问题的拉格朗日函数可写为<br>$$<br>L（w,b,𝜶) =\frac{1}{2}||w||^2 + 𝜶<em>i\sum</em>{i=1}^m(1-y_i(w^Tx<em>i+b))<br>$$<br>其中，𝜶 = （𝛼~1~;𝛼~1~;…;𝛼~m~)。我们令<br>$$<br>𝜃(w) =max </em>{𝜶<em>i≥ 0}\quad L（w,b,𝜶)<br>$$<br>则上式的最优值为$𝜃(w) = \frac{1}{2}||w||^2$, 即我们需要优化的SVM数学模型。具体公式为<br>$$<br>min</em>{w,b} 𝜃(w)  =min<em>{w,b} max</em>{𝜶<em>i≥ 0}\quad L（w,b,𝜶)<br>$$<br>将min和max交换位置得到原始问题的对偶问题<br>$$<br>max</em>{𝜶<em>i≥ 0}min</em>{w,b}\quad L（w,b,𝜶)<br>$$<br><strong>为什么可以转化呢？</strong>因为瘦死的骆驼比马大，「最大值中的最小值」也比「最小值中的最大值」来得大。</p>
+<p><strong>那么先求最大值和先求最小值有什么区别呢？</strong>因为这样更容易求解。我们通过偏导先求 <strong>L</strong> 关于 𝒘 和 𝑏 极小，再求 <strong>L</strong> 的极大。分别令 ∂/∂w 和 ∂/∂b 为零可得<br>$$<br>\frac{∂L}{∂w} = 0 ⇒ w = \sum_{i=1}^m𝜶_iy_ix_i<br>$$</p>
+<p>$$<br>\frac{∂L}{∂b} = 0 ⇒ \sum_{i=1}^m𝜶_iy_i = 0<br>$$</p>
+<p>代回 <strong>L</strong> 得到SVM数学描述的对偶问题<br>$$<br>max<em>𝜶\quad \sum</em>{i=1}^m𝜶<em>i - \frac{1}{2}\sum</em>{i=1}^m\sum_{j=1}^m𝜶_i𝜶_jy_iy_jx_i^Tx_j^T<br>$$</p>
+<p>$$<br>s.t\quad\sum_{i=1}^m𝜶_iy_i = 0,\quad𝜶_i≥ 0,i =1,2,…,m<br>$$</p>
+<p>解出𝜶后，求出w与b即可得到模型<br>$$<br>\begin {align<em>} f(x) &amp; = w^T+b \ &amp; = \sum_{i=1}^m𝜶_iy_ix_i^Tx + b\end {align</em>}<br>$$<br>所以只要求出了w和b，将测试数据带入上面这个模型，即可得出预测值。</p>
+<p>实际上，所有非支持向量的𝜶值都为零，<strong>最终模型只与支持向量有关</strong>。回忆一下我们的拉格朗日函数<br>$$<br>max _{𝜶<em>i≥ 0}\quad L（w,b,𝜶) =max</em>{𝜶_i≥ 0}\quad \frac{1}{2}||w||^2 + \color{red}{𝜶<em>i\sum</em>{i=1}^m(1-y_i(w^Tx_i+b))}<br>$$<br>如果 x~i~ 是支持向量，那么红色标出部分为0（因为支持向量函数间隔为1）。对于非支持向量，函数间隔大于1，那么红色标出部分将小于0，为满足整个式子最大，只能𝜶~i~ 为0。因此我们预测的过程只需要计算少量向量的内积，速度是很快的。</p>
+<h3 id="SMO算法"><a href="#SMO算法" class="headerlink" title="SMO算法"></a>SMO算法</h3><p>好的，接下来问题就转换为<strong>如何求解对偶问题</strong>。1996年（竟然在我出生这年搞事情🙂）John Platt发布了SMO（Sequntial Minimal Optimization）算法，将大优化问题分解为多个小优化问题求解。SMO的基本思路是先固定𝜶~i~之外的所有参数，然后求𝜶~i~上的极值。由于存在约束 $sum_{i=1}^m𝜶_iy_i = 0$ ，若固定 𝜶~i~ 之外的其他变量，则 𝜶~i~ 可由其他变量导出。于是SMO每次选择两个变量𝜶~i~ 和 𝜶~j~ ，并固定其他参数。这样在参数初始化后，SMO不断执行如下两个步骤直至收敛：</p>
+<ul>
+<li>选取一对需要更新的变量 𝜶~i~ 和 𝜶~j~ ；</li>
+<li>固定 𝜶~i~ 和 𝜶~j~ 以外参数，求解获得更新后的 𝜶~i~ 和 𝜶~j~ </li>
+</ul>
+<p>好的，理解SMO实在是无能为力了，我们进入下一个话题「核函数」。</p>
+<h3 id="核函数"><a href="#核函数" class="headerlink" title="核函数"></a>核函数</h3><p>上面我们解决了线性分类问题，但SVM还可以解决非线性的分类问题，这就需要引入「核函数」，来将数据从一个特征空间转换到另一个特征空间，在新空间下再利用模型对数据进行处理。</p>
+<img src="/2017/10/22/machine-learning-in-action-note4/kernel.gif" alt="kernel.gif" title="">
+<h3 id="SVM的一般流程"><a href="#SVM的一般流程" class="headerlink" title="SVM的一般流程"></a>SVM的一般流程</h3><ol>
+<li>收集数据：可以使用任意方法</li>
+<li>准备数据：需要数值型数据</li>
+<li>分析数据：可视化分割超平面是很有帮助的</li>
+<li>训练算法：SVM算法最耗时的地方。该过程主要实现两个参数调优</li>
+<li>测试算法：计算十分简单</li>
+<li>使用算法：几乎所有分类问题都可以用SVM来解决，值得一提的是，SVM本身是一个二类分类器，你需要修改一些代码来适应多分类问题</li>
+</ol>
+<p>###参考链接</p>
+<ul>
+<li><a href="https://www.zhihu.com/question/21094489" target="_blank" rel="external">https://www.zhihu.com/question/21094489</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/24638007" target="_blank" rel="external">零基础学SVM—Support Vector Machine(一)</a> </li>
+<li><a href="http://blog.pluskid.org/?p=632" target="_blank" rel="external">http://blog.pluskid.org/?p=632</a></li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/10/20/machine-learning-in-action-note3/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
