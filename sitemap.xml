@@ -2,16 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/01/23/cnn/</loc>
+    
+    <lastmod>2018-01-23T08:44:01.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/01/21/neural-nets-note/</loc>
+    
+    <lastmod>2018-01-23T06:50:23.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/10/18/machine-learning-in-action-note2/</loc>
+    
+    <lastmod>2018-01-21T08:35:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/01/19/FullyConnectedNets-train/</loc>
+    
+    <lastmod>2018-01-21T03:06:14.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2017/11/10/cs231n-assignment1/</loc>
     
-    <lastmod>2017-11-10T15:00:45.000Z</lastmod>
+    <lastmod>2017-12-10T09:53:16.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/2017/11/05/machine-learning-in-action-note5/</loc>
     
-    <lastmod>2017-11-09T04:39:37.000Z</lastmod>
+    <lastmod>2017-11-23T03:18:01.000Z</lastmod>
     
   </url>
   
@@ -26,13 +54,6 @@
     <loc>http://yoursite.com/2017/10/20/machine-learning-in-action-note3/</loc>
     
     <lastmod>2017-11-07T11:53:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/10/18/machine-learning-in-action-note2/</loc>
-    
-    <lastmod>2017-11-06T14:30:33.000Z</lastmod>
     
   </url>
   

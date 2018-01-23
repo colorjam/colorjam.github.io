@@ -1,0 +1,46 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 训练全连接网络 · Colorjam's Blog</title><meta name="description" content="训练全连接网络 - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">训练全连接网络</h1><div class="post-info">Jan 19, 2018</div><div class="post-content"><p>机器学习的训练过程不是盲目的，应该掌握一定的技巧和方法。参考<a href="https://www.reddit.com/r/cs231n/comments/443y2g/hints_for_a2/" target="_blank" rel="external">Hints for A2</a>和<a href="http://cs231n.stanford.edu/slides/2017/cs231n_2017_lecture6.pdf" target="_blank" rel="external">Lecture</a>记录一下FullyConnectedNets的训练过程。在开始训练之前要先<strong>预处理数据</strong>和<strong>选择网络结构</strong>，然后我们就可以开始训(tiao)练(can)啦～</p>
+<h3 id="Loss"><a href="#Loss" class="headerlink" title="Loss"></a>Loss</h3><p>首先我们要先检测一下_loss_是不是合理的，例如十个分类，loss就应该是-np.log(0.1) = 2.3左右。</p>
+<p>然后我们需要确保在最初的几次迭代中_loss_是下降的，在这里_regularization_(L2/drop out)可以扔掉，_learning rate decay_也可以不设置。我们尝试不同的_weigtht scale_和_learning_rate_，将两者定位在一个大致范围。那么先用较小的数据集和1个epoch来调调<strong>weight scale</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">weight_scale = [<span class="number">1e-5</span>, <span class="number">1e-3</span>, <span class="number">1e-1</span>, <span class="number">1e2</span>, <span class="number">1e6</span>]</div><div class="line"></div><div class="line"><span class="keyword">for</span> ws, lr, hl, ur <span class="keyword">in</span> product(weight_scale, learning_rate, hidden_layers, update_rule):</div><div class="line">    num_layer = len(hl)</div><div class="line">    model = FullyConnectedNet(hl, weight_scale=ws, use_batchnorm=<span class="keyword">False</span>)</div><div class="line">    solver = Solver(model, small_data,</div><div class="line">                    print_every=print_every, num_epochs=num_epochs, batch_size=batch_size,</div><div class="line">                    update_rule=ur,</div><div class="line">                    verbose=<span class="keyword">True</span>,</div><div class="line">                    optim_config=&#123;</div><div class="line">                      <span class="string">'learning_rate'</span>: lr</div><div class="line">                    &#125;</div><div class="line">                    </div><div class="line">             )</div><div class="line">    solver.train()</div></pre></td></tr></table></figure>
+<p><img src="/2018/01/19/FullyConnectedNets-train/weight_scale1.png" alt=""></p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/weight_scale2.png" alt=""></p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/weight_scale3.png" alt=""></p>
+<p>可以看出 <code>weight_scale=1e-1</code> 的时候表现较好，1e+2就开始爆炸了。Hints里说ReLU nets的lecture里给了”correct” value，不知道是不是lecture里的1e-2，但设置成这个值表现确实比较好，所以就它了！</p>
+<p>接下来调整<strong>learning_rate</strong>来查看loss的变化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">learning_rate = [<span class="number">1e-7</span>, <span class="number">1e-5</span>, <span class="number">1e-3</span>, <span class="number">1e-1</span>, <span class="number">1e2</span>]</div></pre></td></tr></table></figure>
+<p><img src="/2018/01/19/FullyConnectedNets-train/lr1.png" alt=""></p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/lr2.png" alt=""></p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/lr3.png" alt=""></p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/lr4.png" alt=""></p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/lr5.png" alt=""></p>
+<p>可以看到_learning_rate_太小(1e-7)时，loss的变化不大；当_learning_rate_太大(1e+2)时，loss就爆炸了。这里有一个小trick：当看到loss &gt; 3倍的初始值时，就可以停止了。</p>
+<h3 id="Learning-rate"><a href="#Learning-rate" class="headerlink" title="Learning rate"></a>Learning rate</h3><p>我们大致知道了_learning_rate_同学的表现情况，现在开始缩小_learning_rate_的范围，并使用原始数据集，来看看训练结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">learning_rate = [<span class="number">10</span> ** uniform(<span class="number">-5</span>, <span class="number">-1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>)]</div></pre></td></tr></table></figure>
+<p>其中比较好的几个结果：</p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/learning_rate1.png" alt=""></p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/learning_rate2.png" alt=""></p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/learning_rate3.png" alt=""></p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/learning_rate4.png" alt=""></p>
+<p>可以看到1.74e-4同学表现较好，那我们就把learning_rate设置为这个，epoch增加为2，再来看看loss的变化：</p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/lr_loss.png" alt=""></p>
+<p>看到loss趋于平坦，那我们把<strong>learning rate decay</strong>设置为0.95看看效果：</p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/lr_decay_95.png" alt=""></p>
+<p>表现似乎还不如不设置呢？那把<strong>learning rate decay</strong>设置为0.9：</p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/lr_decay_90.png" alt=""></p>
+<p>好像差别也不大，那设置回1.0。然后开始考虑<strong>增强模型训练能力</strong></p>
+<h3 id="Increasing-model-capacity"><a href="#Increasing-model-capacity" class="headerlink" title="Increasing model capacity"></a>Increasing model capacity</h3><p>一开始我设置的网络结构是3层，每层100个神经元，增强模型的训练能力可以通过<strong>增加神经元</strong>或者<strong>增加层数</strong>。然后就需要重新训练学习率了（望天</p>
+<p>我先将层数增加为5层，改用小的数据集：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hidden_layers = [[<span class="number">100</span>]*i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>,<span class="number">6</span>)]</div></pre></td></tr></table></figure>
+<p><img src="/2018/01/19/FullyConnectedNets-train/layer5_1.png" alt=""></p>
+<p>可以看到这个结果并不是很好，需要通过上面的方法，查找合适的学习率。</p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/layer5_2.png" alt=""></p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/layer5_3.png" alt=""></p>
+<h3 id="Batch-normalization"><a href="#Batch-normalization" class="headerlink" title="Batch normalization"></a>Batch normalization</h3><p>决定使用一下<strong>batchnorm</strong>来看看效果～</p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/layer5_batch.png" alt=""></p>
+<p>可以看到准确率一下子提高了～ 但是还没有达到我们想要的50%以上。这时候设置<strong>learning rate decay</strong>为0.95，并训练2个epoch，可以看到准确度又提高了一点。但是还不如上面三层的结果？</p>
+<p><img src="/2018/01/19/FullyConnectedNets-train/layer5_decay.png" alt=""></p>
+<p>俺现在要把神经元加到500个，回去用三层</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hidden_layers = [[<span class="number">500</span>]*i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>,<span class="number">4</span>)]</div></pre></td></tr></table></figure>
+<p><img src="/2018/01/19/FullyConnectedNets-train/layer3_500.png" alt=""></p>
+<p>✌ 在2个epoch准确率达到50%了，开心～</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2018/01/21/neural-nets-note/" class="prev">PREV</a><a href="/2017/11/10/cs231n-assignment1/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>

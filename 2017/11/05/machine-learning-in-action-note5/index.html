@@ -5,6 +5,7 @@
 </li>
 <li><p>Boosting</p>
 <p>Boosting最常见的算法是AdaBoost（Adaptive Boosting）。不同的分类器是通过串行训练获得，每个新分类器根据已训练出的分类器的性能来进行训练。Boosting是通过关注被已有分类器错分的那些数据来获得新的分类器。</p>
+<p>根据<a href="https://www.kesci.com/apps/home/project/5a0aecde60680b295c25f5d8" target="_blank" rel="external">LightGBM介绍视频</a>对Bossting做一些补充：本质上来说，Boosting的方法都是在训练好一个子模型后，统计一下现有复合模型的拟合情况，从而调节接下来学习任务的setting，使得接下来加入复合模型的子模型符合降低整体loss的目标。</p>
 </li>
 </ul>
 <p>Bagging中分类器权重是相等的。而Boosting中分类器的权重是不相等的，分类的结果是基于所有分类器加权求和的结果，每个权重代表的是其分类器在上一轮迭代的成功度。</p>
@@ -75,4 +76,5 @@
 <p><img src="/2017/11/05/machine-learning-in-action-note5/roc.png" alt=""></p>
 <p><strong>参考链接</strong></p>
 <p>1) <a href="https://stackoverflow.com/questions/22053050/difference-between-numpy-array-shape-r-1-and-r" target="_blank" rel="external">Difference between numpy.array shape (R, 1) and (R,)</a></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/11/10/cs231n-assignment1/" class="prev">PREV</a><a href="/2017/10/22/machine-learning-in-action-note4/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2017 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+<p>2）<a href="https://www.kesci.com/apps/home/project/5a0aecde60680b295c25f5d8" target="_blank" rel="external">LIghtGBM官方介绍视频</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/11/10/cs231n-assignment1/" class="prev">PREV</a><a href="/2017/10/22/machine-learning-in-action-note4/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
