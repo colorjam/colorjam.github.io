@@ -2,16 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/03/14/cs231n-assignment3-gan/</loc>
+    
+    <lastmod>2018-05-16T01:59:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/</loc>
+    
+    <lastmod>2018-04-12T00:55:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/03/11/floating-point/</loc>
+    
+    <lastmod>2018-03-11T14:09:31.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/</loc>
+    
+    <lastmod>2018-02-09T07:51:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/</loc>
+    
+    <lastmod>2018-01-28T05:56:43.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/01/23/cnn/</loc>
     
-    <lastmod>2018-01-23T08:44:01.000Z</lastmod>
+    <lastmod>2018-01-24T13:03:02.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/2018/01/21/neural-nets-note/</loc>
     
-    <lastmod>2018-01-23T06:50:23.000Z</lastmod>
+    <lastmod>2018-01-23T09:12:34.000Z</lastmod>
     
   </url>
   
@@ -117,13 +152,6 @@
     <loc>http://yoursite.com/2017/05/31/machine-learning-ex4/</loc>
     
     <lastmod>2017-06-01T15:06:31.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/02/02/Proxifier/</loc>
-    
-    <lastmod>2017-05-30T03:15:41.000Z</lastmod>
     
   </url>
   

@@ -1,4 +1,158 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 《Machine Learning in Action》学习笔记五：自适应增强算法 · Colorjam's Blog</title><meta name="description" content="《Machine Learning in Action》学习笔记五：自适应增强算法 - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">《Machine Learning in Action》学习笔记五：自适应增强算法</h1><div class="post-info">Nov 5, 2017</div><div class="post-content"><p>AdaBoost算法是一种元算法。元算法（meta-algorithm）也叫集成方法（ensemble method），通过将其他算法进行组合而形成更优的算法，组合方式包括：不同算法的集成，数据集不同部分采用不同算法分类后的集成或者同一算法在不同设置下的集成。下面我们讨论两种使用弱分类器和多个实例构建一个强分类器的技术：</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="AdaBoost算法是一种元算法。元算法（meta-algorithm）也叫集成方法（ensemble method），通过将其他算法进行组合而形成更优的算法，组合方式包括：不同算法的集成，数据集不同部分采用不同算法分类后的集成或者同一算法在不同设置下的集成。下面我们讨论两种使用弱分类器和多个实例构建一个强分类器的技术：  Bagging（bootstrap aggregating） Baggin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Machine Learning in Action》学习笔记五：自适应增强算法">
+<meta property="og:url" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="AdaBoost算法是一种元算法。元算法（meta-algorithm）也叫集成方法（ensemble method），通过将其他算法进行组合而形成更优的算法，组合方式包括：不同算法的集成，数据集不同部分采用不同算法分类后的集成或者同一算法在不同设置下的集成。下面我们讨论两种使用弱分类器和多个实例构建一个强分类器的技术：  Bagging（bootstrap aggregating） Baggin">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/adaboost.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/argsort1.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/argsort2.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/narray1.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/reshape34.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/reshape1.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/roc.png">
+<meta property="og:updated_time" content="2017-11-23T03:18:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Machine Learning in Action》学习笔记五：自适应增强算法">
+<meta name="twitter:description" content="AdaBoost算法是一种元算法。元算法（meta-algorithm）也叫集成方法（ensemble method），通过将其他算法进行组合而形成更优的算法，组合方式包括：不同算法的集成，数据集不同部分采用不同算法分类后的集成或者同一算法在不同设置下的集成。下面我们讨论两种使用弱分类器和多个实例构建一个强分类器的技术：  Bagging（bootstrap aggregating） Baggin">
+<meta name="twitter:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/adaboost.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>《Machine Learning in Action》学习笔记五：自适应增强算法</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/11/10/cs231n-assignment1/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/10/22/machine-learning-in-action-note4/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&text=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&title=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&is_video=false&description=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=《Machine Learning in Action》学习笔记五：自适应增强算法&body=Check out this article: http://yoursite.com/2017/11/05/machine-learning-in-action-note5/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&title=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&title=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&title=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&title=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&name=《Machine Learning in Action》学习笔记五：自适应增强算法&description=&lt;p&gt;AdaBoost算法是一种元算法。元算法（meta-algorithm）也叫集成方法（ensemble method），通过将其他算法进行组合而形成更优的算法，组合方式包括：不同算法的集成，数据集不同部分采用不同算法分类后的集成或者同一算法在不同设置下的集成。下面我们讨论两种使用弱分类器和多个实例构建一个强分类器的技术：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Bagging（bootstrap aggregating）&lt;/p&gt;
+&lt;p&gt;Bagging即套袋法，从原始数据集中随机抽取n个训练样本，抽取S次后，得到S个新数据集（其中的随机意味着可能会抽取到重复样本）。将某个学习算法分别作用于每个数据集得到S个分类器。当对新数据进行分类时，运用S个分类器进行分类，选择投票结果中最高的类别作为分类结果。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Boosting&lt;/p&gt;
+&lt;p&gt;Boosting最常见的算法是AdaBoost（Adaptive Boosting）。不同的分类器是通过串行训练获得，每个新分类器根据已训练出的分类器的性能来进行训练。Boosting是通过关注被已有分类器错分的那些数据来获得新的分类器。&lt;/p&gt;
+&lt;p&gt;根据&lt;a href=&#34;https://www.kesci.com/apps/home/project/5a0aecde60680b295c25f5d8&#34; target=&#34;_blank&#34; rel=&#34;external&#34;&gt;LightGBM介绍视频&lt;/a&gt;对Bossting做一些补充：本质上来说，Boosting的方法都是在训练好一个子模型后，统计一下现有复合模型的拟合情况，从而调节接下来学习任务的setting，使得接下来加入复合模型的子模型符合降低整体loss的目标。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Bagging中分类器权重是相等的。而Boosting中分类器的权重是不相等的，分类的结果是基于所有分类器加权求和的结果，每个权重代表的是其分类器在上一轮迭代的成功度。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#非均衡分类问题：ROC曲线"><span class="toc-number">1.</span> <span class="toc-text">非均衡分类问题：ROC曲线</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        《Machine Learning in Action》学习笔记五：自适应增强算法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-11-05T01:14:40.000Z" itemprop="datePublished">2017-11-05</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>AdaBoost算法是一种元算法。元算法（meta-algorithm）也叫集成方法（ensemble method），通过将其他算法进行组合而形成更优的算法，组合方式包括：不同算法的集成，数据集不同部分采用不同算法分类后的集成或者同一算法在不同设置下的集成。下面我们讨论两种使用弱分类器和多个实例构建一个强分类器的技术：</p>
 <ul>
 <li><p>Bagging（bootstrap aggregating）</p>
 <p>Bagging即套袋法，从原始数据集中随机抽取n个训练样本，抽取S次后，得到S个新数据集（其中的随机意味着可能会抽取到重复样本）。将某个学习算法分别作用于每个数据集得到S个分类器。当对新数据进行分类时，运用S个分类器进行分类，选择投票结果中最高的类别作为分类结果。</p>
@@ -77,4 +231,141 @@
 <p><strong>参考链接</strong></p>
 <p>1) <a href="https://stackoverflow.com/questions/22053050/difference-between-numpy-array-shape-r-1-and-r" target="_blank" rel="external">Difference between numpy.array shape (R, 1) and (R,)</a></p>
 <p>2）<a href="https://www.kesci.com/apps/home/project/5a0aecde60680b295c25f5d8" target="_blank" rel="external">LIghtGBM官方介绍视频</a></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/11/10/cs231n-assignment1/" class="prev">PREV</a><a href="/2017/10/22/machine-learning-in-action-note4/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#非均衡分类问题：ROC曲线"><span class="toc-number">1.</span> <span class="toc-text">非均衡分类问题：ROC曲线</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&text=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&title=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&is_video=false&description=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=《Machine Learning in Action》学习笔记五：自适应增强算法&body=Check out this article: http://yoursite.com/2017/11/05/machine-learning-in-action-note5/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&title=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&title=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&title=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&title=《Machine Learning in Action》学习笔记五：自适应增强算法"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/11/05/machine-learning-in-action-note5/&name=《Machine Learning in Action》学习笔记五：自适应增强算法&description=&lt;p&gt;AdaBoost算法是一种元算法。元算法（meta-algorithm）也叫集成方法（ensemble method），通过将其他算法进行组合而形成更优的算法，组合方式包括：不同算法的集成，数据集不同部分采用不同算法分类后的集成或者同一算法在不同设置下的集成。下面我们讨论两种使用弱分类器和多个实例构建一个强分类器的技术：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Bagging（bootstrap aggregating）&lt;/p&gt;
+&lt;p&gt;Bagging即套袋法，从原始数据集中随机抽取n个训练样本，抽取S次后，得到S个新数据集（其中的随机意味着可能会抽取到重复样本）。将某个学习算法分别作用于每个数据集得到S个分类器。当对新数据进行分类时，运用S个分类器进行分类，选择投票结果中最高的类别作为分类结果。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Boosting&lt;/p&gt;
+&lt;p&gt;Boosting最常见的算法是AdaBoost（Adaptive Boosting）。不同的分类器是通过串行训练获得，每个新分类器根据已训练出的分类器的性能来进行训练。Boosting是通过关注被已有分类器错分的那些数据来获得新的分类器。&lt;/p&gt;
+&lt;p&gt;根据&lt;a href=&#34;https://www.kesci.com/apps/home/project/5a0aecde60680b295c25f5d8&#34; target=&#34;_blank&#34; rel=&#34;external&#34;&gt;LightGBM介绍视频&lt;/a&gt;对Bossting做一些补充：本质上来说，Boosting的方法都是在训练好一个子模型后，统计一下现有复合模型的拟合情况，从而调节接下来学习任务的setting，使得接下来加入复合模型的子模型符合降低整体loss的目标。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Bagging中分类器权重是相等的。而Boosting中分类器的权重是不相等的，分类的结果是基于所有分类器加权求和的结果，每个权重代表的是其分类器在上一轮迭代的成功度。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

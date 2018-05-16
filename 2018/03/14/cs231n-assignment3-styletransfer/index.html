@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="用神经网络基于两张画来生成一副新的画，一张画表现内容，一张画代表风格，科学家的脑洞也是大！作业里就实现了这种技术，下面一起来学习一下吧～">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cs231n-assignment3-styletransfer">
+<meta property="og:url" content="http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="用神经网络基于两张画来生成一副新的画，一张画表现内容，一张画代表风格，科学家的脑洞也是大！作业里就实现了这种技术，下面一起来学习一下吧～">
+<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/style_content.png">
+<meta property="og:updated_time" content="2018-04-12T00:55:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cs231n-assignment3-styletransfer">
+<meta name="twitter:description" content="用神经网络基于两张画来生成一副新的画，一张画表现内容，一张画代表风格，科学家的脑洞也是大！作业里就实现了这种技术，下面一起来学习一下吧～">
+<meta name="twitter:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/style_content.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>cs231n-assignment3-styletransfer</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/03/14/cs231n-assignment3-gan/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/03/11/floating-point/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&text=cs231n-assignment3-styletransfer"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&is_video=false&description=cs231n-assignment3-styletransfer"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=cs231n-assignment3-styletransfer&body=Check out this article: http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&name=cs231n-assignment3-styletransfer&description=&lt;p&gt;用神经网络基于两张画来生成一副新的画，一张画表现内容，一张画代表风格，科学家的脑洞也是大！作业里就实现了这种技术，下面一起来学习一下吧～&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/2018/03/14/cs231n-assignment3-styletransfer/style_content.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内容损失（Content-loss）"><span class="toc-number">1.</span> <span class="toc-text">内容损失（Content loss）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#风格损失（Style-loss）"><span class="toc-number">2.</span> <span class="toc-text">风格损失（Style loss）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总变分正则化（Total-variation-regularization）"><span class="toc-number">3.</span> <span class="toc-text">总变分正则化（Total-variation regularization）</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        cs231n-assignment3-styletransfer
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-03-14T01:42:13.000Z" itemprop="datePublished">2018-03-14</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>用神经网络基于两张画来生成一副新的画，一张画表现内容，一张画代表风格，科学家的脑洞也是大！作业里就实现了这种技术，下面一起来学习一下吧～</p>
+<p><img src="/2018/03/14/cs231n-assignment3-styletransfer/style_content.png" alt=""></p>
+<a id="more"></a>
+<p>我们知道神经网络的损失函数非常重要，在图像风格转换的技术中，损失函数由三个部分组成：<strong>content loss + style loss + total variation loss</strong></p>
+<h3 id="内容损失（Content-loss）"><a href="#内容损失（Content-loss）" class="headerlink" title="内容损失（Content loss）"></a>内容损失（Content loss）</h3><p>内容损失代表生成图的特征图(feature map)和原图的特征图的差异。我们仅关注网络的一层\(\ell\)，它的特征图为 \(A^\ell \in \mathbb{R}^{1 \times C_\ell \times H_\ell \times W_\ell}\)。我们会将特征图在空间上合并到一个维度，并利用这个变形后的版本。用 \(F^\ell \in \mathbb{R}^{N_\ell \times M_\ell}\) 代表当前图像的特征图，\(P^\ell \in \mathbb{R}^{N_\ell \times M_\ell}\) 代表原图的特征图，其中 \(M_\ell=H_\ell\times W_\ell\)。\(F^\ell\) 和 \(P^\ell\) 的每一行代表特定滤波器的激活向量，是由图像的所有位置卷积而成的。\(w_c\) 是内容损失的权重。</p>
+<p>内容损失用公式表示为：</p>
+<p>\(L_c = w_c \times \sum_{i,j} (F_{ij}^{\ell} - P_{ij}^{\ell})^2\)</p>
+<p>不太理解作业里关于特征图的解释，因此结合之前整理过的CNN学习笔记，说一下自己理解的特征图。我觉得特征图其实就是卷积层的输出，卷积层通过滑动滤波器（filter，即卷积层的参数）来得到特征图。通常会有N个滤波器，每个滤波器的深度都是C。将每个滤波器的输出组合到一起构成的N行矩阵，因此<strong>每一行代表特定滤波器的激活向量</strong>。所以最终的代码很简洁：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> content_weight * torch.sum((content_current - content_original).pow(<span class="number">2</span>))</div></pre></td></tr></table></figure>
+<h3 id="风格损失（Style-loss）"><a href="#风格损失（Style-loss）" class="headerlink" title="风格损失（Style loss）"></a>风格损失（Style loss）</h3><p>​首先我们需要计算格拉姆矩阵(Gram matrix) G, 代表每个过滤器之间的相关性。利用上面提到的 \(F^\ell \in \mathbb{R}^ {1 \times C_\ell \times M_\ell} \)。那么 \(G^\ell \in \mathbb{R}^ {1 \times C_\ell \times C_\ell} \)：</p>
+<p>$$G_{ij}^\ell  = \sum_k F^{\ell}_{ik} F^{\ell}_{jk}$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">gram_matrix</span><span class="params">(features, normalize=True)</span>:</span></div><div class="line">    N, C, H, W = features.shape</div><div class="line">    reshaped_features = features.view(N, C, <span class="number">-1</span>)</div><div class="line">    gram = reshaped_features.matmul(reshaped_features.transpose(<span class="number">1</span>, <span class="number">2</span>))</div><div class="line">    <span class="keyword">if</span>(normalize):</div><div class="line">        gram /= H * W * C</div><div class="line">    <span class="keyword">return</span> gram</div></pre></td></tr></table></figure>
+<p>❗️计算格拉姆矩阵时应该要利用矩阵乘法，即<strong>torch.matmul()</strong></p>
+<p>假设 \(G^\ell\) 是生成图的特征图的格拉姆矩阵，\(A^\ell\) 是原图的特征图的格拉姆矩阵，那么 \(\ell\) 层的损失函数：</p>
+<p>$$L_s^\ell = w_\ell \sum_{i, j} \left(G^\ell_{ij} - A^\ell_{ij}\right)^2$$</p>
+<p>在实际应用中，我们通常会多计算几个层的风格损失，并把它们加起来：</p>
+<p>$$L_s = \sum_{\ell \in \mathcal{L}} L_s^\ell$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">style_loss</span><span class="params">(feats, style_layers, style_targets, style_weights)</span>:</span></div><div class="line">    layers = len(style_layers)</div><div class="line">    loss = <span class="number">0.0</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(layers):</div><div class="line">        layer = style_layers[i]</div><div class="line">        loss += torch.sum(style_weights[i] * (gram_matrix(feats[layer]) - style_targets[i]).pow(<span class="number">2</span>))</div><div class="line">    <span class="keyword">return</span> loss</div></pre></td></tr></table></figure>
+<p>❗️计算每层的loss得到的是一个大小等于G的Tensor，要用<strong>torch.sum()</strong>把它们统统加起来，变成一个数值</p>
+<h3 id="总变分正则化（Total-variation-regularization）"><a href="#总变分正则化（Total-variation-regularization）" class="headerlink" title="总变分正则化（Total-variation regularization）"></a>总变分正则化（Total-variation regularization）</h3><p>为了使图像更加平滑，我们需要加入总变分项，可以通过计算相邻像素对（水平和垂直方向），像素值差异的平方和得到。计算公式如下：</p>
+<p>$L_{tv} = w_t \times \sum_{c=1}^3\sum_{i=1}^{H-1} \sum_{j=1}^{W-1} \left( (x_{i,j+1, c} - x_{i,j,c})^2 + (x_{i+1, j,c} - x_{i,j,c})^2  \right)$</p>
+<p>根据公式我们可以写出代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">tv_loss</span><span class="params">(img, tv_weight)</span>:</span></div><div class="line">    loss = <span class="number">0.0</span></div><div class="line">    _, _, H, W = img.shape</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(H<span class="number">-1</span>):</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(W<span class="number">-1</span>):</div><div class="line">            loss += tv_weight*torch.sum((img[:, :, i, j+<span class="number">1</span>] - img[:, :, i, j]).pow(<span class="number">2</span>) + (img[:, :, i+<span class="number">1</span>, j] - img[:, :, i, j]).pow(<span class="number">2</span>))</div><div class="line">        </div><div class="line">    <span class="keyword">return</span> loss</div></pre></td></tr></table></figure>
+<p>但是作业要求不用循环，然后我又写不出来，参考了网上的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">hor = torch.dist(img[:, :, :<span class="number">-1</span>, :], img[:, :, <span class="number">1</span>:, :])**<span class="number">2</span></div><div class="line"><span class="comment"># equivalent to (img[:, :, i+1, j] - img[:, :, i, j]).pow(2)</span></div><div class="line">ver = torch.dist(img[:, :, :, :<span class="number">-1</span>], img[:, :, :, <span class="number">1</span>:])**<span class="number">2</span></div><div class="line"><span class="comment"># equivalent to (img[:, :, i, j+1] - img[:, :, i, j]).pow(2)</span></div><div class="line"><span class="keyword">return</span> tv_weight * (hor + ver)</div></pre></td></tr></table></figure>
+<p>这里的torch.dist()使用的是2范数，相当于差异平方和先根号再平方，理解的基础上倾向于下面的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hor = torch.sum((img[:, :, :<span class="number">-1</span>, :] - img[:, :, <span class="number">1</span>:, :])**<span class="number">2</span>)</div><div class="line">ver = torch.sum((img[:, :, :, :<span class="number">-1</span>] - img[:, :, :, <span class="number">1</span>:])**<span class="number">2</span>)</div></pre></td></tr></table></figure>
+<p>循环法和向量法的效率还是差距很大的，用循环法测试时需要2.2s，而用向量法测试只要53ms，在后面训练的时候效果就很明显了，循环法基本是跑不动的。。。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内容损失（Content-loss）"><span class="toc-number">1.</span> <span class="toc-text">内容损失（Content loss）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#风格损失（Style-loss）"><span class="toc-number">2.</span> <span class="toc-text">风格损失（Style loss）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总变分正则化（Total-variation-regularization）"><span class="toc-number">3.</span> <span class="toc-text">总变分正则化（Total-variation regularization）</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&text=cs231n-assignment3-styletransfer"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&is_video=false&description=cs231n-assignment3-styletransfer"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=cs231n-assignment3-styletransfer&body=Check out this article: http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&name=cs231n-assignment3-styletransfer&description=&lt;p&gt;用神经网络基于两张画来生成一副新的画，一张画表现内容，一张画代表风格，科学家的脑洞也是大！作业里就实现了这种技术，下面一起来学习一下吧～&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/2018/03/14/cs231n-assignment3-styletransfer/style_content.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

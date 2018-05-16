@@ -1,4 +1,152 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Machine Learning ex4 · Colorjam's Blog</title><meta name="description" content="Machine Learning ex4 - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Machine Learning ex4</h1><div class="post-info">May 31, 2017</div><div class="post-content"><p>这一章主要学习了神经网络中的反向传播算法（Backpropagation algorithm ）。相对于线性回归（Linear Regression）、逻辑回归（Logistic Regression）BP确实很复杂了。但是今天刚看的《Don’t make me think》里面作者所言</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="这一章主要学习了神经网络中的反向传播算法（Backpropagation algorithm ）。相对于线性回归（Linear Regression）、逻辑回归（Logistic Regression）BP确实很复杂了。但是今天刚看的《Don’t make me think》里面作者所言  我们不是追根究底，而是勉强应付。 因为这对我们来说并不重要。对于我们中大多数人来说，只要我们能够正常使用，是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Machine Learning ex4">
+<meta property="og:url" content="http://yoursite.com/2017/05/31/machine-learning-ex4/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="这一章主要学习了神经网络中的反向传播算法（Backpropagation algorithm ）。相对于线性回归（Linear Regression）、逻辑回归（Logistic Regression）BP确实很复杂了。但是今天刚看的《Don’t make me think》里面作者所言  我们不是追根究底，而是勉强应付。 因为这对我们来说并不重要。对于我们中大多数人来说，只要我们能够正常使用，是">
+<meta property="og:image" content="http://yoursite.com/2017/05/31/machine-learning-ex4/2017/05/31/machine-learning-ex4/model.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/31/machine-learning-ex4/2017/05/31/machine-learning-ex4/cost.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/31/machine-learning-ex4/2017/05/31/machine-learning-ex4/regularized.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/31/machine-learning-ex4/2017/05/31/machine-learning-ex4/sigmoid.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/31/machine-learning-ex4/2017/05/31/machine-learning-ex4/lambda1_iter50.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/31/machine-learning-ex4/2017/05/31/machine-learning-ex4/lambda0_iter50.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/31/machine-learning-ex4/2017/05/31/machine-learning-ex4/lambda0_iter100.png">
+<meta property="og:updated_time" content="2017-06-01T15:06:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Machine Learning ex4">
+<meta name="twitter:description" content="这一章主要学习了神经网络中的反向传播算法（Backpropagation algorithm ）。相对于线性回归（Linear Regression）、逻辑回归（Logistic Regression）BP确实很复杂了。但是今天刚看的《Don’t make me think》里面作者所言  我们不是追根究底，而是勉强应付。 因为这对我们来说并不重要。对于我们中大多数人来说，只要我们能够正常使用，是">
+<meta name="twitter:image" content="http://yoursite.com/2017/05/31/machine-learning-ex4/2017/05/31/machine-learning-ex4/model.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Machine Learning ex4</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/06/05/machine-learning-ex5/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/05/29/machine-learning-ex3/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/05/31/machine-learning-ex4/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&text=Machine Learning ex4"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&title=Machine Learning ex4"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&is_video=false&description=Machine Learning ex4"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Machine Learning ex4&body=Check out this article: http://yoursite.com/2017/05/31/machine-learning-ex4/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&title=Machine Learning ex4"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&title=Machine Learning ex4"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&title=Machine Learning ex4"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&title=Machine Learning ex4"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&name=Machine Learning ex4&description=&lt;p&gt;这一章主要学习了神经网络中的反向传播算法（Backpropagation algorithm ）。相对于线性回归（Linear Regression）、逻辑回归（Logistic Regression）BP确实很复杂了。但是今天刚看的《Don’t make me think》里面作者所言&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;我们不是追根究底，而是勉强应付。 因为这对我们来说并不重要。&lt;/strong&gt;对于我们中大多数人来说，只要我们能够正常使用，是否明白事物背后的运行机制并没有关系。这并不是智力低下的表现，而是我们并不关心。总之，它对我们来说没那么重要。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;那么现阶段，对于BP算法有一个整体的概念，懂得如何使用它便是关键。上一章我们用已经给定的theta矩阵来进行预测，这一章我们将通过BP算法来学习参数。这一章的练习主要分为两个部分，第一部分：我们通过给定的神经网络权重，前馈计算正则化的代价函数。第二部分：我们自己训练神经网络的权重。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Feedforward-and-cost-function"><span class="toc-number">1.</span> <span class="toc-text">Feedforward and cost function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Regularized-cost-function"><span class="toc-number">2.</span> <span class="toc-text">Regularized cost function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sigmoid-gradient"><span class="toc-number">3.</span> <span class="toc-text">Sigmoid gradient</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Backpropagation"><span class="toc-number">4.</span> <span class="toc-text">Backpropagation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Regularized-Neural-Networks"><span class="toc-number">5.</span> <span class="toc-text">Regularized Neural Networks</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Machine Learning ex4
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-05-31T03:06:22.000Z" itemprop="datePublished">2017-05-31</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>这一章主要学习了神经网络中的反向传播算法（Backpropagation algorithm ）。相对于线性回归（Linear Regression）、逻辑回归（Logistic Regression）BP确实很复杂了。但是今天刚看的《Don’t make me think》里面作者所言</p>
 <blockquote>
 <p><strong>我们不是追根究底，而是勉强应付。 因为这对我们来说并不重要。</strong>对于我们中大多数人来说，只要我们能够正常使用，是否明白事物背后的运行机制并没有关系。这并不是智力低下的表现，而是我们并不关心。总之，它对我们来说没那么重要。</p>
 </blockquote>
@@ -53,4 +201,135 @@
 <img src="/2017/05/31/machine-learning-ex4/2017/05/31/machine-learning-ex4/lambda0_iter50.png" alt="lambda0_iter50.png" title="">
 <p>lambda为0，迭代次数为100，准确率可高了99.38%：</p>
 <img src="/2017/05/31/machine-learning-ex4/2017/05/31/machine-learning-ex4/lambda0_iter100.png" alt="lambda0_iter100.png" title="">
-</div></article></div></main><footer><div class="paginator"><a href="/2017/06/05/machine-learning-ex5/" class="prev">PREV</a><a href="/2017/05/29/machine-learning-ex3/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Feedforward-and-cost-function"><span class="toc-number">1.</span> <span class="toc-text">Feedforward and cost function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Regularized-cost-function"><span class="toc-number">2.</span> <span class="toc-text">Regularized cost function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sigmoid-gradient"><span class="toc-number">3.</span> <span class="toc-text">Sigmoid gradient</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Backpropagation"><span class="toc-number">4.</span> <span class="toc-text">Backpropagation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Regularized-Neural-Networks"><span class="toc-number">5.</span> <span class="toc-text">Regularized Neural Networks</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/05/31/machine-learning-ex4/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&text=Machine Learning ex4"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&title=Machine Learning ex4"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&is_video=false&description=Machine Learning ex4"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Machine Learning ex4&body=Check out this article: http://yoursite.com/2017/05/31/machine-learning-ex4/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&title=Machine Learning ex4"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&title=Machine Learning ex4"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&title=Machine Learning ex4"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&title=Machine Learning ex4"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/05/31/machine-learning-ex4/&name=Machine Learning ex4&description=&lt;p&gt;这一章主要学习了神经网络中的反向传播算法（Backpropagation algorithm ）。相对于线性回归（Linear Regression）、逻辑回归（Logistic Regression）BP确实很复杂了。但是今天刚看的《Don’t make me think》里面作者所言&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;我们不是追根究底，而是勉强应付。 因为这对我们来说并不重要。&lt;/strong&gt;对于我们中大多数人来说，只要我们能够正常使用，是否明白事物背后的运行机制并没有关系。这并不是智力低下的表现，而是我们并不关心。总之，它对我们来说没那么重要。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;那么现阶段，对于BP算法有一个整体的概念，懂得如何使用它便是关键。上一章我们用已经给定的theta矩阵来进行预测，这一章我们将通过BP算法来学习参数。这一章的练习主要分为两个部分，第一部分：我们通过给定的神经网络权重，前馈计算正则化的代价函数。第二部分：我们自己训练神经网络的权重。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

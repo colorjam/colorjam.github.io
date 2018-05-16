@@ -1,4 +1,146 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 卷积神经网络学习笔记 · Colorjam's Blog</title><meta name="description" content="卷积神经网络学习笔记 - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">卷积神经网络学习笔记</h1><div class="post-info">Jan 23, 2018</div><div class="post-content"><p>卷积神经网络和普通的神经网络很相似，但是明确表示了输入是图像，并且允许我们编码一些特征，因此就使得提升了网络前向传播的效率，并且大大减少了网络中的参数。下面就让我们一起瞅瞅CNN加入了哪些神奇的东西吧 :)</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="卷积神经网络和普通的神经网络很相似，但是明确表示了输入是图像，并且允许我们编码一些特征，因此就使得提升了网络前向传播的效率，并且大大减少了网络中的参数。下面就让我们一起瞅瞅CNN加入了哪些神奇的东西吧 :)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卷积神经网络学习笔记">
+<meta property="og:url" content="http://yoursite.com/2018/01/23/cnn/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="卷积神经网络和普通的神经网络很相似，但是明确表示了输入是图像，并且允许我们编码一些特征，因此就使得提升了网络前向传播的效率，并且大大减少了网络中的参数。下面就让我们一起瞅瞅CNN加入了哪些神奇的东西吧 :)">
+<meta property="og:image" content="http://yoursite.com/2018/01/23/cnn/fc_layer.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/23/cnn/cn_layer.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/23/cnn/maps.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/23/cnn/zero_padding.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/23/cnn/POOLING.png">
+<meta property="og:updated_time" content="2018-01-24T13:03:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="卷积神经网络学习笔记">
+<meta name="twitter:description" content="卷积神经网络和普通的神经网络很相似，但是明确表示了输入是图像，并且允许我们编码一些特征，因此就使得提升了网络前向传播的效率，并且大大减少了网络中的参数。下面就让我们一起瞅瞅CNN加入了哪些神奇的东西吧 :)">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/23/cnn/fc_layer.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>卷积神经网络学习笔记</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/01/26/cs231n-assignment2-pytorch/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/01/21/neural-nets-note/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/01/23/cnn/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/01/23/cnn/&text=卷积神经网络学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/01/23/cnn/&title=卷积神经网络学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/01/23/cnn/&is_video=false&description=卷积神经网络学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=卷积神经网络学习笔记&body=Check out this article: http://yoursite.com/2018/01/23/cnn/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/01/23/cnn/&title=卷积神经网络学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/01/23/cnn/&title=卷积神经网络学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/01/23/cnn/&title=卷积神经网络学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/01/23/cnn/&title=卷积神经网络学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/01/23/cnn/&name=卷积神经网络学习笔记&description=&lt;p&gt;卷积神经网络和普通的神经网络很相似，但是明确表示了输入是图像，并且允许我们编码一些特征，因此就使得提升了网络前向传播的效率，并且大大减少了网络中的参数。下面就让我们一起瞅瞅CNN加入了哪些神奇的东西吧 :)&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#3D-volume"><span class="toc-number">1.</span> <span class="toc-text">3D volume</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Layers"><span class="toc-number">2.</span> <span class="toc-text">Layers</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#卷积层（Convolutional-Layer）"><span class="toc-number">2.1.</span> <span class="toc-text">卷积层（Convolutional Layer）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#汇聚层（-Pooling-Layer）"><span class="toc-number">2.2.</span> <span class="toc-text">汇聚层（ Pooling Layer）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#全连接层（Fully-Connected-Layer）"><span class="toc-number">2.3.</span> <span class="toc-text">全连接层（Fully Connected Layer）</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        卷积神经网络学习笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-01-23T06:53:12.000Z" itemprop="datePublished">2018-01-23</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>卷积神经网络和普通的神经网络很相似，但是明确表示了输入是图像，并且允许我们编码一些特征，因此就使得提升了网络前向传播的效率，并且大大减少了网络中的参数。下面就让我们一起瞅瞅CNN加入了哪些神奇的东西吧 :)</p>
 <a id="more"></a>
 <blockquote>
 <p>A ConvNet is made up of Layers. Every Layer has a simple API: It transforms an input 3D volume to an output 3D volume with some differentiable function that may or may not have parameters.</p>
@@ -8,13 +150,13 @@
 <p><img src="/2018/01/23/cnn/fc_layer.png" alt=""></p>
 <p>但CNN保留了输入图像的空间结构，将其看作是3维（<strong>width, height, depth</strong>）结构的，并利用较少的参数过滤映射出下一层：</p>
 <p><img src="/2018/01/23/cnn/cn_layer.png" alt=""></p>
-<h3 id="Layers"><a href="#Layers" class="headerlink" title="Layers"></a>Layers</h3><p>我们主要使用三种类型的层来构建卷积神经网络，分别是：<strong>卷积层（Convolutional Layer）</strong>、<strong>汇聚层（ Pooling Layer）</strong>、和<strong>全连接层（Fully-Connected Layer）</strong></p>
-<h4 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h4><p>卷积层是构建卷积神经网络的核心层。卷积层的参数是由一些可学习的滤波器集合（参数）构成的。每个滤波器在空间上（宽度和高度）都比较小，但是深度和输入数据一致。</p>
+<h3 id="Layers"><a href="#Layers" class="headerlink" title="Layers"></a>Layers</h3><p>我们主要使用三种类型的层来构建卷积神经网络，分别是：<strong>卷积层（Convolutional Layer）</strong>、<strong>汇聚层（ Pooling Layer）</strong>、和<strong>全连接层（Fully-Connected Layer）</strong>。</p>
+<h4 id="卷积层（Convolutional-Layer）"><a href="#卷积层（Convolutional-Layer）" class="headerlink" title="卷积层（Convolutional Layer）"></a>卷积层（Convolutional Layer）</h4><p>卷积层是构建卷积神经网络的核心层。卷积层的参数是由一些可学习的滤波器集合（参数）构成的。每个滤波器在空间上（宽度和高度）都比较小，但是深度和输入数据一致。</p>
 <p><strong>局部连接</strong>：我们已经知道全连接需要与对应数量的参数点乘，但这对于大尺寸的图像来说运算量是非常大的。因此我们让每个神经元只与输入数据的一个局部区域连接。该连接的空间大小叫做神经元的<strong>感受野（receptive field）</strong>。它的尺寸其实就是滤波器的空间尺寸。</p>
 <p>❗️我们让在滤波器在宽度和高度上滑动，但总是让滤波器的深度=输入数据深度。</p>
 <p><strong>空间排列</strong>：有了输入和参数，我们应该就可以得到输出了。但这里还要提一下3个控制输出数据尺寸的超参数：<strong>深度（depth），步长（stride）</strong>和<strong>零填充（zero-padding）</strong>。</p>
 <ol>
-<li><p>此深度非彼深度。上面我们提到了输入数据的深度，现在这个输出数据的深度其实是使用的<strong>滤波器数量</strong>。</p>
+<li><p>此深度非彼深度。上面我们提到了输入数据的深度，现在这个输出数据的深度其实是使用的<strong>滤波器数量</strong>。其中的每一个输出数据称作<strong>深度切片（depth slice）</strong>。</p>
 <p><img src="/2018/01/23/cnn/maps.png" alt=""></p>
 </li>
 <li><p>在滑动滤波器的时候我们要指定每次移动多少个像素，也就是步长。</p>
@@ -24,5 +166,139 @@
 <p><img src="/2018/01/23/cnn/zero_padding.png" alt=""></p>
 </li>
 </ol>
-<p>我们就可以通过输入数据尺寸\(W_1\timeslH_1\timesD1)\\、滤波器尺寸（F）、步长（S）和零填充的数量（P），计算出输出数据的空间尺寸：(W-F+2P)/S+1</p>
-</div></article></div></main><footer><div class="paginator"><a href="/2018/01/21/neural-nets-note/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+<p>我们就可以通过输入数据尺寸 \( W_1 \times H_1 \times D_1 \)、滤波器尺寸𝑭、步长𝑺 和零填充的数量𝑷，计算出输出数据的空间尺寸：\( (W - F + 2P) / S + 1 \)</p>
+<h4 id="汇聚层（-Pooling-Layer）"><a href="#汇聚层（-Pooling-Layer）" class="headerlink" title="汇聚层（ Pooling Layer）"></a>汇聚层（ Pooling Layer）</h4><p>汇聚层的作用是降低数据的空间尺寸，减少网络中参数的数量。汇聚层其实就是对输入数据的每一个深度切片进行降采样，改变它的空间尺寸。最常用的是MAX操作。</p>
+<p><img src="/2018/01/23/cnn/POOLING.png" alt=""></p>
+<h4 id="全连接层（Fully-Connected-Layer）"><a href="#全连接层（Fully-Connected-Layer）" class="headerlink" title="全连接层（Fully Connected Layer）"></a>全连接层（Fully Connected Layer）</h4><p>这个其实就没什么好说的啦，和普通的神经网络是一样的</p>
+<p><strong>参考链接</strong></p>
+<ol>
+<li><a href="https://www.quora.com/What-is-a-CNN%E2%80%99s-receptive-field" target="_blank" rel="external">https://www.quora.com/What-is-a-CNN%E2%80%99s-receptive-field</a></li>
+</ol>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#3D-volume"><span class="toc-number">1.</span> <span class="toc-text">3D volume</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Layers"><span class="toc-number">2.</span> <span class="toc-text">Layers</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#卷积层（Convolutional-Layer）"><span class="toc-number">2.1.</span> <span class="toc-text">卷积层（Convolutional Layer）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#汇聚层（-Pooling-Layer）"><span class="toc-number">2.2.</span> <span class="toc-text">汇聚层（ Pooling Layer）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#全连接层（Fully-Connected-Layer）"><span class="toc-number">2.3.</span> <span class="toc-text">全连接层（Fully Connected Layer）</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/01/23/cnn/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/01/23/cnn/&text=卷积神经网络学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/01/23/cnn/&title=卷积神经网络学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/01/23/cnn/&is_video=false&description=卷积神经网络学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=卷积神经网络学习笔记&body=Check out this article: http://yoursite.com/2018/01/23/cnn/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/01/23/cnn/&title=卷积神经网络学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/01/23/cnn/&title=卷积神经网络学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/01/23/cnn/&title=卷积神经网络学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/01/23/cnn/&title=卷积神经网络学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/01/23/cnn/&name=卷积神经网络学习笔记&description=&lt;p&gt;卷积神经网络和普通的神经网络很相似，但是明确表示了输入是图像，并且允许我们编码一些特征，因此就使得提升了网络前向传播的效率，并且大大减少了网络中的参数。下面就让我们一起瞅瞅CNN加入了哪些神奇的东西吧 :)&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

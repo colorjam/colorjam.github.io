@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="用pytorch来构建自己的网络啦～记录一下训练过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cs231n-assignment2-pytorch">
+<meta property="og:url" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="用pytorch来构建自己的网络啦～记录一下训练过程">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/strided_conv.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/pooling.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/conv_num_filters.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/batch_norm.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/network1.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/network1_epoch1.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/network1_epoch5.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/val_accr.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/test_accr.png">
+<meta property="og:updated_time" content="2018-01-28T05:56:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cs231n-assignment2-pytorch">
+<meta name="twitter:description" content="用pytorch来构建自己的网络啦～记录一下训练过程">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/strided_conv.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>cs231n-assignment2-pytorch</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/02/08/cs231n-assignment3-rnn/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/01/23/cnn/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&text=cs231n-assignment2-pytorch"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&title=cs231n-assignment2-pytorch"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&is_video=false&description=cs231n-assignment2-pytorch"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=cs231n-assignment2-pytorch&body=Check out this article: http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&title=cs231n-assignment2-pytorch"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&title=cs231n-assignment2-pytorch"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&title=cs231n-assignment2-pytorch"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&title=cs231n-assignment2-pytorch"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&name=cs231n-assignment2-pytorch&description=&lt;p&gt;用pytorch来构建自己的网络啦～记录一下训练过程&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Things-you-should-try"><span class="toc-number">1.</span> <span class="toc-text">Things you should try:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tips-for-training"><span class="toc-number">2.</span> <span class="toc-text">Tips for training</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-1"><span class="toc-number">3.</span> <span class="toc-text">Try 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-2"><span class="toc-number">4.</span> <span class="toc-text">Try 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-3"><span class="toc-number">5.</span> <span class="toc-text">Try 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-4"><span class="toc-number">6.</span> <span class="toc-text">Try 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-5"><span class="toc-number">7.</span> <span class="toc-text">Try 5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-5-1"><span class="toc-number">8.</span> <span class="toc-text">Try 5</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        cs231n-assignment2-pytorch
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-01-26T09:12:01.000Z" itemprop="datePublished">2018-01-26</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>用pytorch来构建自己的网络啦～记录一下训练过程</p>
+<a id="more"></a>
+<p>先搬运一下作业给的Hints：</p>
+<h3 id="Things-you-should-try"><a href="#Things-you-should-try" class="headerlink" title="Things you should try:"></a>Things you should try:</h3><ul>
+<li><strong>Filter size</strong>: Above we used 7x7; this makes pretty pictures but smaller filters may be more efficient</li>
+<li><strong>Number of filters</strong>: Above we used 32 filters. Do more or fewer do better?</li>
+<li><strong>Pooling vs Strided Convolution</strong>: Do you use max pooling or just stride convolutions?</li>
+<li><strong>Batch normalization</strong>: Try adding spatial batch normalization after convolution layers and vanilla batch normalization after affine layers. Do your networks train faster?</li>
+<li><strong>Network architecture</strong>: The network above has two layers of trainable parameters. Can you do better with a deep network? Good architectures to try include:<ul>
+<li>[conv-relu-pool]xN -&gt; [affine]xM -&gt; [softmax or SVM]</li>
+<li>[conv-relu-conv-relu-pool]xN -&gt; [affine]xM -&gt; [softmax or SVM]</li>
+<li>[batchnorm-relu-conv]xN -&gt; [affine]xM -&gt; [softmax or SVM]</li>
+</ul>
+</li>
+<li><strong>Global Average Pooling</strong>: Instead of flattening and then having multiple affine layers, perform convolutions until your image gets small (7x7 or so) and then perform an average pooling operation to get to a 1x1 image picture (1, 1 , Filter#), which is then reshaped into a (Filter#) vector. This is used in <a href="https://arxiv.org/abs/1512.00567" target="_blank" rel="external">Google’s Inception Network</a> (See Table 1 for their architecture).</li>
+<li><strong>Regularization</strong>: Add l2 weight regularization, or perhaps use Dropout.</li>
+</ul>
+<h3 id="Tips-for-training"><a href="#Tips-for-training" class="headerlink" title="Tips for training"></a>Tips for training</h3><p>For each network architecture that you try, you should tune the learning rate and regularization strength. When doing this there are a couple important things to keep in mind:</p>
+<ul>
+<li>If the parameters are working well, you should see improvement within a few hundred iterations</li>
+<li>Remember the coarse-to-fine approach for hyperparameter tuning: start by testing a large range of hyperparameters for just a few training iterations to find the combinations of parameters that are working at all.</li>
+<li>Once you have found some sets of parameters that seem to work, search more finely around these parameters. You may need to train for more epochs.</li>
+<li>You should use the validation set for hyperparameter search, and save your test set for evaluating your architecture on the best parameters as selected by the validation set.</li>
+</ul>
+<p>看完我的内心是崩溃的，每次构建一个网络都要调节学习率，所以我在<strong>train</strong>函数里设置迭代200次就退出循环，先通过loss大致比较一下不同网络结构的效率，最后再仔细学习～</p>
+<h3 id="Try-1"><a href="#Try-1" class="headerlink" title="Try 1"></a>Try 1</h3><p>首先我将第一个卷积层的filter size改成了3，改变卷积层过滤器的数量。然后看了半天不知道strided convolution是啥找到了一个学习笔记视频☞ <a href="http://www.bilibili.com/video/av15968996/" target="_blank" rel="external">什么是strided convolution? 跳出格怎么处理？</a> 原来strided convolution就是stride不为1的卷积层:) </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Strided convolution</span></div><div class="line">nn.Conv2d(<span class="number">3</span>, <span class="number">32</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>)</div><div class="line"><span class="comment"># no Max Pooling</span></div><div class="line">...</div><div class="line">nn.Linear(<span class="number">7200</span>, <span class="number">1024</span>), <span class="comment"># affine layer (32-3+1)/2</span></div><div class="line"></div><div class="line"><span class="comment"># Pooling</span></div><div class="line">nn.Conv2d(<span class="number">3</span>, <span class="number">32</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>)</div><div class="line">...</div><div class="line">nn.MaxPool2d(kernel_size=<span class="number">2</span>, stride=<span class="number">2</span>)</div><div class="line">...</div><div class="line">nn.Linear(<span class="number">7200</span>, <span class="number">1024</span>), <span class="comment"># affine layer</span></div></pre></td></tr></table></figure>
+<p>设置stride为2刚好最后进入全连接时都是7200个神经元～先大致查找了一下学习率的范围，然后缩小范围learning_rate = [10 ** np.random.uniform(-5, -2) for i in range(20)]分别尝试两个模型的准确率。</p>
+<p>Strided convolution同学的准确率在50%以上的不多，然鹅Pooling同学准确率达到50%的就比较多了，说明使用Pooling的效果比较好。</p>
+<p><img src="/2018/01/26/cs231n-assignment2-pytorch/strided_conv.png" alt="cross-validation"></p>
+<p><img src="/2018/01/26/cs231n-assignment2-pytorch/pooling.png" alt="cross-validation"></p>
+<p>猜想：因为Strided convolution多跳了几个格子，可能会遗漏某些图像特征，而Max-pooling过滤出最大的像素值，反而强调了图像特征。</p>
+<h3 id="Try-2"><a href="#Try-2" class="headerlink" title="Try 2"></a>Try 2</h3><p>比较一下过滤器数量为50和20两个模型的效率：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">learning_rate = [<span class="number">10</span> ** np.random.uniform(<span class="number">-5</span>, <span class="number">-3</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>)]</div><div class="line"><span class="comment"># Convolution of 50 filters</span></div><div class="line">nn.Conv2d(<span class="number">3</span>, <span class="number">50</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>) </div><div class="line">...</div><div class="line">nn.Linear(<span class="number">11250</span>, <span class="number">1024</span>) <span class="comment"># (32-3+1)/2 **2 x 50</span></div><div class="line"><span class="comment"># Convolution of 20 filters</span></div><div class="line">nn.Conv2d(<span class="number">3</span>, <span class="number">20</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>) </div><div class="line">...</div><div class="line">nn.Linear(<span class="number">4500</span>, <span class="number">1029</span>) <span class="comment"># (32-3+1)/2 **2 x 20</span></div></pre></td></tr></table></figure>
+<p><img src="/2018/01/26/cs231n-assignment2-pytorch/conv_num_filters.jpg" alt="cross-validation"></p>
+<p>随机了10个学习率，可以看到相对来说还是过滤器比较多的结果比较好，但同时也比较耗时</p>
+<h3 id="Try-3"><a href="#Try-3" class="headerlink" title="Try 3"></a>Try 3</h3><p>使用上面50个过滤器的模型，在第一个卷积层之后、全连接层之后加Batch normalization。</p>
+<p><img src="/2018/01/26/cs231n-assignment2-pytorch/batch_norm.png" alt="cross-validation"></p>
+<p>虽然准确率最高的没有上面不使用Batch normalization的高，但是整体水平提升了。但是Hints里貌似是说训练速度变快了？但是俺忘记打印出时间了。。。</p>
+<h3 id="Try-4"><a href="#Try-4" class="headerlink" title="Try 4"></a>Try 4</h3><p>之前总结神经网络的时候就总结过，softmax代表交叉熵损失（cross-entropy loss），SVM是折页损失（hinge loss），这个在pytorch里都有对应的loss函数。接下来就是要改变网络结构啦～</p>
+<p>模型结构：[conv-relu-pool]x2 -&gt; [affine]x2 -&gt; [softmax]（在每层中间都插入了batchnorm）</p>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>patch size/stride</th>
+<th>input size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>conv</td>
+<td>3 x 3 / 1</td>
+<td>32x32x3</td>
+</tr>
+<tr>
+<td>pool</td>
+<td>2 x 2 / 2</td>
+<td>30x30x50</td>
+</tr>
+<tr>
+<td>conv</td>
+<td>3 x 3 / 1</td>
+<td>15x15x50</td>
+</tr>
+<tr>
+<td>pool</td>
+<td>2 x 2 / 2</td>
+<td>13x13x30</td>
+</tr>
+<tr>
+<td>linear</td>
+<td>logits</td>
+<td>1x1x1080</td>
+</tr>
+<tr>
+<td>linear</td>
+<td>logits</td>
+<td>1x1x500</td>
+</tr>
+<tr>
+<td>softmax</td>
+<td>classifier</td>
+<td>1x1x10</td>
+</tr>
+</tbody>
+</table>
+<p>搜索一下合适的学习率～</p>
+<p><img src="/2018/01/26/cs231n-assignment2-pytorch/network1.png" alt="cross-validation"></p>
+<p>可以看到最好的准确率接近0.6啦，撒花～现在用学习率训练1个epoch试试</p>
+<p><img src="/2018/01/26/cs231n-assignment2-pytorch/network1_epoch1.png" alt="cross-validation"></p>
+<p>训练5个epoch～</p>
+<p><img src="/2018/01/26/cs231n-assignment2-pytorch/network1_epoch5.png" alt="cross-validation"></p>
+<p>准确率达到70%啦，撒花~</p>
+<h3 id="Try-5"><a href="#Try-5" class="headerlink" title="Try 5"></a>Try 5</h3><p>现在我们再改变一下网络结构，尝试一下<strong>整体平均汇聚</strong>，也就是不在中间使用多个全链接层，而是将图片训练得足够小大约（7, 7），在最后使用一个汇聚层使得图像变成 (1, 1 , Filter#)。</p>
+<p>模型结构：[conv-relul]x4 -&gt; [pool]x1 -&gt; [softmax]</p>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>patch size/stride</th>
+<th>input size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>conv</td>
+<td>3 x 3 / 1</td>
+<td>32x32x3</td>
+</tr>
+<tr>
+<td>conv</td>
+<td>3 x 3 / 2</td>
+<td>30x30x32</td>
+</tr>
+<tr>
+<td>conv</td>
+<td>3 x 3 / 1</td>
+<td>14x14x64</td>
+</tr>
+<tr>
+<td>conv</td>
+<td>3 x 3 / 2</td>
+<td>12x12x80</td>
+</tr>
+<tr>
+<td>pool</td>
+<td>5 x 5</td>
+<td>5x5x100</td>
+</tr>
+<tr>
+<td>linear</td>
+<td>logits</td>
+<td>1x1x100</td>
+</tr>
+<tr>
+<td>softmax</td>
+<td>classifier</td>
+<td>1x1x10</td>
+</tr>
+</tbody>
+</table>
+<p>尝试了几个迭代，在一开始测试随机学习率的时候都不如上面一个模型，决定再换一个结构～</p>
+<h3 id="Try-5-1"><a href="#Try-5-1" class="headerlink" title="Try 5"></a>Try 5</h3><p>[batchnorm-relu-conv]x7 -&gt; [pool]x1 -&gt; [softmax]</p>
+<p>太久了。。放弃。。我决定回到Try4的模型多来几层。。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">    </div><div class="line">model1 = nn.Sequential( </div><div class="line">                    nn.Conv2d(<span class="number">3</span>, <span class="number">50</span>, kernel_size=<span class="number">3</span>, stride = <span class="number">1</span>), <span class="comment"># input: 32x32x3</span></div><div class="line">                    nn.BatchNorm2d(<span class="number">50</span>),</div><div class="line">                    nn.ReLU(inplace=<span class="keyword">True</span>),</div><div class="line">                    nn.BatchNorm2d(<span class="number">50</span>),</div><div class="line">                    nn.MaxPool2d(kernel_size=<span class="number">2</span>, stride=<span class="number">2</span>), <span class="comment"># input: 28x28x32</span></div><div class="line">                    </div><div class="line">                    nn.Conv2d(<span class="number">50</span>, <span class="number">80</span>, kernel_size=<span class="number">3</span>, stride = <span class="number">1</span>), <span class="comment"># input: 14x14x32</span></div><div class="line">                    nn.BatchNorm2d(<span class="number">80</span>),</div><div class="line">                    nn.ReLU(inplace=<span class="keyword">True</span>),</div><div class="line">                    nn.BatchNorm2d(<span class="number">80</span>),</div><div class="line">                    nn.MaxPool2d(kernel_size=<span class="number">2</span>, stride=<span class="number">2</span>), <span class="comment"># 8x8x150</span></div><div class="line">    </div><div class="line">                    Flatten(), </div><div class="line">                    nn.Linear(<span class="number">2880</span>, <span class="number">1000</span>),</div><div class="line">                    nn.ReLU(inplace=<span class="keyword">True</span>),</div><div class="line">                    nn.Linear(<span class="number">1000</span>,<span class="number">10</span>)</div><div class="line">            )</div></pre></td></tr></table></figure>
+<p><img src="/2018/01/26/cs231n-assignment2-pytorch/val_accr.png" alt="cross-validation"></p>
+<p>经过10个epoch，loss已经挺小的了，而且达到了74%的准确率，现在在测试集上尝试</p>
+<p><img src="/2018/01/26/cs231n-assignment2-pytorch/test_accr.png" alt="cross-validation"></p>
+<p>完成啦～</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Things-you-should-try"><span class="toc-number">1.</span> <span class="toc-text">Things you should try:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tips-for-training"><span class="toc-number">2.</span> <span class="toc-text">Tips for training</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-1"><span class="toc-number">3.</span> <span class="toc-text">Try 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-2"><span class="toc-number">4.</span> <span class="toc-text">Try 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-3"><span class="toc-number">5.</span> <span class="toc-text">Try 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-4"><span class="toc-number">6.</span> <span class="toc-text">Try 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-5"><span class="toc-number">7.</span> <span class="toc-text">Try 5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Try-5-1"><span class="toc-number">8.</span> <span class="toc-text">Try 5</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&text=cs231n-assignment2-pytorch"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&title=cs231n-assignment2-pytorch"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&is_video=false&description=cs231n-assignment2-pytorch"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=cs231n-assignment2-pytorch&body=Check out this article: http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&title=cs231n-assignment2-pytorch"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&title=cs231n-assignment2-pytorch"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&title=cs231n-assignment2-pytorch"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&title=cs231n-assignment2-pytorch"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/&name=cs231n-assignment2-pytorch&description=&lt;p&gt;用pytorch来构建自己的网络啦～记录一下训练过程&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

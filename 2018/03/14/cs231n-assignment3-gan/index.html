@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 到底什么是生成式对抗网络GAN？ 其中以男女朋友做比喻还蛮">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cs231n-assignment3-gan">
+<meta property="og:url" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 到底什么是生成式对抗网络GAN？ 其中以男女朋友做比喻还蛮">
+<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/model.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/vanilla_result.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/ls_result.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/dc_result.png">
+<meta property="og:updated_time" content="2018-05-16T01:59:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cs231n-assignment3-gan">
+<meta name="twitter:description" content="最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 到底什么是生成式对抗网络GAN？ 其中以男女朋友做比喻还蛮">
+<meta name="twitter:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/model.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>cs231n-assignment3-gan</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/03/14/cs231n-assignment3-styletransfer/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&text=cs231n-assignment3-gan"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&title=cs231n-assignment3-gan"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&is_video=false&description=cs231n-assignment3-gan"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=cs231n-assignment3-gan&body=Check out this article: http://yoursite.com/2018/03/14/cs231n-assignment3-gan/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&title=cs231n-assignment3-gan"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&title=cs231n-assignment3-gan"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&title=cs231n-assignment3-gan"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&title=cs231n-assignment3-gan"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&name=cs231n-assignment3-gan&description=&lt;p&gt;最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 &lt;a href=&#34;https://www.msra.cn/zh-cn/news/features/gan-20170511&#34; target=&#34;_blank&#34; rel=&#34;external&#34;&gt;到底什么是生成式对抗网络GAN？&lt;/a&gt; 其中以男女朋友做比喻还蛮可爱的。 &lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vanilla-GAN"><span class="toc-number">1.</span> <span class="toc-text">Vanilla GAN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Least-Square-GAN"><span class="toc-number">2.</span> <span class="toc-text">Least Square GAN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deeply-Convolutional-GANs"><span class="toc-number">3.</span> <span class="toc-text">Deeply Convolutional GANs</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        cs231n-assignment3-gan
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-03-14T11:44:48.000Z" itemprop="datePublished">2018-03-14</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 <a href="https://www.msra.cn/zh-cn/news/features/gan-20170511" target="_blank" rel="external">到底什么是生成式对抗网络GAN？</a> 其中以男女朋友做比喻还蛮可爱的。 </p>
+<a id="more"></a>
+<p><img src="/2018/03/14/cs231n-assignment3-gan/model.png" alt="cross-validation"></p>
+<p>整个训练过程其实是 \(G\) 和 \(D\) 之间的博弈，在这个博弈中有两个场景。第一个场景的输入是真实图像 <strong>x</strong>，输出概率 \(D(x)\) 指一个图片是真实图片的概率，在这个场景中 \(D(x)\) 努力接近1。第二场景的输入是噪音 <strong>z</strong>， \(G\) 生成一个新的图像 \(G(z)\) 努力欺骗 \(D\) 使 \(D(G(z))\) 接近1， \(D\) 努力让 \(D(G(z))\) 接近0。 </p>
+<p>在本次作用中我们采用以下的更新规则：</p>
+<ol>
+<li>更新生成模型 (\(G\)) ，最大化判别模型对于生成的图像，作出<strong>错误选择</strong>的概率：<br>$$\underset{G}{\text{maximize}}\;  \mathbb{E}_{z \sim p(z)}\left[\log D(G(z))\right]$$</li>
+<li>更新判别模型 (\(D\))，最大化判别模型对于真实和生成的图像，作出<strong>正确选择</strong>的概率：<br>$$\underset{D}{\text{maximize}}\; \mathbb{E}_{x \sim p_\text{data}}\left[\log D(x)\right] + \mathbb{E}_{z \sim p(z)}\left[\log \left(1-D(G(z))\right)\right]$$</li>
+</ol>
+<h3 id="Vanilla-GAN"><a href="#Vanilla-GAN" class="headerlink" title="Vanilla GAN"></a>Vanilla GAN</h3><p>图像判别模型的损失函数：</p>
+<p>$$ \ell_D = -\mathbb{E}_{x \sim p_\text{data}}\left[\log D(x)\right] - \mathbb{E}_{z \sim p(z)}\left[\log \left(1-D(G(z))\right)\right]$$</p>
+<p>图像生成模型G（Generator）的损失函数：</p>
+<p>$$\ell_G  =  -\mathbb{E}_{z \sim p(z)}\left[\log D(G(z))\right]$$</p>
+<p>我们可以通过计算二元交叉熵损失（binary cross entropy loss）来计算logits的对数概率：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bce_loss</span><span class="params">(input, target)</span>:</span></div><div class="line">    neg_abs = - input.abs()</div><div class="line">    loss = input.clamp(min=<span class="number">0</span>) - input * target + (<span class="number">1</span> + neg_abs.exp()).log()</div><div class="line">    <span class="keyword">return</span> loss.mean()</div></pre></td></tr></table></figure>
+<p>交叉熵用于衡量两个取值为正数的函数的相似性，取值越小差异越小，因此最小化损失函数相当于最小化交叉熵。</p>
+<p>对应上面的两个场景，<strong>D</strong> 判断真实图片的labels都为1，生成图片的labels都为0，可以得到下面的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">discriminator_loss</span><span class="params">(logits_real, logits_fake)</span>:</span></div><div class="line">    N = logits_real.shape[<span class="number">0</span>]</div><div class="line">    real_labels = Variable(torch.ones(N)).type(dtype)</div><div class="line">    fake_labels = Variable(torch.zeros(N)).type(dtype)</div><div class="line">    loss = bce_loss(logits_real, real_labels) + bce_loss(logits_fake, fake_labels)</div><div class="line">    <span class="keyword">return</span> loss</div></pre></td></tr></table></figure>
+<p>上面我们说到 <strong>G</strong> 努力欺骗 <strong>D</strong> 使 <strong>D(G(z))</strong> 接近1，因此要将labels都设置为1，得到下面的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator_loss</span><span class="params">(logits_fake)</span>:</span></div><div class="line">    N = logits_fake.shape[<span class="number">0</span>]</div><div class="line">    fake_labels = Variable(torch.ones(N)).type(dtype)</div><div class="line">    loss = bce_loss(logits_fake, fake_labels)</div><div class="line">    <span class="keyword">return</span> loss</div></pre></td></tr></table></figure>
+<p>最终训练结果：</p>
+<p><img src="/2018/03/14/cs231n-assignment3-gan/vanilla_result.png" alt="cross-validation"></p>
+<h3 id="Least-Square-GAN"><a href="#Least-Square-GAN" class="headerlink" title="Least Square GAN"></a>Least Square GAN</h3><p>图片生成模型G（Generator）的损失函数：</p>
+<p>$$\ell_G  =  \frac{1}{2}\mathbb{E}_{z \sim p(z)}\left[\left(D(G(z))-1\right)^2\right]$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ls_generator_loss</span><span class="params">(scores_fake)</span>:</span></div><div class="line">    loss = ((scores_fake<span class="number">-1</span>)**<span class="number">2</span>).mean()</div><div class="line">    <span class="keyword">return</span> loss / <span class="number">2</span></div></pre></td></tr></table></figure>
+<p>图像判别模型的损失函数：<br>$$ \ell_D = \frac{1}{2}\mathbb{E}_{x \sim p_\text{data}}\left[\left(D(x)-1\right)^2\right] + \frac{1}{2}\mathbb{E}_{z \sim p(z)}\left[ \left(D(G(z))\right)^2\right]$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ls_discriminator_loss</span><span class="params">(scores_real, scores_fake)</span>:</span></div><div class="line">    loss = ((scores_real<span class="number">-1</span>)**<span class="number">2</span>).mean() + (scores_fake**<span class="number">2</span>).mean()</div><div class="line">    <span class="keyword">return</span> loss / <span class="number">2</span></div></pre></td></tr></table></figure>
+<p><img src="/2018/03/14/cs231n-assignment3-gan/ls_result.png" alt="cross-validation"></p>
+<p>作业中提出了几个问题</p>
+<blockquote>
+<p>Describe how the visual quality of the samples changes over the course of training. Do you notice anything about the distribution of the samples? How do the results change across different training runs?</p>
+</blockquote>
+<p>可以看到通过训练，生成图像从噪音逐渐变为能辨认出来的数字。生成的图像中似乎1、3、9比较多。</p>
+<h3 id="Deeply-Convolutional-GANs"><a href="#Deeply-Convolutional-GANs" class="headerlink" title="Deeply Convolutional GANs"></a>Deeply Convolutional GANs</h3><p>前面的网络结构都是使用全连接网络，搞事的科学家们加上了几层卷积网络，虽然训练速度很慢，但生成的图片可骗人了。。</p>
+<p><img src="/2018/03/14/cs231n-assignment3-gan/dc_result.png" alt="cross-validation"></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vanilla-GAN"><span class="toc-number">1.</span> <span class="toc-text">Vanilla GAN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Least-Square-GAN"><span class="toc-number">2.</span> <span class="toc-text">Least Square GAN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deeply-Convolutional-GANs"><span class="toc-number">3.</span> <span class="toc-text">Deeply Convolutional GANs</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&text=cs231n-assignment3-gan"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&title=cs231n-assignment3-gan"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&is_video=false&description=cs231n-assignment3-gan"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=cs231n-assignment3-gan&body=Check out this article: http://yoursite.com/2018/03/14/cs231n-assignment3-gan/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&title=cs231n-assignment3-gan"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&title=cs231n-assignment3-gan"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&title=cs231n-assignment3-gan"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&title=cs231n-assignment3-gan"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/14/cs231n-assignment3-gan/&name=cs231n-assignment3-gan&description=&lt;p&gt;最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 &lt;a href=&#34;https://www.msra.cn/zh-cn/news/features/gan-20170511&#34; target=&#34;_blank&#34; rel=&#34;external&#34;&gt;到底什么是生成式对抗网络GAN？&lt;/a&gt; 其中以男女朋友做比喻还蛮可爱的。 &lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

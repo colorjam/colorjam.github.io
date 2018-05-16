@@ -1,4 +1,157 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 《Machine Learning in Action》学习笔记一：kNN和决策树 · Colorjam's Blog</title><meta name="description" content="《Machine Learning in Action》学习笔记一：kNN和决策树 - Colorjam"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Colorjam's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/pinkladies" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">《Machine Learning in Action》学习笔记一：kNN和决策树</h1><div class="post-info">Oct 15, 2017</div><div class="post-content"><p>正在学习《Machine Learning in Action》，随笔记录一下，代码基本上都是跟着书本敲的，就不大贴全部的代码了，仅写一些自己的理解并对出现的问题进行整理和归纳。</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="正在学习《Machine Learning in Action》，随笔记录一下，代码基本上都是跟着书本敲的，就不大贴全部的代码了，仅写一些自己的理解并对出现的问题进行整理和归纳。 算法的一般流程为：收集数据 -&amp;gt; 准备数据 -&amp;gt; 分析数据 -&amp;gt; 训练算法 -&amp;gt; 测试算法 -&amp;gt; 使用算法 第一个笔记本包括kNN分类算法和决策树算法。 kNN分类算法kNN分类算法（k-N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Machine Learning in Action》学习笔记一：kNN和决策树">
+<meta property="og:url" content="http://yoursite.com/2017/10/15/machine-learning-in-action-note1/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="正在学习《Machine Learning in Action》，随笔记录一下，代码基本上都是跟着书本敲的，就不大贴全部的代码了，仅写一些自己的理解并对出现的问题进行整理和归纳。 算法的一般流程为：收集数据 -&amp;gt; 准备数据 -&amp;gt; 分析数据 -&amp;gt; 训练算法 -&amp;gt; 测试算法 -&amp;gt; 使用算法 第一个笔记本包括kNN分类算法和决策树算法。 kNN分类算法kNN分类算法（k-N">
+<meta property="og:image" content="http://yoursite.com/2017/10/15/machine-learning-in-action-note1/no_surfacing_error.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/15/machine-learning-in-action-note1/tree1.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/15/machine-learning-in-action-note1/readlines_error.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/15/machine-learning-in-action-note1/lenses_tree1.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/15/machine-learning-in-action-note1/lenses_tree2.png">
+<meta property="og:updated_time" content="2017-11-06T14:02:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Machine Learning in Action》学习笔记一：kNN和决策树">
+<meta name="twitter:description" content="正在学习《Machine Learning in Action》，随笔记录一下，代码基本上都是跟着书本敲的，就不大贴全部的代码了，仅写一些自己的理解并对出现的问题进行整理和归纳。 算法的一般流程为：收集数据 -&amp;gt; 准备数据 -&amp;gt; 分析数据 -&amp;gt; 训练算法 -&amp;gt; 测试算法 -&amp;gt; 使用算法 第一个笔记本包括kNN分类算法和决策树算法。 kNN分类算法kNN分类算法（k-N">
+<meta name="twitter:image" content="http://yoursite.com/2017/10/15/machine-learning-in-action-note1/no_surfacing_error.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>《Machine Learning in Action》学习笔记一：kNN和决策树</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/10/18/machine-learning-in-action-note2/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/07/25/china-map/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&text=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&title=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&is_video=false&description=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=《Machine Learning in Action》学习笔记一：kNN和决策树&body=Check out this article: http://yoursite.com/2017/10/15/machine-learning-in-action-note1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&title=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&title=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&title=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&title=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&name=《Machine Learning in Action》学习笔记一：kNN和决策树&description=&lt;p&gt;正在学习《Machine Learning in Action》，随笔记录一下，代码基本上都是跟着书本敲的，就不大贴全部的代码了，仅写一些自己的理解并对出现的问题进行整理和归纳。&lt;/p&gt;
+&lt;p&gt;算法的一般流程为：收集数据 -&amp;gt; 准备数据 -&amp;gt; 分析数据 -&amp;gt; 训练算法 -&amp;gt; 测试算法 -&amp;gt; 使用算法&lt;/p&gt;
+&lt;p&gt;第一个笔记本包括kNN分类算法和决策树算法。&lt;/p&gt;
+&lt;h1 id=&#34;kNN分类算法&#34;&gt;&lt;a href=&#34;#kNN分类算法&#34; class=&#34;headerlink&#34; title=&#34;kNN分类算法&#34;&gt;&lt;/a&gt;kNN分类算法&lt;/h1&gt;&lt;p&gt;kNN分类算法（k-Nearest Neighbors classification algorithm）是比较简单的一种分类算法。原理是通过计算距离找出与待预测数据最接近的k个类别，这k个类别中出现最多的类即为预测结果。&lt;/p&gt;
+&lt;h3 id=&#34;kNN的一般流程&#34;&gt;&lt;a href=&#34;#kNN的一般流程&#34; class=&#34;headerlink&#34; title=&#34;kNN的一般流程&#34;&gt;&lt;/a&gt;kNN的一般流程&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;收集数据&lt;/li&gt;
+&lt;li&gt;准备数据：最好使用结构化数据格式，因为计算距离需要数值。&lt;/li&gt;
+&lt;li&gt;分析数据&lt;/li&gt;
+&lt;li&gt;训练算法：此步骤不适用于kNN算法&lt;/li&gt;
+&lt;li&gt;测试算法：计算错误率&lt;/li&gt;
+&lt;li&gt;使用算法：这首先需要获取一些输入数据和结构化的输出数据，然后在输入数据上运行kNN算法并判断它属于哪一类，最后对计算出的分类执行后续处理。&lt;/li&gt;
+&lt;/ol&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#kNN分类算法"><span class="toc-number">1.</span> <span class="toc-text">kNN分类算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kNN的一般流程"><span class="toc-number">1.0.1.</span> <span class="toc-text">kNN的一般流程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#决策树算法"><span class="toc-number">2.</span> <span class="toc-text">决策树算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#决策树的一般流程"><span class="toc-number">2.0.1.</span> <span class="toc-text">决策树的一般流程</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        《Machine Learning in Action》学习笔记一：kNN和决策树
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-10-15T13:58:12.000Z" itemprop="datePublished">2017-10-15</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>正在学习《Machine Learning in Action》，随笔记录一下，代码基本上都是跟着书本敲的，就不大贴全部的代码了，仅写一些自己的理解并对出现的问题进行整理和归纳。</p>
 <p>算法的一般流程为：收集数据 -&gt; 准备数据 -&gt; 分析数据 -&gt; 训练算法 -&gt; 测试算法 -&gt; 使用算法</p>
 <p>第一个笔记本包括kNN分类算法和决策树算法。</p>
 <h1 id="kNN分类算法"><a href="#kNN分类算法" class="headerlink" title="kNN分类算法"></a>kNN分类算法</h1><p>kNN分类算法（k-Nearest Neighbors classification algorithm）是比较简单的一种分类算法。原理是通过计算距离找出与待预测数据最接近的k个类别，这k个类别中出现最多的类即为预测结果。</p>
@@ -71,4 +224,142 @@
 <p>🙂：计算复杂度不高／便于人们理解学习结果／对中间的缺失值不敏感／可以处理无关的特征值</p>
 <p>🙁：可能会过拟合</p>
 <p>🛠：数值型／标称型</p>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/10/18/machine-learning-in-action-note2/" class="prev">PREV</a><a href="/2017/07/25/china-map/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">Colorjam</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#kNN分类算法"><span class="toc-number">1.</span> <span class="toc-text">kNN分类算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kNN的一般流程"><span class="toc-number">1.0.1.</span> <span class="toc-text">kNN的一般流程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#决策树算法"><span class="toc-number">2.</span> <span class="toc-text">决策树算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#决策树的一般流程"><span class="toc-number">2.0.1.</span> <span class="toc-text">决策树的一般流程</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&text=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&title=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&is_video=false&description=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=《Machine Learning in Action》学习笔记一：kNN和决策树&body=Check out this article: http://yoursite.com/2017/10/15/machine-learning-in-action-note1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&title=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&title=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&title=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&title=《Machine Learning in Action》学习笔记一：kNN和决策树"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/10/15/machine-learning-in-action-note1/&name=《Machine Learning in Action》学习笔记一：kNN和决策树&description=&lt;p&gt;正在学习《Machine Learning in Action》，随笔记录一下，代码基本上都是跟着书本敲的，就不大贴全部的代码了，仅写一些自己的理解并对出现的问题进行整理和归纳。&lt;/p&gt;
+&lt;p&gt;算法的一般流程为：收集数据 -&amp;gt; 准备数据 -&amp;gt; 分析数据 -&amp;gt; 训练算法 -&amp;gt; 测试算法 -&amp;gt; 使用算法&lt;/p&gt;
+&lt;p&gt;第一个笔记本包括kNN分类算法和决策树算法。&lt;/p&gt;
+&lt;h1 id=&#34;kNN分类算法&#34;&gt;&lt;a href=&#34;#kNN分类算法&#34; class=&#34;headerlink&#34; title=&#34;kNN分类算法&#34;&gt;&lt;/a&gt;kNN分类算法&lt;/h1&gt;&lt;p&gt;kNN分类算法（k-Nearest Neighbors classification algorithm）是比较简单的一种分类算法。原理是通过计算距离找出与待预测数据最接近的k个类别，这k个类别中出现最多的类即为预测结果。&lt;/p&gt;
+&lt;h3 id=&#34;kNN的一般流程&#34;&gt;&lt;a href=&#34;#kNN的一般流程&#34; class=&#34;headerlink&#34; title=&#34;kNN的一般流程&#34;&gt;&lt;/a&gt;kNN的一般流程&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;收集数据&lt;/li&gt;
+&lt;li&gt;准备数据：最好使用结构化数据格式，因为计算距离需要数值。&lt;/li&gt;
+&lt;li&gt;分析数据&lt;/li&gt;
+&lt;li&gt;训练算法：此步骤不适用于kNN算法&lt;/li&gt;
+&lt;li&gt;测试算法：计算错误率&lt;/li&gt;
+&lt;li&gt;使用算法：这首先需要获取一些输入数据和结构化的输出数据，然后在输入数据上运行kNN算法并判断它属于哪一类，最后对计算出的分类执行后续处理。&lt;/li&gt;
+&lt;/ol&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
