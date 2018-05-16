@@ -435,8 +435,8 @@
   box-sizing: border-box;
 }
 html {
+  position: relative;
   height: 100%;
-  border-top: 2px solid #383838;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
 }
@@ -1448,4 +1448,10 @@ code {
 }
 .highlight .line {
   height: 22px;
+}
+#particles-js {
+  width: 100%;
+  position: absolute;
+  margin-left: -28%;
+  z-index: -1;
 }
