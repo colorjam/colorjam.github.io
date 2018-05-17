@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang=en>
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
     <meta charset="utf-8">
@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/index.html">
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 到底什么是生成式对抗网络GAN？ 其中以男女朋友做比喻还蛮">
+<meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/model.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/vanilla_result.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/ls_result.png">
@@ -63,13 +64,13 @@
     <span id="nav">
       <ul>
          
-          <li><a href="/">خانه</a></li>
+          <li><a href="/">Home</a></li>
          
-          <li><a href="/about/">درباره</a></li>
+          <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">نوشته‌ها</a></li>
+          <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="/">پروژه‌ها</a></li>
+          <li><a href="/">Projects</a></li>
         
       </ul>
     </span>
@@ -77,16 +78,18 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" href="/2018/05/16/paper-ssir-using-gpr/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" href="/2018/03/14/cs231n-assignment3-styletransfer/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
-      <span id="i-prev" class="info" style="display:none;">پست پیشین</span>
-      <span id="i-next" class="info" style="display:none;">پست یعدی</span>
-      <span id="i-top" class="info" style="display:none;">بازگشت به بالا</span>
-      <span id="i-share" class="info" style="display:none;">اشتراک‌گذاری</span>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
     <br/>
     <div id="share" style="display: none">
@@ -188,13 +191,13 @@
     <div id="nav-footer" style="display: none">
       <ul>
          
-          <li><a href="/">خانه</a></li>
+          <li><a href="/">Home</a></li>
          
-          <li><a href="/about/">درباره</a></li>
+          <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">نوشته‌ها</a></li>
+          <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="/">پروژه‌ها</a></li>
+          <li><a href="/">Projects</a></li>
         
       </ul>
     </div>
@@ -220,10 +223,10 @@
     </div>
 
     <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> منو</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> محتوا</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> اشتراک‌گذاری</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> بالا</a>
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
     </div>
 
   </div>
@@ -232,19 +235,19 @@
     
     <footer id="footer">
   <div class="footer-left">
-    حق‌کپی &copy; 2018 Colorjam
+    Copyright &copy; 2018 Colorjam
   </div>
   <div class="footer-right">
     <nav>
       <ul>
          
-          <li><a href="/">خانه</a></li>
+          <li><a href="/">Home</a></li>
          
-          <li><a href="/about/">درباره</a></li>
+          <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">نوشته‌ها</a></li>
+          <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="/">پروژه‌ها</a></li>
+          <li><a href="/">Projects</a></li>
         
       </ul>
     </nav>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang=en>
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
     <meta charset="utf-8">
@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/10/18/machine-learning-in-action-note2/index.html">
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="朴素贝叶斯是贝叶斯决策理论的一部分，所以我们来先来看看贝叶斯决策理论。贝叶斯决策理论的核心是选择具有最高概率的决策。 假设有i个分类，我们需要比较的其实是后验概率 P(Y=c~k~|X=x) 的大小。那么后验概率是什么鬼？wiki说一个随机事件的后验概率是在考虑和给出相关证据或数据后所得到的条件概率。简而言之，后验概率就是条件概率。换算成我们需要解决的问题就是，在已知一堆特征的情况下，计算出它属于">
+<meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2018-01-21T08:35:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Machine Learning in Action》学习笔记二：朴素贝叶斯">
@@ -58,13 +59,13 @@
     <span id="nav">
       <ul>
          
-          <li><a href="/">خانه</a></li>
+          <li><a href="/">Home</a></li>
          
-          <li><a href="/about/">درباره</a></li>
+          <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">نوشته‌ها</a></li>
+          <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="/">پروژه‌ها</a></li>
+          <li><a href="/">Projects</a></li>
         
       </ul>
     </span>
@@ -80,10 +81,10 @@
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
-      <span id="i-prev" class="info" style="display:none;">پست پیشین</span>
-      <span id="i-next" class="info" style="display:none;">پست یعدی</span>
-      <span id="i-top" class="info" style="display:none;">بازگشت به بالا</span>
-      <span id="i-share" class="info" style="display:none;">اشتراک‌گذاری</span>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
     </span>
     <br/>
     <div id="share" style="display: none">
@@ -207,13 +208,13 @@
     <div id="nav-footer" style="display: none">
       <ul>
          
-          <li><a href="/">خانه</a></li>
+          <li><a href="/">Home</a></li>
          
-          <li><a href="/about/">درباره</a></li>
+          <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">نوشته‌ها</a></li>
+          <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="/">پروژه‌ها</a></li>
+          <li><a href="/">Projects</a></li>
         
       </ul>
     </div>
@@ -250,10 +251,10 @@
     </div>
 
     <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> منو</a>
-        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> محتوا</a>
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> اشتراک‌گذاری</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> بالا</a>
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
     </div>
 
   </div>
@@ -262,19 +263,19 @@
     
     <footer id="footer">
   <div class="footer-left">
-    حق‌کپی &copy; 2018 Colorjam
+    Copyright &copy; 2018 Colorjam
   </div>
   <div class="footer-right">
     <nav>
       <ul>
          
-          <li><a href="/">خانه</a></li>
+          <li><a href="/">Home</a></li>
          
-          <li><a href="/about/">درباره</a></li>
+          <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">نوشته‌ها</a></li>
+          <li><a href="/archives/">Writing</a></li>
          
-          <li><a href="/">پروژه‌ها</a></li>
+          <li><a href="/">Projects</a></li>
         
       </ul>
     </nav>
