@@ -347,7 +347,6 @@
 .content h5,
 .content h6 {
   display: inline;
-  border-bottom: 1px dashed #8c8c8c;
   color: #8c8c8c;
   text-decoration: none;
   font-weight: normal;
