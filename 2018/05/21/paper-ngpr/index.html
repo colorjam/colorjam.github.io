@@ -9,15 +9,15 @@
     <meta name="description" content="大部分使用GPR的SR方法是局部采样的，这些方法将图像分成几个固定大小（e.g  $45\times45$）并且有一小部分重叠的大块，对每个大块，只使用到其中小块的自相似性（e.g $3\times3$）来建立GPR模型，因此很难完全利用到自然图像中的自相似性。本文作者提出了一种非局部的基于GPR模型的NGPR超分辨率重建方法。 系统总览该系统包括两个阶段：  学习阶段：在LR层面学习NGPR模型">
 <meta name="keywords" content="SSIR,GPR">
 <meta property="og:type" content="article">
-<meta property="og:title" content="读论文《Image super-resolution using non-local Gaussian process regression 》">
+<meta property="og:title" content="读论文《Image super-resolution using non-local Gaussian process regression》">
 <meta property="og:url" content="http://yoursite.com/2018/05/21/paper-ngpr/index.html">
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="大部分使用GPR的SR方法是局部采样的，这些方法将图像分成几个固定大小（e.g  $45\times45$）并且有一小部分重叠的大块，对每个大块，只使用到其中小块的自相似性（e.g $3\times3$）来建立GPR模型，因此很难完全利用到自然图像中的自相似性。本文作者提出了一种非局部的基于GPR模型的NGPR超分辨率重建方法。 系统总览该系统包括两个阶段：  学习阶段：在LR层面学习NGPR模型">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1frj17sdk7qj31180iidqf.jpg">
-<meta property="og:updated_time" content="2018-05-21T13:13:52.000Z">
+<meta property="og:updated_time" content="2018-05-24T02:08:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="读论文《Image super-resolution using non-local Gaussian process regression 》">
+<meta name="twitter:title" content="读论文《Image super-resolution using non-local Gaussian process regression》">
 <meta name="twitter:description" content="大部分使用GPR的SR方法是局部采样的，这些方法将图像分成几个固定大小（e.g  $45\times45$）并且有一小部分重叠的大块，对每个大块，只使用到其中小块的自相似性（e.g $3\times3$）来建立GPR模型，因此很难完全利用到自然图像中的自相似性。本文作者提出了一种非局部的基于GPR模型的NGPR超分辨率重建方法。 系统总览该系统包括两个阶段：  学习阶段：在LR层面学习NGPR模型">
 <meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1frj17sdk7qj31180iidqf.jpg">
     
@@ -39,7 +39,7 @@
         
     
     <!-- title -->
-    <title>读论文《Image super-resolution using non-local Gaussian process regression 》</title>
+    <title>读论文《Image super-resolution using non-local Gaussian process regression》</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -93,15 +93,15 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/05/21/paper-ngpr/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/05/21/paper-ngpr/&text=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/05/21/paper-ngpr/&is_video=false&description=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=读论文《Image super-resolution using non-local Gaussian process regression 》&body=Check out this article: http://yoursite.com/2018/05/21/paper-ngpr/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/05/21/paper-ngpr/&name=读论文《Image super-resolution using non-local Gaussian process regression 》&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/05/21/paper-ngpr/&text=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/05/21/paper-ngpr/&is_video=false&description=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=读论文《Image super-resolution using non-local Gaussian process regression》&body=Check out this article: http://yoursite.com/2018/05/21/paper-ngpr/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/05/21/paper-ngpr/&name=读论文《Image super-resolution using non-local Gaussian process regression》&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -118,7 +118,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        读论文《Image super-resolution using non-local Gaussian process regression 》
+        读论文《Image super-resolution using non-local Gaussian process regression》
     </h1>
 
 
@@ -208,15 +208,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/05/21/paper-ngpr/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/05/21/paper-ngpr/&text=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/05/21/paper-ngpr/&is_video=false&description=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=读论文《Image super-resolution using non-local Gaussian process regression 》&body=Check out this article: http://yoursite.com/2018/05/21/paper-ngpr/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression 》"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/05/21/paper-ngpr/&name=读论文《Image super-resolution using non-local Gaussian process regression 》&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/05/21/paper-ngpr/&text=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/05/21/paper-ngpr/&is_video=false&description=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=读论文《Image super-resolution using non-local Gaussian process regression》&body=Check out this article: http://yoursite.com/2018/05/21/paper-ngpr/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/05/21/paper-ngpr/&title=读论文《Image super-resolution using non-local Gaussian process regression》"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/05/21/paper-ngpr/&name=读论文《Image super-resolution using non-local Gaussian process regression》&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -281,7 +281,7 @@
   });
 </script>
 
-<script type="text/javascript" src="">
+<script type="text/javascript" src="custom_mathjax_source">
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->

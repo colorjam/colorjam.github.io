@@ -15,7 +15,7 @@
 <meta property="og:description" content="本文的作者提出了利用高斯回归过程来实现超分辨率重建的方法。该方法只需要输入低分辨率图像，而不需要额外的数据集和样本图像。 作者的灵感来自于自然图像中的结构冗余。两个像素之间的相似性可以定义为它们局部几何结构的差异。一个像素的邻近像素可以表明该像素的局部特征（比如平滑或边缘区域），因此可以预测基于回归的模型。 高斯过程回归高斯过程（GP）定义了函数 $f$ 的分布，$f$ 将输入空间从 𝒳 映射到">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1fre5esj0u5j30l00riaf8.jpg">
-<meta property="og:updated_time" content="2018-05-21T03:06:57.000Z">
+<meta property="og:updated_time" content="2018-05-24T02:45:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="读论文《Single Image Super-Resolution using Gaussian Process Regression》">
 <meta name="twitter:description" content="本文的作者提出了利用高斯回归过程来实现超分辨率重建的方法。该方法只需要输入低分辨率图像，而不需要额外的数据集和样本图像。 作者的灵感来自于自然图像中的结构冗余。两个像素之间的相似性可以定义为它们局部几何结构的差异。一个像素的邻近像素可以表明该像素的局部特征（比如平滑或边缘区域），因此可以预测基于回归的模型。 高斯过程回归高斯过程（GP）定义了函数 $f$ 的分布，$f$ 将输入空间从 𝒳 映射到">
@@ -148,7 +148,7 @@
     <p>本文的作者提出了利用高斯回归过程来实现超分辨率重建的方法。该方法只需要输入低分辨率图像，而不需要额外的数据集和样本图像。</p>
 <p>作者的灵感来自于自然图像中的结构冗余。两个像素之间的相似性可以定义为它们局部几何结构的差异。一个像素的邻近像素可以表明该像素的局部特征（比如平滑或边缘区域），因此可以预测基于回归的模型。</p>
 <h2 id="高斯过程回归"><a href="#高斯过程回归" class="headerlink" title="高斯过程回归"></a>高斯过程回归</h2><p>高斯过程（GP）定义了函数 $f$ 的分布，$f$ 将输入空间从 𝒳 映射到 ℛ。对于 𝒳 的任意有限子集，其边缘分布 $P(f(x_1), f(x_2)…f(x_n))$ 是一个多元高斯分布，其中 $x$ 代表一个输入向量。通过均值函数 $m(x)$ 和协方差函数 $k(x_i, x_j)$ 我们有：<br>$$<br>f(x) \sim \mathcal{GP}(m(x), k(x_i,x_j))<br>$$<br>其中矩阵 $X​$ 的每一行为输入向量，$f​$ 是函数值的向量，$K(X, X)​$ 代表 $n \times n​$ 的协方差矩阵，其中 $K_(i,j) = k(x_i, x_j)​$</p>
-<p>高斯过程回归（GPR）即我们假设了目标函数为高斯过程的先验分布。令 $y$ 表示一个观测值，$\epsilon$ 为高斯噪声，高斯过程回归模型表示如下：<br>$$<br>y = f(x) + \epsilon, \epsilon \sim \mathcal{N}(n, \sigma^2_n)<br>$$<br>均值函数为零的观测值 $\mathbf { y }$ 和输出 $f_*$ 的联合分布为：<br>$$<br>\left[\begin{array}{c} \mathbf { y } \\ f_*\end{array}\right] \sim \mathcal{N}\left( \begin{array}{cc}0, \left[\begin{array}{cc}K(X,X)+\sigma^2_nI &amp; K(X,X_*)\\K(X_*,X) &amp; K(X_*,X_*)\end{array} \right]\end{array} \right)<br>$$<br>其中$X$代表训练集，$X_*$代表测试集。我们可以推导出条件分布：<br>$$<br>f_*|X,y,X_* \sim \mathcal{N}(\bar{f}_x, V(f_*))，<br>$$<br>其中，<br>$$<br>f_* = K(X_*, X)[K(X,X) + \sigma^2_nI]^{-1}\mathbf { y }<br>$$</p>
+<p>高斯过程回归（GPR）即我们假设了目标函数为高斯过程的先验分布。令 $y$ 表示一个观测值，$\epsilon$ 为高斯噪声，高斯过程回归模型表示如下：<br>$$<br>y = f(x) + \epsilon, \epsilon \sim \mathcal{N}(n, \sigma^2_n)<br>$$<br>均值函数为零的观测值 $\mathbf { y }$ 和输出 $f_*$ 的联合分布为：<br>$$<br>\left[\begin{array}{c} \mathbf { y } \\ f_*\end{array}\right] \sim \mathcal{N}\left( \begin{array}{cc}0, \left[\begin{array}{cc}K(X,X)+\sigma^2_nI &amp; K(X,X_*)\\K(X_*,X) &amp; K(X_*,X_*)\end{array} \right]\end{array} \right)<br>$$<br>其中$X$代表训练集，$X_*$代表测试集。我们可以推导出条件分布：<br>$$<br>f_*|X,y,X_* \sim \mathcal{N}(\bar{f}_*, V(f_*))<br>$$<br>其中，<br>$$<br>\bar{f}_* = K(X_*, X)[K(X,X) + \sigma^2_nI]^{-1}\mathbf { y }<br>$$</p>
 <p>$$<br>V(f_*) = K(X_*, X_*) -K(X_*, X)[K(X,X) + \sigma^2_nI]^{-1}K(X,X_*)<br>$$</p>
 <h2 id="单帧图像重建"><a href="#单帧图像重建" class="headerlink" title="单帧图像重建"></a>单帧图像重建</h2><p>高分辨率图像块由对应的低分辨率图像块逐像素地预测得出。取 $ 3\times3$ 大小的低分辨率图像块，观测值 $\mathbf { y }$ 为图像块的中心像素，$x$ 是一个8维向量，代表观测值的临近像素。</p>
 <p>高分辨率图像的预测由两个由粗到细的阶段组成。</p>
@@ -273,7 +273,7 @@
   });
 </script>
 
-<script type="text/javascript" src="">
+<script type="text/javascript" src="custom_mathjax_source">
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
