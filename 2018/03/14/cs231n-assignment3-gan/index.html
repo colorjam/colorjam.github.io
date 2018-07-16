@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/vanilla_result.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/ls_result.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/dc_result.png">
-<meta property="og:updated_time" content="2018-05-16T02:13:36.000Z">
+<meta property="og:updated_time" content="2018-07-11T01:50:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cs231n-assignment3-gan">
 <meta name="twitter:description" content="最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 到底什么是生成式对抗网络GAN？ 其中以男女朋友做比喻还蛮">
@@ -151,7 +151,7 @@
 <li>更新生成模型 (\(G\)) ，最大化判别模型对于生成的图像，作出<strong>错误选择</strong>的概率：<br>$$\underset{G}{\text{maximize}}\;  \mathbb{E}_{z \sim p(z)}\left[\log D(G(z))\right]$$</li>
 <li>更新判别模型 (\(D\))，最大化判别模型对于真实和生成的图像，作出<strong>正确选择</strong>的概率：<br>$$\underset{D}{\text{maximize}}\; \mathbb{E}_{x \sim p_\text{data}}\left[\log D(x)\right] + \mathbb{E}_{z \sim p(z)}\left[\log \left(1-D(G(z))\right)\right]$$</li>
 </ol>
-<h3 id="Vanilla-GAN"><a href="#Vanilla-GAN" class="headerlink" title="Vanilla GAN"></a>Vanilla GAN</h3><p>图像判别模型的损失函数：</p>
+<h3 id="Vanilla-GAN"><a href="#Vanilla-GAN" class="headerlink" title="Vanilla GAN"></a>Vanilla GAN</h3><p>图像判别模型D（Discriminator）的损失函数：</p>
 <p>$$ \ell_D = -\mathbb{E}_{x \sim p_\text{data}}\left[\log D(x)\right] - \mathbb{E}_{z \sim p(z)}\left[\log \left(1-D(G(z))\right)\right]$$</p>
 <p>图像生成模型G（Generator）的损失函数：</p>
 <p>$$\ell_G  =  -\mathbb{E}_{z \sim p(z)}\left[\log D(G(z))\right]$$</p>

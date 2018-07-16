@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="开始学李宏毅的机器学习，用pokerman来举线性回归的例子实在是太有意思啦～有受到一些启发，以此巩固一下基础知识。 误差来源 在前面几节课里提到，机器学习的过程其实就是在一堆模型里找到那个最符合所给数据的最优模型${f}^_$。这个${f}^_$实际上是真实数据模型$\hat{f}$的一个估计。 只要是估计就会存在误差，那么这个误差是从哪里来的呢？它有两个来源，一是偏差（Bias），二是方差（V">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模型误差从哪儿来？">
+<meta property="og:url" content="http://yoursite.com/2018/06/22/where-does-the-error-come-from/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="开始学李宏毅的机器学习，用pokerman来举线性回归的例子实在是太有意思啦～有受到一些启发，以此巩固一下基础知识。 误差来源 在前面几节课里提到，机器学习的过程其实就是在一堆模型里找到那个最符合所给数据的最优模型${f}^_$。这个${f}^_$实际上是真实数据模型$\hat{f}$的一个估计。 只要是估计就会存在误差，那么这个误差是从哪里来的呢？它有两个来源，一是偏差（Bias），二是方差（V">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1fsjrf9bj1gj31g4122h0d.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1fsjs1yq7isj31g211udli.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1fsjsaxm0uuj31gg134jxg.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1fsjs9tt7k6j31ge11s7a2.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1fsjsjesachj31gs124x0f.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1fsjskoyd96j31gg12q4kf.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1fsjsob3ibhj31g412edr3.jpg">
+<meta property="og:updated_time" content="2018-06-22T03:35:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="模型误差从哪儿来？">
+<meta name="twitter:description" content="开始学李宏毅的机器学习，用pokerman来举线性回归的例子实在是太有意思啦～有受到一些启发，以此巩固一下基础知识。 误差来源 在前面几节课里提到，机器学习的过程其实就是在一堆模型里找到那个最符合所给数据的最优模型${f}^_$。这个${f}^_$实际上是真实数据模型$\hat{f}$的一个估计。 只要是估计就会存在误差，那么这个误差是从哪里来的呢？它有两个来源，一是偏差（Bias），二是方差（V">
+<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1fsjrf9bj1gj31g4122h0d.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>模型误差从哪儿来？</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/07/06/MobileNets/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/05/24/sr-gpr/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/06/22/where-does-the-error-come-from/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&text=模型误差从哪儿来？"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&title=模型误差从哪儿来？"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&is_video=false&description=模型误差从哪儿来？"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=模型误差从哪儿来？&body=Check out this article: http://yoursite.com/2018/06/22/where-does-the-error-come-from/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&title=模型误差从哪儿来？"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&title=模型误差从哪儿来？"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&title=模型误差从哪儿来？"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&title=模型误差从哪儿来？"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&name=模型误差从哪儿来？&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#误差来源"><span class="toc-number">1.</span> <span class="toc-text">误差来源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#均值和方差"><span class="toc-number">2.</span> <span class="toc-text">均值和方差</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#过拟合和欠拟合"><span class="toc-number">2.1.</span> <span class="toc-text">过拟合和欠拟合</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        模型误差从哪儿来？
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-06-22T02:41:29.000Z" itemprop="datePublished">2018-06-22</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>开始学李宏毅的机器学习，用pokerman来举线性回归的例子实在是太有意思啦～有受到一些启发，以此巩固一下基础知识。</p>
+<h2 id="误差来源"><a href="#误差来源" class="headerlink" title="误差来源"></a>误差来源</h2><p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1fsjrf9bj1gj31g4122h0d.jpg" alt="estimator"></p>
+<p>在前面几节课里提到，机器学习的过程其实就是在一堆模型里找到那个最符合所给数据的最优模型${f}^_$。这个${f}^_$实际上是真实数据模型$\hat{f}$的一个估计。</p>
+<p>只要是估计就会存在误差，那么这个误差是从哪里来的呢？它有两个来源，一是偏差（Bias），二是方差（Variance）。</p>
+<h2 id="均值和方差"><a href="#均值和方差" class="headerlink" title="均值和方差"></a>均值和方差</h2><p>基于大数据的机器学习很大程度上可以看作是在利用数理统计的知识来解决问题。在数理统计中，我们利用样本的信息（统计量）来推断总体的未知信息（估计量）。</p>
+<p>我们可以利用样本的均值来估计数学期望：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1fsjs1yq7isj31g211udli.jpg" alt="bias-estimator"></p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1fsjsaxm0uuj31gg134jxg.jpg" alt="unbiased-estimator"></p>
+<p>也可以利用样本的方差来估计方差：</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1fsjs9tt7k6j31ge11s7a2.jpg" alt="variance-estimator"></p>
+<p>假设我们在100个平行宇宙里做实验，获取到100个$f^_$，我们可以计算出这100个$f^_$的均值，来判断这些模型与$\hat{f}$之间的偏差：</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1fsjsjesachj31gs124x0f.jpg" alt="bias"></p>
+<p>我们还可以计算出这100个$f^*$的方差，来判断这些模型的分散程度：</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1fsjskoyd96j31gg12q4kf.jpg" alt=""></p>
+<h3 id="过拟合和欠拟合"><a href="#过拟合和欠拟合" class="headerlink" title="过拟合和欠拟合"></a>过拟合和欠拟合</h3><p>将偏差和方差产生的两条误差曲线和在一起，就变成了观察到的误差曲线。因此也引出了过拟合（Overfitting）和欠拟合（Underfitting）的概念。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1fsjsob3ibhj31g412edr3.jpg" alt="overfitting-underfitting"></p>
+<p><strong>欠拟合：</strong>当我们发现模型不能很好地拟合训练样本，很可能是偏差较大。可以通过1）增加数据特征 2）建立更复杂的模型来解决欠拟合。</p>
+<p><strong>过拟合：</strong>当我们的模型很好的拟合训练样本，但在测试样本上产生了巨大的误差，很可能是方差较大。可以通过1）增加数据量 2）正则化来解决过拟合。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#误差来源"><span class="toc-number">1.</span> <span class="toc-text">误差来源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#均值和方差"><span class="toc-number">2.</span> <span class="toc-text">均值和方差</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#过拟合和欠拟合"><span class="toc-number">2.1.</span> <span class="toc-text">过拟合和欠拟合</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/06/22/where-does-the-error-come-from/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&text=模型误差从哪儿来？"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&title=模型误差从哪儿来？"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&is_video=false&description=模型误差从哪儿来？"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=模型误差从哪儿来？&body=Check out this article: http://yoursite.com/2018/06/22/where-does-the-error-come-from/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&title=模型误差从哪儿来？"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&title=模型误差从哪儿来？"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&title=模型误差从哪儿来？"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&title=模型误差从哪儿来？"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/06/22/where-does-the-error-come-from/&name=模型误差从哪儿来？&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
