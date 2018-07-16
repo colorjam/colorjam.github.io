@@ -6,14 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="article">
-<meta property="og:title" content="Colorjam">
+    <meta name="description" content="ShuffleNet是一个高效计算的CNN结构。该结构使用了两种新的操作：逐点组卷积(pointwise group convolution)和通道混洗(channel shuffle)。 Gconv和channel shuffle1）逐点组卷积 在较小的网络中，对所有通道进行逐点卷积计算代价高昂。一个直接的解决办法就是利用通道稀疏连接。在本文中，作者使用的方法是组卷积，即对通道进行分组，在组内进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ShuffleNet">
 <meta property="og:url" content="http://yoursite.com/2018/07/16/ShuffleNet/index.html">
 <meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="ShuffleNet是一个高效计算的CNN结构。该结构使用了两种新的操作：逐点组卷积(pointwise group convolution)和通道混洗(channel shuffle)。 Gconv和channel shuffle1）逐点组卷积 在较小的网络中，对所有通道进行逐点卷积计算代价高昂。一个直接的解决办法就是利用通道稀疏连接。在本文中，作者使用的方法是组卷积，即对通道进行分组，在组内进">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-07-16T06:57:29.000Z">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79ly1ftbq9e31puj31ca0iumzu.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1ftbqcw622hj318k0m2gp1.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1ftbquzmce7j31eo0k4gpf.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1ftbqz2ulxmj313s07sjsy.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1ftbr72m6a9j316o0bcdid.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1ftbrebkp2xj31c006odha.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1ftbrf6b15rj319e0g642f.jpg">
+<meta property="og:updated_time" content="2018-07-16T08:02:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Colorjam">
+<meta name="twitter:title" content="ShuffleNet">
+<meta name="twitter:description" content="ShuffleNet是一个高效计算的CNN结构。该结构使用了两种新的操作：逐点组卷积(pointwise group convolution)和通道混洗(channel shuffle)。 Gconv和channel shuffle1）逐点组卷积 在较小的网络中，对所有通道进行逐点卷积计算代价高昂。一个直接的解决办法就是利用通道稀疏连接。在本文中，作者使用的方法是组卷积，即对通道进行分组，在组内进">
+<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNc79ly1ftbq9e31puj31ca0iumzu.jpg">
     
     
         
@@ -33,7 +44,7 @@
         
     
     <!-- title -->
-    <title>Colorjam</title>
+    <title>ShuffleNet</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -70,8 +81,6 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2018/07/16/2018-07-16-MobileNets/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
         
         <li><a class="icon" href="/2018/07/12/compression_models/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -87,20 +96,20 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/07/16/ShuffleNet/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/07/16/ShuffleNet/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/07/16/ShuffleNet/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/07/16/ShuffleNet/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2018/07/16/ShuffleNet/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/07/16/ShuffleNet/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/07/16/ShuffleNet/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/07/16/ShuffleNet/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/07/16/ShuffleNet/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/07/16/ShuffleNet/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/07/16/ShuffleNet/&text=ShuffleNet"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/07/16/ShuffleNet/&title=ShuffleNet"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/07/16/ShuffleNet/&is_video=false&description=ShuffleNet"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ShuffleNet&body=Check out this article: http://yoursite.com/2018/07/16/ShuffleNet/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/07/16/ShuffleNet/&title=ShuffleNet"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/07/16/ShuffleNet/&title=ShuffleNet"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/07/16/ShuffleNet/&title=ShuffleNet"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/07/16/ShuffleNet/&title=ShuffleNet"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/07/16/ShuffleNet/&name=ShuffleNet&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gconv和channel-shuffle"><span class="toc-number">1.</span> <span class="toc-text">Gconv和channel shuffle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ShuffleNet单元"><span class="toc-number">2.</span> <span class="toc-text">ShuffleNet单元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络结构"><span class="toc-number">3.</span> <span class="toc-text">网络结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实验结果"><span class="toc-number">4.</span> <span class="toc-text">实验结果</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -112,7 +121,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        
+        ShuffleNet
     </h1>
 
 
@@ -123,7 +132,7 @@
       </span>
       
     <div class="postdate">
-        <time datetime="2018-07-16T06:57:29.000Z" itemprop="datePublished">2018-07-16</time>
+        <time datetime="2018-07-16T07:14:32.000Z" itemprop="datePublished">2018-07-16</time>
     </div>
 
 
@@ -134,7 +143,34 @@
   
 
   <div class="content" itemprop="articleBody">
-    
+    <p>ShuffleNet是一个高效计算的CNN结构。该结构使用了两种新的操作：逐点组卷积(pointwise group convolution)和通道混洗(channel shuffle)。</p>
+<h2 id="Gconv和channel-shuffle"><a href="#Gconv和channel-shuffle" class="headerlink" title="Gconv和channel shuffle"></a>Gconv和channel shuffle</h2><p>1）逐点组卷积</p>
+<p>在较小的网络中，对所有通道进行逐点卷积计算代价高昂。一个直接的解决办法就是利用通道稀疏连接。在本文中，作者使用的方法是组卷积，即对通道进行分组，在组内进行逐点卷积操作。</p>
+<p>2）通道混洗</p>
+<p>如果仅仅使用组卷积，那么最终每组输出仅于该组的输入相关联，阻碍了通道组之间的信息流，减弱了特征信息的表达。因此作者提出了通道混洗操作。通过将通道组细分为子通道组，将子通道组重新排列，作为下一层网络的输入。</p>
+<p>具体地，使用了通道混洗操作的逐点组卷积如下图所示：</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1ftbq9e31puj31ca0iumzu.jpg" alt="channel_shuffle"></p>
+<h2 id="ShuffleNet单元"><a href="#ShuffleNet单元" class="headerlink" title="ShuffleNet单元"></a>ShuffleNet单元</h2><p>基于上面提到的两个操作，作者提出了ShuffleNet单元：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1ftbqcw622hj318k0m2gp1.jpg" alt="shufflenet_units"></p>
+<p>在传统的ResNet单元基础上，将头尾的1x1 Conv改为1x1 Gconv，中间的3x3 Conv改为3x3 DWConv，并且在DWConv之前加入了单元混洗操作。假设输入大小为$c \times h \times w$，bottelneck中的通道数为m。ResNet计算代价为$hw(2cm + 9m^2) $，而ShuffleNet的计算代价为$hw(2cm/g + 9m) $，其中$g$代表组卷积的分组数。</p>
+<blockquote>
+<p>关于计算代价，我认为ResNet为$hw(cm+10m^2)$，ShuffleNet为$hw(cm/g + 9m +m^2/g)$</p>
+</blockquote>
+<h2 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h2><p>ShuffleNet的网络结构如下图所示：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1ftbquzmce7j31eo0k4gpf.jpg" alt="ShuffleNet_architecture"></p>
+<p>由于输入Stage2的通道数较小，因此Stage2的第一个逐点卷积层不进行分组。</p>
+<h2 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h2><p>作者首先实验了不同分组数在不同大小网络上的分类效果：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1ftbqz2ulxmj313s07sjsy.jpg" alt="scale_group"></p>
+<p>从结果可以看出，使用分组卷积($g&gt;1$)与没有使用分组卷积($g=1$)相比，逐渐地表现越来越好。网络越小，从分组卷积中受益得越多。作者表示，在限制复杂度的情况下，分组卷积能够包含更多地特征图通道，从而可以编码更多的信息。因为较小的网络包含更窄的特征图，意味着能从扩大特征图中收益更多。</p>
+<p>作者接下来比较了有无通道混洗在不同分组以及不同大小网络上的分类效果：</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1ftbr72m6a9j316o0bcdid.jpg" alt="is_shuffle"></p>
+<p>通道混洗操作的目标是使多组卷积层之间能够产生跨组信息流。实验结果表明，使用了通道混洗操作的网络分类效果都比没有使用通道混洗操作来的好。并且分组越多($g=8$)，通道混洗操作的效果就越明显。</p>
+<p>作者还在同等计算代价的情况下，将ShuffleNet与其他网络做比较：</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1ftbrebkp2xj31c006odha.jpg" alt="various_structures"></p>
+<p>以及与MobileNet做比较：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1ftbrf6b15rj319e0g642f.jpg" alt="shufflenet_mobilenet"></p>
+<p>可以看出ShuffleNet的分类结果是优于其他网络结构的。</p>
+
   </div>
 </article>
 
@@ -160,21 +196,21 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gconv和channel-shuffle"><span class="toc-number">1.</span> <span class="toc-text">Gconv和channel shuffle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ShuffleNet单元"><span class="toc-number">2.</span> <span class="toc-text">ShuffleNet单元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络结构"><span class="toc-number">3.</span> <span class="toc-text">网络结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实验结果"><span class="toc-number">4.</span> <span class="toc-text">实验结果</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/07/16/ShuffleNet/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/07/16/ShuffleNet/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/07/16/ShuffleNet/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/07/16/ShuffleNet/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2018/07/16/ShuffleNet/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/07/16/ShuffleNet/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/07/16/ShuffleNet/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/07/16/ShuffleNet/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/07/16/ShuffleNet/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/07/16/ShuffleNet/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/07/16/ShuffleNet/&text=ShuffleNet"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/07/16/ShuffleNet/&title=ShuffleNet"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/07/16/ShuffleNet/&is_video=false&description=ShuffleNet"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ShuffleNet&body=Check out this article: http://yoursite.com/2018/07/16/ShuffleNet/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/07/16/ShuffleNet/&title=ShuffleNet"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/07/16/ShuffleNet/&title=ShuffleNet"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/07/16/ShuffleNet/&title=ShuffleNet"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/07/16/ShuffleNet/&title=ShuffleNet"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/07/16/ShuffleNet/&name=ShuffleNet&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

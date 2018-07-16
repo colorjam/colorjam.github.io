@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2018/07/16/2018-07-16-MobileNets/</loc>
+    <loc>http://yoursite.com/2018/07/16/ShuffleNet/</loc>
     
     <lastmod>2018-07-16T08:02:58.000Z</lastmod>
     
@@ -19,13 +19,6 @@
     <loc>http://yoursite.com/2018/07/06/MobileNets/</loc>
     
     <lastmod>2018-07-16T06:57:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2018/07/16/ShuffleNet/</loc>
-    
-    <lastmod>2018-07-16T06:57:29.000Z</lastmod>
     
   </url>
   
