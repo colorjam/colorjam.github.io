@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/loss.png">
 <meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/accuracies.jpeg">
 <meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/firstlayer.png">
-<meta property="og:updated_time" content="2018-01-23T09:12:34.000Z">
+<meta property="og:updated_time" content="2018-07-26T04:35:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="神经网络方法小结">
 <meta name="twitter:description" content="在cs231n上学习了关于神经网络一系列数据处理、参数训练、结果分析的方法，为加深印象做一些整理。">
@@ -179,17 +179,17 @@
 <p><strong>初始化偏置</strong>：通常初始为全0。</p>
 <h3 id="损失函数（Loss-Functions）"><a href="#损失函数（Loss-Functions）" class="headerlink" title="损失函数（Loss Functions）"></a>损失函数（Loss Functions）</h3><p><strong>数据损失</strong>是一个有监督学习问题，用于衡量分类算法的预测结果和真实标签结果的一致性。我们要计算所有样本的平均数据损失，向减小这个数值的方向不断努力。可以说这就是深度学习的根本目的了。因此也就产生了一系列计算数据损失的损失函数：</p>
 <ul>
-<li><p><strong>Multiclass Support Vector Machine loss（SVM）</strong>：SVM分类器的损失函数想要SVM在正确分类的得分比不正确分类的得分来得高，且至少高出一个边界值𝚫。<br>$$<br>L_i = \sum_{j\neq y_i} \max(0, s_j - s_{y_i} + \Delta)<br>$$<br>这里要提一下<strong>折页损失（hinge loss）</strong>，即\(max(0, —)\)函数，它常用于“maximum-margin”的算法。因为SVM分类器就属于这类算法，所以我们用名称SVM来代表这类损失函数。</p>
+<li><p><strong>Multiclass Support Vector Machine loss（SVM）</strong>：SVM分类器的损失函数想要SVM在正确分类的得分比不正确分类的得分来得高，且至少高出一个边界值𝚫。<br>$$<br>L_i = \sum_{j\neq y_i} \max(0, s_j - s_{y_i} + \Delta)<br>$$<br>这里要提一下<strong>折页损失（hinge loss）</strong>，即$(max(0, —)$函数，它常用于“maximum-margin”的算法。因为SVM分类器就属于这类算法，所以我们用名称SVM来代表这类损失函数。</p>
 </li>
-<li><p><strong>Softmax</strong>：Softmax分类器将评分值视为每个分类的未归一化的对数概率（\(e^{f_{y_{i}}}\)，把折页损失替换成了<strong>交叉熵损失（cross-entropy loss）</strong>，它所做的就是最小化在估计分类概率和“真实”分布之间的交叉熵：<br>$$<br>L_i = -\log\left(\frac{e^{f_{y_i}}}{ \sum_j e^{f_j} }\right)<br>$$</p>
+<li><p><strong>Softmax</strong>：Softmax分类器将评分值视为每个分类的未归一化的对数概率$e^{f_{y_{i}}}$，把折页损失替换成了<strong>交叉熵损失（cross-entropy loss）</strong>，它所做的就是最小化在估计分类概率和“真实”分布之间的交叉熵：<br>$$<br>L_i = -\log\left(\frac{e^{f_{y_i}}}{ \sum_j e^{f_j} }\right)<br>$$</p>
 </li>
 </ul>
-<p>❗️在实际编程实现Softmax的过程中，中间项 \(e^{f_{y_i}}\) 和 \(\sum_j e^{f_j}\) 因为存在指数函数，数值可能非常大。除以大数值可能导致数值计算的不稳定，所以学会使用归一化的小技巧非常重要。通常将𝐶设为\(\log C = -\max_j f_j\)<br>$$<br>\frac{e^{f_{y_i}}}{\sum_j e^{f_j}}<br>= \frac{Ce^{f_{y_i}}}{C\sum_j e^{f_j}}<br>= \frac{e^{f_{y_i} + \log C}}{\sum_j e^{f_j + \log C}}<br>$$<br><img src="/2018/01/21/neural-nets-note/svmvssoftmax.png" alt="svmvssoftmax"></p>
+<p>❗️在实际编程实现Softmax的过程中，中间项 $e^{f_{y_i}}$和$\sum_j e^{f_j}$ 因为存在指数函数，数值可能非常大。除以大数值可能导致数值计算的不稳定，所以学会使用归一化的小技巧非常重要。通常将𝐶设为$\log C = -\max_j f_j$<br>$$<br>\frac{e^{f_{y_i}}}{\sum_j e^{f_j}}<br>= \frac{Ce^{f_{y_i}}}{C\sum_j e^{f_j}}<br>= \frac{e^{f_{y_i} + \log C}}{\sum_j e^{f_j + \log C}}<br>$$<br><img src="/2018/01/21/neural-nets-note/svmvssoftmax.png" alt="svmvssoftmax"></p>
 <h3 id="正则化（Regularization）"><a href="#正则化（Regularization）" class="headerlink" title="正则化（Regularization）"></a>正则化（Regularization）</h3><p>除了数据损失部分，正则项也是在损失函数很重要的一部分。如果模型太复杂即出现过拟合（overfitting），我们就需要加入一些正则项来解决这个问题。</p>
 <ul>
-<li><p><strong>L2正则化</strong>：\(R(W) = \sum_k\sum_lW_{k,l}^2\) </p>
+<li><p><strong>L2正则化</strong>：$R(W) = \sum_k\sum_lW_{k,l}^2$</p>
 </li>
-<li><p><strong>L1正则化</strong>：\(R(W) = \sum_k\sum_l|W_{k,l}|\) </p>
+<li><p><strong>L1正则化</strong>：$R(W) = \sum_k\sum_l|W_{k,l}|$</p>
 </li>
 <li><p><strong>最大范式约束（Max norm constraints）</strong>：给每个神经元中权重向量的量级设定上限，并使用投影梯度下降来确保这一约束。</p>
 </li>
@@ -348,7 +348,7 @@
     
     <footer id="footer">
   <div class="footer-left">
-    Copyright &copy; 2018 Colorjam
+    Copyright &copy; 2019 Colorjam
   </div>
   <div class="footer-right">
     <nav>

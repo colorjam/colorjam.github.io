@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="开始学李宏毅的机器学习，用pokerman来举线性回归的例子实在是太有意思啦～有受到一些启发，以此巩固一下基础知识。 误差来源 在前面几节课里提到，机器学习的过程其实就是在一堆模型里找到那个最符合所给数据的最优模型${f}^_$。这个${f}^_$实际上是真实数据模型$\hat{f}$的一个估计。 只要是估计就会存在误差，那么这个误差是从哪里来的呢？它有两个来源，一是偏差（Bias），二是方差（V">
+    <meta name="description" content="开始学李宏毅的机器学习，用pokerman来举线性回归的例子实在是太有意思啦～有受到一些启发，以此巩固一下基础知识。 误差来源 在前面几节课里提到，机器学习的过程其实就是在一堆模型里找到那个最符合所给数据的最优模型$f^\ast$。这个$f^\ast$实际上是真实数据模型$\hat{f}$的一个估计。 只要是估计就会存在误差，那么这个误差是从哪里来的呢？它有两个来源，一是偏差（Bias），二是方差">
 <meta property="og:type" content="article">
 <meta property="og:title" content="模型误差从哪儿来？">
 <meta property="og:url" content="http://yoursite.com/2018/06/22/where-does-the-error-come-from/index.html">
 <meta property="og:site_name" content="Colorjam">
-<meta property="og:description" content="开始学李宏毅的机器学习，用pokerman来举线性回归的例子实在是太有意思啦～有受到一些启发，以此巩固一下基础知识。 误差来源 在前面几节课里提到，机器学习的过程其实就是在一堆模型里找到那个最符合所给数据的最优模型${f}^_$。这个${f}^_$实际上是真实数据模型$\hat{f}$的一个估计。 只要是估计就会存在误差，那么这个误差是从哪里来的呢？它有两个来源，一是偏差（Bias），二是方差（V">
+<meta property="og:description" content="开始学李宏毅的机器学习，用pokerman来举线性回归的例子实在是太有意思啦～有受到一些启发，以此巩固一下基础知识。 误差来源 在前面几节课里提到，机器学习的过程其实就是在一堆模型里找到那个最符合所给数据的最优模型$f^\ast$。这个$f^\ast$实际上是真实数据模型$\hat{f}$的一个估计。 只要是估计就会存在误差，那么这个误差是从哪里来的呢？它有两个来源，一是偏差（Bias），二是方差">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1fsjrf9bj1gj31g4122h0d.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1fsjs1yq7isj31g211udli.jpg">
@@ -20,10 +20,10 @@
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1fsjsjesachj31gs124x0f.jpg">
 <meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1fsjskoyd96j31gg12q4kf.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1fsjsob3ibhj31g412edr3.jpg">
-<meta property="og:updated_time" content="2018-06-22T03:35:58.000Z">
+<meta property="og:updated_time" content="2018-07-16T08:15:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="模型误差从哪儿来？">
-<meta name="twitter:description" content="开始学李宏毅的机器学习，用pokerman来举线性回归的例子实在是太有意思啦～有受到一些启发，以此巩固一下基础知识。 误差来源 在前面几节课里提到，机器学习的过程其实就是在一堆模型里找到那个最符合所给数据的最优模型${f}^_$。这个${f}^_$实际上是真实数据模型$\hat{f}$的一个估计。 只要是估计就会存在误差，那么这个误差是从哪里来的呢？它有两个来源，一是偏差（Bias），二是方差（V">
+<meta name="twitter:description" content="开始学李宏毅的机器学习，用pokerman来举线性回归的例子实在是太有意思啦～有受到一些启发，以此巩固一下基础知识。 误差来源 在前面几节课里提到，机器学习的过程其实就是在一堆模型里找到那个最符合所给数据的最优模型$f^\ast$。这个$f^\ast$实际上是真实数据模型$\hat{f}$的一个估计。 只要是估计就会存在误差，那么这个误差是从哪里来的呢？它有两个来源，一是偏差（Bias），二是方差">
 <meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1fsjrf9bj1gj31g4122h0d.jpg">
     
     
@@ -147,7 +147,7 @@
   <div class="content" itemprop="articleBody">
     <p>开始学李宏毅的机器学习，用pokerman来举线性回归的例子实在是太有意思啦～有受到一些启发，以此巩固一下基础知识。</p>
 <h2 id="误差来源"><a href="#误差来源" class="headerlink" title="误差来源"></a>误差来源</h2><p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1fsjrf9bj1gj31g4122h0d.jpg" alt="estimator"></p>
-<p>在前面几节课里提到，机器学习的过程其实就是在一堆模型里找到那个最符合所给数据的最优模型${f}^_$。这个${f}^_$实际上是真实数据模型$\hat{f}$的一个估计。</p>
+<p>在前面几节课里提到，机器学习的过程其实就是在一堆模型里找到那个最符合所给数据的最优模型$f^\ast$。这个$f^\ast$实际上是真实数据模型$\hat{f}$的一个估计。</p>
 <p>只要是估计就会存在误差，那么这个误差是从哪里来的呢？它有两个来源，一是偏差（Bias），二是方差（Variance）。</p>
 <h2 id="均值和方差"><a href="#均值和方差" class="headerlink" title="均值和方差"></a>均值和方差</h2><p>基于大数据的机器学习很大程度上可以看作是在利用数理统计的知识来解决问题。在数理统计中，我们利用样本的信息（统计量）来推断总体的未知信息（估计量）。</p>
 <p>我们可以利用样本的均值来估计数学期望：</p>
@@ -221,7 +221,7 @@
     
     <footer id="footer">
   <div class="footer-left">
-    Copyright &copy; 2018 Colorjam
+    Copyright &copy; 2019 Colorjam
   </div>
   <div class="footer-right">
     <nav>

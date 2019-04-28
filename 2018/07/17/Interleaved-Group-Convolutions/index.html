@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="本文作者提出了一个名为交叉组卷积(Interleaved Group Convolution, IGC)的神经网络模块。它由两个连续的交叉组卷积构成：主组卷积和次组卷积。主组卷积中的操作时空间卷积，而次组卷积中的操作是逐点卷积。作者的关注点在减少卷积核的冗余，这个冗余来自空间范围和通道范围。在空间范围，发展出了小的卷积核，比如$3 \times 3，3 \times 1, 1 \times 3$。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Interleaved Group Convolutions">
+<meta property="og:url" content="http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="本文作者提出了一个名为交叉组卷积(Interleaved Group Convolution, IGC)的神经网络模块。它由两个连续的交叉组卷积构成：主组卷积和次组卷积。主组卷积中的操作时空间卷积，而次组卷积中的操作是逐点卷积。作者的关注点在减少卷积核的冗余，这个冗余来自空间范围和通道范围。在空间范围，发展出了小的卷积核，比如$3 \times 3，3 \times 1, 1 \times 3$。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcly1ftcny366afj310g0b6jw8.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1ftco2e2f78j30ho0520t0.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcly1ftcollshyyj30q402kq31.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1ftcp07vq3vj30pq02a0ss.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1ftcp2dp0rwj30ps028aa5.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1ftcp37eoqyj30pm02474b.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tKfTcly1ftcu3e9arnj30pe028dft.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcly1ftcu6ltmeij30pi03ywes.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tKfTcly1ftcu8q7aixj30pe02sq2y.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tKfTcly1ftcuahfrqvj30p0030q33.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1ftcug9o7hxj30pu08wq3w.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1ftcuqfychdj30s208adig.jpg">
+<meta property="og:updated_time" content="2018-07-17T06:44:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Interleaved Group Convolutions">
+<meta name="twitter:description" content="本文作者提出了一个名为交叉组卷积(Interleaved Group Convolution, IGC)的神经网络模块。它由两个连续的交叉组卷积构成：主组卷积和次组卷积。主组卷积中的操作时空间卷积，而次组卷积中的操作是逐点卷积。作者的关注点在减少卷积核的冗余，这个冗余来自空间范围和通道范围。在空间范围，发展出了小的卷积核，比如$3 \times 3，3 \times 1, 1 \times 3$。">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tKfTcly1ftcny366afj310g0b6jw8.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Interleaved Group Convolutions</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/07/24/inception/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/07/16/ShuffleNet/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&text=Interleaved Group Convolutions"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&title=Interleaved Group Convolutions"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&is_video=false&description=Interleaved Group Convolutions"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Interleaved Group Convolutions&body=Check out this article: http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&title=Interleaved Group Convolutions"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&title=Interleaved Group Convolutions"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&title=Interleaved Group Convolutions"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&title=Interleaved Group Convolutions"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&name=Interleaved Group Convolutions&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Interleaved Group Convolutions
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-07-17T02:29:32.000Z" itemprop="datePublished">2018-07-17</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>本文作者提出了一个名为交叉组卷积(Interleaved Group Convolution, IGC)的神经网络模块。它由两个连续的交叉组卷积构成：主组卷积和次组卷积。主组卷积中的操作时空间卷积，而次组卷积中的操作是逐点卷积。作者的关注点在减少卷积核的冗余，这个冗余来自空间范围和通道范围。在空间范围，发展出了小的卷积核，比如$3 \times 3，3 \times 1, 1 \times 3$。在通道范围，发展出了组卷积、逐通道卷积。本文研究的是通道范围的卷积核设计。</p>
+<p>IGC的结构如下图所示：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1ftcny366afj310g0b6jw8.jpg" alt="interleaved_group_convolution"></p>
+<p>令$L$表示主组卷积的分组数，$M$表示次组卷积的分组数(亦即主组卷积中每组的通道数)。上图展示的是$L=2$，$M=3$。</p>
+<p>主组卷积可以表示为：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftco2e2f78j30ho0520t0.jpg" alt="primary_group_convolution"></p>
+<p>其中，$z_l$表示大小为$(MS)$的向量，$S$为卷积核大小。e.g. conv $ 3 \times 3$ -&gt; $S = 9$。$W_{ll}^p$表示第$l$组的卷积核，大小为$M \times (MS)$。则输出$y_l$为大小为$M$的向量。</p>
+<p>将${y_1, y_2, \dots, y_l }$重新排列(permutation)作为次组卷积的输入：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1ftcollshyyj30q402kq31.jpg" alt="permutation1"></p>
+<p>$\overline { y } _ { m }$表示次组卷积中的第$m$个分组，由主组卷积中不同组的第$m$个通道构成，大小为$L$。</p>
+<p>次组卷积可以表示为：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftcp07vq3vj30pq02a0ss.jpg" alt="secondary_group_convolution"></p>
+<p>其中，$W_{mm}^s$表示第$m$组的$1\times1$卷积，大小为$L \times L$。则每组的输出$\overline { z } _ { m }$大小仍然为$L$。</p>
+<p>最后对次组卷积的输出进行重新排列：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftcp2dp0rwj30ps028aa5.jpg" alt="permutation2"></p>
+<p>整个IGC块可以表示为：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftcp37eoqyj30pm02474b.jpg" alt="igc_block"></p>
+<p>令$W = PW^sP^TW^p$为组合卷积核，则我们有：</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tKfTcly1ftcu3e9arnj30pe028dft.jpg" alt="composite_convolution_kernel"></p>
+<p>表示由两个稀疏卷积相乘得到的正常卷积。</p>
+<p>IGC的参数量为：</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tKfTcly1ftcu6ltmeij30pi03ywes.jpg" alt="igc_num_parameters"></p>
+<p>假设输入输出的通道数为$C$，正常卷积的参数量为：</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tKfTcly1ftcu8q7aixj30pe02sq2y.jpg" alt="rc_num_parameters"></p>
+<p>假设$T_{igc} = T_{rc}$，可以得到：</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tKfTcly1ftcuahfrqvj30p0030q33.jpg" alt="compare_igc_rc"></p>
+<p>对于典型的$S=3\times3$，当$L&gt;1$就有$G&gt;C$。也就是说，除了极端的$L=1$情况下，IGC内所含通道数都比正常卷积来得多，也就能包含更多的信息。</p>
+<p>接下来作者分析了何种情况下，$G$能够最大。</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftcug9o7hxj30pu08wq3w.jpg" alt="when_widest"></p>
+<p>由基本不等式得出公式(12)。因此当$L=MS$时，通道数最多。</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftcuqfychdj30s208adig.jpg" alt="classification_accuracy_comparison"></p>
+<p>实验结果表明，在计算代价近似，甚至IGC-L24M2更少的情况下，IGC的总体表现还是比较好的。正是由于IGC增加了宽度，更有效地利用了参数。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&text=Interleaved Group Convolutions"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&title=Interleaved Group Convolutions"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&is_video=false&description=Interleaved Group Convolutions"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Interleaved Group Convolutions&body=Check out this article: http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&title=Interleaved Group Convolutions"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&title=Interleaved Group Convolutions"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&title=Interleaved Group Convolutions"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&title=Interleaved Group Convolutions"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/&name=Interleaved Group Convolutions&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

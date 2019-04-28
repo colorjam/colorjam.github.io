@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1ftbr72m6a9j316o0bcdid.jpg">
 <meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79ly1ftbrebkp2xj31c006odha.jpg">
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1ftbrf6b15rj319e0g642f.jpg">
-<meta property="og:updated_time" content="2018-07-16T08:02:58.000Z">
+<meta property="og:updated_time" content="2018-07-20T03:09:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ShuffleNet">
 <meta name="twitter:description" content="ShuffleNet是一个高效计算的CNN结构。该结构使用了两种新的操作：逐点组卷积(pointwise group convolution)和通道混洗(channel shuffle)。 Gconv和channel shuffle1）逐点组卷积 在较小的网络中，对所有通道进行逐点卷积计算代价高昂。一个直接的解决办法就是利用通道稀疏连接。在本文中，作者使用的方法是组卷积，即对通道进行分组，在组内进">
@@ -81,8 +81,10 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" href="/2018/07/17/Interleaved-Group-Convolutions/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
-        <li><a class="icon" href="/2018/07/14/compression_models/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="/2018/07/14/comparison_models/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -152,13 +154,11 @@
 <p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1ftbq9e31puj31ca0iumzu.jpg" alt="channel_shuffle"></p>
 <h2 id="ShuffleNet单元"><a href="#ShuffleNet单元" class="headerlink" title="ShuffleNet单元"></a>ShuffleNet单元</h2><p>基于上面提到的两个操作，作者提出了ShuffleNet单元：</p>
 <p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1ftbqcw622hj318k0m2gp1.jpg" alt="shufflenet_units"></p>
-<p>在传统的ResNet单元基础上，将头尾的1x1 Conv改为1x1 Gconv，中间的3x3 Conv改为3x3 DWConv，并且在DWConv之前加入了单元混洗操作。假设输入大小为$c \times h \times w$，bottelneck中的通道数为m。ResNet计算代价为$hw(2cm + 9m^2) $，而ShuffleNet的计算代价为$hw(2cm/g + 9m) $，其中$g$代表组卷积的分组数。</p>
-<blockquote>
-<p>关于计算代价，我认为ResNet为$hw(cm+10m^2)$，ShuffleNet为$hw(cm/g + 9m +m^2/g)$</p>
-</blockquote>
+<p>在传统的ResNet单元基础上，将头尾的1x1 Conv改为1x1 Gconv，中间的3x3 Conv改为3x3 DWConv，并且在DWConv之前加入了单元混洗操作。假设输入大小为$c \times h \times w$，bottelneck中的通道数为m。ResNet计算代价为$hw(2cm + 9m^2) $，而ShuffleNet的计算代价为$hw(2cm/g + 9m) ​$，其中$g$代表组卷积的分组数。</p>
 <h2 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h2><p>ShuffleNet的网络结构如下图所示：</p>
 <p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1ftbquzmce7j31eo0k4gpf.jpg" alt="ShuffleNet_architecture"></p>
 <p>由于输入Stage2的通道数较小，因此Stage2的第一个逐点卷积层不进行分组。</p>
+<p>❗️看了代码才注意到，论文中有说明，bottleneck中的通道数是output channels/4</p>
 <h2 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h2><p>作者首先实验了不同分组数在不同大小网络上的分类效果：</p>
 <p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1ftbqz2ulxmj313s07sjsy.jpg" alt="scale_group"></p>
 <p>从结果可以看出，使用分组卷积($g&gt;1$)与没有使用分组卷积($g=1$)相比，逐渐地表现越来越好。网络越小，从分组卷积中受益得越多。作者表示，在限制复杂度的情况下，分组卷积能够包含更多地特征图通道，从而可以编码更多的信息。因为较小的网络包含更窄的特征图，意味着能从扩大特征图中收益更多。</p>
@@ -228,7 +228,7 @@
     
     <footer id="footer">
   <div class="footer-left">
-    Copyright &copy; 2018 Colorjam
+    Copyright &copy; 2019 Colorjam
   </div>
   <div class="footer-right">
     <nav>

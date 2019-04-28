@@ -2,23 +2,79 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2018/07/14/compression_models/</loc>
+    <loc>http://yoursite.com/2018/07/06/MobileNets/</loc>
     
-    <lastmod>2018-07-16T08:10:33.000Z</lastmod>
+    <lastmod>2018-11-13T13:09:57.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/07/29/compression_models/</loc>
+    
+    <lastmod>2018-11-12T08:00:35.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/10/18/machine-learning-in-action-note2/</loc>
+    
+    <lastmod>2018-11-06T15:16:54.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/07/14/comparison_models/</loc>
+    
+    <lastmod>2018-10-13T12:44:06.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/08/06/adversiarial-compression/</loc>
+    
+    <lastmod>2018-08-17T07:36:04.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/07/27/Network-compression-speedup/</loc>
+    
+    <lastmod>2018-07-27T03:30:13.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/07/24/inception/</loc>
+    
+    <lastmod>2018-07-26T07:26:03.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/01/21/neural-nets-note/</loc>
+    
+    <lastmod>2018-07-26T04:35:31.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/2018/07/16/ShuffleNet/</loc>
     
-    <lastmod>2018-07-16T08:02:58.000Z</lastmod>
+    <lastmod>2018-07-20T03:09:32.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2018/07/06/MobileNets/</loc>
+    <loc>http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/</loc>
     
-    <lastmod>2018-07-16T06:57:46.000Z</lastmod>
+    <lastmod>2018-07-17T06:44:17.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/06/22/where-does-the-error-come-from/</loc>
+    
+    <lastmod>2018-07-16T08:15:37.000Z</lastmod>
     
   </url>
   
@@ -26,13 +82,6 @@
     <loc>http://yoursite.com/2018/03/14/cs231n-assignment3-gan/</loc>
     
     <lastmod>2018-07-11T01:50:41.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2018/06/22/where-does-the-error-come-from/</loc>
-    
-    <lastmod>2018-06-22T03:35:58.000Z</lastmod>
     
   </url>
   
@@ -65,13 +114,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2018/03/11/floating-point/</loc>
-    
-    <lastmod>2018-03-11T14:09:31.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/</loc>
     
     <lastmod>2018-02-09T07:51:46.000Z</lastmod>
@@ -89,20 +131,6 @@
     <loc>http://yoursite.com/2018/01/23/cnn/</loc>
     
     <lastmod>2018-01-24T13:03:02.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2018/01/21/neural-nets-note/</loc>
-    
-    <lastmod>2018-01-23T09:12:34.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/10/18/machine-learning-in-action-note2/</loc>
-    
-    <lastmod>2018-01-21T08:35:47.000Z</lastmod>
     
   </url>
   

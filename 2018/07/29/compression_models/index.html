@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="总结了近期一些轻量网络模型在网络结构上进行的探索。这些论文的实现方法主要是利用一系列卷积层构成组件，利用堆叠的组件构成模型☟ SqueezeNetXceptionMobileNetShuffleNetResNeXt论文：Aggregated Residual Transformations for Deep Neural Networks ResNeXt提出了聚集变换(aggregated tra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="压缩网络模型之结构探索合辑">
+<meta property="og:url" content="http://yoursite.com/2018/07/29/compression_models/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="总结了近期一些轻量网络模型在网络结构上进行的探索。这些论文的实现方法主要是利用一系列卷积层构成组件，利用堆叠的组件构成模型☟ SqueezeNetXceptionMobileNetShuffleNetResNeXt论文：Aggregated Residual Transformations for Deep Neural Networks ResNeXt提出了聚集变换(aggregated tra">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1ftrwnc8rz2j30t60cuq4s.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tKfTcly1ftrwicz2c8j31f80fs0wu.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1ftry0ix2cwj30vm0b8q4u.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1ftt3uwgee8j30vq0ikac6.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1ftt48c72dkj30x80hqq54.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79ly1ftt4m3cte8j30x808y3zy.jpg">
+<meta property="og:updated_time" content="2018-11-12T08:00:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="压缩网络模型之结构探索合辑">
+<meta name="twitter:description" content="总结了近期一些轻量网络模型在网络结构上进行的探索。这些论文的实现方法主要是利用一系列卷积层构成组件，利用堆叠的组件构成模型☟ SqueezeNetXceptionMobileNetShuffleNetResNeXt论文：Aggregated Residual Transformations for Deep Neural Networks ResNeXt提出了聚集变换(aggregated tra">
+<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1ftrwnc8rz2j30t60cuq4s.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>压缩网络模型之结构探索合辑</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/08/06/adversiarial-compression/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/07/27/Network-compression-speedup/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/07/29/compression_models/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/07/29/compression_models/&text=压缩网络模型之结构探索合辑"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/07/29/compression_models/&title=压缩网络模型之结构探索合辑"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/07/29/compression_models/&is_video=false&description=压缩网络模型之结构探索合辑"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=压缩网络模型之结构探索合辑&body=Check out this article: http://yoursite.com/2018/07/29/compression_models/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/07/29/compression_models/&title=压缩网络模型之结构探索合辑"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/07/29/compression_models/&title=压缩网络模型之结构探索合辑"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/07/29/compression_models/&title=压缩网络模型之结构探索合辑"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/07/29/compression_models/&title=压缩网络模型之结构探索合辑"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/07/29/compression_models/&name=压缩网络模型之结构探索合辑&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SqueezeNet"><span class="toc-number">1.</span> <span class="toc-text">SqueezeNet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Xception"><span class="toc-number">2.</span> <span class="toc-text">Xception</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MobileNet"><span class="toc-number">3.</span> <span class="toc-text">MobileNet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ShuffleNet"><span class="toc-number">4.</span> <span class="toc-text">ShuffleNet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ResNeXt"><span class="toc-number">5.</span> <span class="toc-text">ResNeXt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#clcNet"><span class="toc-number">6.</span> <span class="toc-text">clcNet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ShuffleNet-v2"><span class="toc-number">7.</span> <span class="toc-text">ShuffleNet v2</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        压缩网络模型之结构探索合辑
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-07-29T06:39:32.000Z" itemprop="datePublished">2018-07-29</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>总结了近期一些轻量网络模型在网络结构上进行的探索。这些论文的实现方法主要是利用一系列卷积层构成组件，利用堆叠的组件构成模型☟</p>
+<h2 id="SqueezeNet"><a href="#SqueezeNet" class="headerlink" title="SqueezeNet"></a>SqueezeNet</h2><h2 id="Xception"><a href="#Xception" class="headerlink" title="Xception"></a>Xception</h2><h2 id="MobileNet"><a href="#MobileNet" class="headerlink" title="MobileNet"></a>MobileNet</h2><h2 id="ShuffleNet"><a href="#ShuffleNet" class="headerlink" title="ShuffleNet"></a>ShuffleNet</h2><h2 id="ResNeXt"><a href="#ResNeXt" class="headerlink" title="ResNeXt"></a>ResNeXt</h2><p>论文：<a href="https://arxiv.org/abs/1611.05431" target="_blank" rel="external">Aggregated Residual Transformations for Deep Neural Networks</a></p>
+<p>ResNeXt提出了聚集变换(aggregated transofrmations)：<br>$$<br>\mathcal { F } ( \mathbf { x } ) = \sum _ { i = 1 } ^ { C } \mathcal { T } _ { i } ( \mathbf { x } )<br>$$<br>$C$为基数(cardinality)，表明进行聚集变换的集合大小。$\mathcal { T } _ { i } ( \mathbf { x } )$代表一系列变换。</p>
+<p><strong>ResNext与ResNet</strong></p>
+<p>ResNet block：$\mathbf { y } = \mathcal { F } \left( \mathbf { x } , \left\{ W _ { i } \right\} \right) + \mathbf { x }$</p>
+<p>ResNeXt block：$\mathbf { y } = \sum _ { i = 1 } ^ { C } \mathcal { T } _ { i } ( \mathbf { x } ) + \mathbf { x }$</p>
+<p>在计算代价相同的情况下，画出来就是下图的东东（左边的代表ResNet block，右边代表ResNeXt block）：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftrwnc8rz2j30t60cuq4s.jpg" alt="resnet_resnext"></p>
+<p>ResNeXt将ResNet的一个大变换，分解为一系列小变换，然后将结果聚集起来（相加）。两个结构都做了跳跃连接。</p>
+<p><strong>ResNeXt、Inception、Group Convolution</strong></p>
+<p>文章还比较了与Inception组件和组卷积的关系，如下图所示：</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tKfTcly1ftrwicz2c8j31f80fs0wu.jpg" alt=""></p>
+<p>文章在后续的实验中表明，在计算代价近似的情况下，基数$C$越多，准确率越高。</p>
+<h2 id="clcNet"><a href="#clcNet" class="headerlink" title="clcNet"></a>clcNet</h2><p>论文：<a href="https://arxiv.org/abs/1712.06145" target="_blank" rel="external">clcNet: Improving the Efficiency of Convolutional Neural Network using Channel Local Convolutions</a></p>
+<p>本文将深度卷积和组卷积归为一种通用卷积操作——通道局部卷积(channel local convolution, CLC)，并提出了通道依赖图(channel dependency graph, CDG)的表示方法。下图表示了常规卷积(a)、组卷积(b)、深度卷积(c)的CDG。</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftry0ix2cwj30vm0b8q4u.jpg" alt=""></p>
+<blockquote>
+<p>CDG这个概念之前看的一篇文章中也提到了：<a href="https://medium.com/@yu4u/why-mobilenet-and-its-variants-e-g-shufflenet-are-fast-1c7048b9618d" target="_blank" rel="external">Why MobileNet and Its Variants (e.g. ShuffleNet) Are Fast</a>，很直观地对比了ResNet、ResNeXt、MobileNet以及ShuffleNet的组件。</p>
+</blockquote>
+<p>通过CDG可以很明显的看出通道之间的依赖关系（箭头由输出指向输入）。这个依赖关系可以用通道感知域(channel receptive field, CRF)来表示。CRF代表每个输出通道所依赖的输入通道，CRF大小为每个输出通道依赖的输入通道数量。</p>
+<p>分析上图三种卷积操作的CRF大小（size）：(a) $size = 6$，(b) $size =6/3 = 2$，(c) $size=1$</p>
+<p>在这些概念的基础上，作者提出了<strong>全通道感知域(full channel receptive field, FCRF)</strong>，FCRF意味着_CRF大小 = 输入通道数_，即每个输出通道都依赖于所有的输入通道。作者表明FCRF能够更有效地表示特征，并且在实验中能获得更高的准确率。</p>
+<p>作者还提出了交叉组卷积(interlaced group convolution, IGC)，如下图(b)所示：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1ftt3uwgee8j30vq0ikac6.jpg" alt="igc"></p>
+<p>与组卷积(a)进行比较，可以看出filed数量即为每组的通道数。IGC实际上就是将每组的输出通道，分到不同的field里去。因此交叉组卷积的CRF大小和组卷积是相同的。</p>
+<p><strong>CLC block</strong>是本文提出的组件，由3x3的IGC和1x1的GC构成，组件结构如下图所示：</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1ftt48c72dkj30x80hqq54.jpg" alt="clcblock"></p>
+<p>在CLC block的基础上，作者探索了FCRF的规则，假设IGC的分组数为$g_1$，$M、L、N$分别为输入、中间阶段、输出的通道数，GC的分组数为$g_2$，要达到FCRF，应满足以下条件：<br>$$<br>L/g_2 \geq  g_1  \quad or  \quad  g _ { 1 } g _ { 2 } \leq L<br>$$<br>基于FCRF规则，使得计算代价最小：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1ftt4m3cte8j30x808y3zy.jpg" alt="computational_cost"></p>
+<h2 id="ShuffleNet-v2"><a href="#ShuffleNet-v2" class="headerlink" title="ShuffleNet v2"></a>ShuffleNet v2</h2><p>本文指出模型的运算速度不单单取决于每秒浮点运算次数（FLOPS），还有其他的考虑因素，比如内存访问代价（MAC）、运算平台等。通过一系列的控制实验，对于模型的设计提出了4个指导方针：</p>
+<ol>
+<li>相同的输入输出通道宽度，能减少内存访问代价。</li>
+<li>分组过大，会增加内存访问代价。</li>
+<li>网络分割会降低并行度。</li>
+<li>不能忽略逐元素操作。</li>
+</ol>
+<p>基于指导方针，设计了新的ShuffleNet单元：</p>
+<p>针对输入输出相同的单元，在一开始加入了通道分割（Channel Split），取消了组卷积和相加操作，以符合提出的指导方针2和4；针对降采样的单元，利用两路相似的操作进行。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SqueezeNet"><span class="toc-number">1.</span> <span class="toc-text">SqueezeNet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Xception"><span class="toc-number">2.</span> <span class="toc-text">Xception</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MobileNet"><span class="toc-number">3.</span> <span class="toc-text">MobileNet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ShuffleNet"><span class="toc-number">4.</span> <span class="toc-text">ShuffleNet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ResNeXt"><span class="toc-number">5.</span> <span class="toc-text">ResNeXt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#clcNet"><span class="toc-number">6.</span> <span class="toc-text">clcNet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ShuffleNet-v2"><span class="toc-number">7.</span> <span class="toc-text">ShuffleNet v2</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/07/29/compression_models/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/07/29/compression_models/&text=压缩网络模型之结构探索合辑"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/07/29/compression_models/&title=压缩网络模型之结构探索合辑"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/07/29/compression_models/&is_video=false&description=压缩网络模型之结构探索合辑"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=压缩网络模型之结构探索合辑&body=Check out this article: http://yoursite.com/2018/07/29/compression_models/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/07/29/compression_models/&title=压缩网络模型之结构探索合辑"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/07/29/compression_models/&title=压缩网络模型之结构探索合辑"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/07/29/compression_models/&title=压缩网络模型之结构探索合辑"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/07/29/compression_models/&title=压缩网络模型之结构探索合辑"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/07/29/compression_models/&name=压缩网络模型之结构探索合辑&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
