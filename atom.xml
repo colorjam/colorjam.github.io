@@ -271,9 +271,9 @@
     </summary>
     
     
-      <category term="SISR" scheme="http://yoursite.com/tags/SISR/"/>
-    
       <category term="GPR" scheme="http://yoursite.com/tags/GPR/"/>
+    
+      <category term="SISR" scheme="http://yoursite.com/tags/SISR/"/>
     
   </entry>
   
@@ -296,9 +296,9 @@
     </summary>
     
     
-      <category term="GPR" scheme="http://yoursite.com/tags/GPR/"/>
-    
       <category term="SSIR" scheme="http://yoursite.com/tags/SSIR/"/>
+    
+      <category term="GPR" scheme="http://yoursite.com/tags/GPR/"/>
     
   </entry>
   
@@ -322,9 +322,9 @@
     </summary>
     
     
-      <category term="SISR" scheme="http://yoursite.com/tags/SISR/"/>
-    
       <category term="GPR" scheme="http://yoursite.com/tags/GPR/"/>
+    
+      <category term="SISR" scheme="http://yoursite.com/tags/SISR/"/>
     
   </entry>
   
