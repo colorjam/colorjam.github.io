@@ -13,18 +13,18 @@
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="AdaBoost算法是一种元算法。元算法（meta-algorithm）也叫集成方法（ensemble method），通过将其他算法进行组合而形成更优的算法，组合方式包括：不同算法的集成，数据集不同部分采用不同算法分类后的集成或者同一算法在不同设置下的集成。下面我们讨论两种使用弱分类器和多个实例构建一个强分类器的技术：  Bagging（bootstrap aggregating） Baggin">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/adaboost.png">
-<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/argsort1.png">
-<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/argsort2.png">
-<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/narray1.png">
-<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/reshape34.png">
-<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/reshape1.png">
-<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/roc.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/machine-learning-in-action-note5/adaboost.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/machine-learning-in-action-note5/argsort1.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/machine-learning-in-action-note5/argsort2.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/machine-learning-in-action-note5/narray1.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/machine-learning-in-action-note5/reshape34.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/machine-learning-in-action-note5/reshape1.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/machine-learning-in-action-note5/roc.png">
 <meta property="og:updated_time" content="2017-11-23T03:18:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Machine Learning in Action》学习笔记五：自适应增强算法">
 <meta name="twitter:description" content="AdaBoost算法是一种元算法。元算法（meta-algorithm）也叫集成方法（ensemble method），通过将其他算法进行组合而形成更优的算法，组合方式包括：不同算法的集成，数据集不同部分采用不同算法分类后的集成或者同一算法在不同设置下的集成。下面我们讨论两种使用弱分类器和多个实例构建一个强分类器的技术：  Bagging（bootstrap aggregating） Baggin">
-<meta name="twitter:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/adaboost.png">
+<meta name="twitter:image" content="http://yoursite.com/2017/11/05/machine-learning-in-action-note5/machine-learning-in-action-note5/adaboost.png">
     
     
         
@@ -170,7 +170,7 @@
 <p>AdaBoost的每个样本都有一个权重，构成向量D。首先初始化每个样本的权重相等，在训练集上训练出一个弱分类器，然后计算出错误率 𝝐，通过错误率计算该分类器的 alpha 值，通过这个 alpha 值计算该分类器的权重。<br>$$<br>𝜶 = \frac{1}{2}\ln\frac{1-𝝐}{𝝐}<br>$$<br>接着对权重做出调整，降低分对的样本权重，<br>$$<br>D_{i+1} = \frac{D_i^{i}e^{-𝜶}}{Sum(D)}<br>$$</p>
 <p>提高分错的样本权重。</p>
 <p>$$<br>D_{i+1} = \frac{D_i^{i}e^{𝜶}}{Sum(D)}<br>$$<br>不断迭代达到一定数量或错误率为0，最后输出集成的弱分类器，通过加权来进行预测。算法过程如下图所示：</p>
-<p><img src="/2017/11/05/machine-learning-in-action-note5/adaboost.png" alt="adaboost"></p>
+<p><img src="machine-learning-in-action-note5/adaboost.png" alt="adaboost"></p>
 <p>###训练：决策树桩</p>
 <p>算法的关键就在于如何训练弱分类器，并把它们集成一个强分类器。本章我们使用决策树桩（decision stump）来实现AdaBoost。决策树桩的树桩意味着我们只用单个特征来进行决策。首先我们设定一个阈值 _threshVal_ 与比较规则 _threshIneq_ ，在规则下判断特征值与阈值的大小。当 _threshIneq == ‘lt’_，将所有比 _threshVal_ 小的归为 -1；当 _threshIneq == ‘gt’_ 时，将所有比 _threshVal_ 大的归为1。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">stumpClassify</span><span class="params">(data, dimen, threshVal, threshIneq)</span>:</span></div><div class="line">    <span class="string">"""测试是否某个值大于或小于阈值"""</span></div><div class="line">    retArr = ones((shape(data)[<span class="number">0</span>], <span class="number">1</span>))</div><div class="line">    <span class="keyword">if</span> threshIneq == <span class="string">'lt'</span>:</div><div class="line">        retArr[data[:, dimen] &lt;= threshVal] = <span class="number">-1</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        retArr[data[:, dimen] &gt; threshVal] = <span class="number">-1</span></div><div class="line">    <span class="keyword">return</span> retArr</div></pre></td></tr></table></figure>
@@ -212,9 +212,9 @@
 <p>为了创建ROC曲线，首先将分类样例按照其测试强度排序。先从排名最低的样例开始，所有排名更低的样例都被视为反例，而所有排名更高的样例都被判为正例。该情况对应点为(1, 1)。然后将其移到排名次低的样例中去，如果该样例属于正例，那么对真阳率进行修改；如果该样例属于反例，那么对假阴率进行修改。</p>
 </blockquote>
 <p>虽然没看懂上面这段话，但看懂了原代码，感觉循环 <code>for index in sortedIndicies.tolist()[0]</code> 超迷的，tolist() 是什么鬼，[0] 又是什么鬼。对原函数进行分析，首先是对传入参数 _aggClassEst_ 进行 _argsort_ 排序。_aggClassEst_ 是一个矩阵， shape ==  (298,1)，如果直接排序结果如下：</p>
-<p><img src="/2017/11/05/machine-learning-in-action-note5/argsort1.png" alt=""></p>
+<p><img src="machine-learning-in-action-note5/argsort1.png" alt=""></p>
 <p>如果将其转置再进行排序结果如下：</p>
-<p><img src="/2017/11/05/machine-learning-in-action-note5/argsort2.png" alt=""></p>
+<p><img src="machine-learning-in-action-note5/argsort2.png" alt=""></p>
 <p>根据 <a href="https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.argsort.html" target="_blank" rel="external">numpy.argsort</a> 关于一维数组的排序，我们先将其转换为一维数组，并将其<strong>shape</strong>转换 (298 ,)。转换有两种方法：</p>
 <ul>
 <li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">aggClassEst.getA().reshape((-1, ))</div></pre></td></tr></table></figure>
@@ -223,14 +223,14 @@
 </li>
 </ul>
 <p>在这里简单说明一下 (R，1)和 (R，) 的区别。NumPy数组的<strong>shape</strong>为 (R， ) 意味着这个数组只有一个索引，以一个有12个元素的数组为例：</p>
-<p><img src="/2017/11/05/machine-learning-in-action-note5/narray1.png" alt=""></p>
+<p><img src="machine-learning-in-action-note5/narray1.png" alt=""></p>
 <p>当我们将其 <code>reshape((3, 4))</code> 后，它有了两个索引：</p>
-<p><img src="/2017/11/05/machine-learning-in-action-note5/reshape34.png" alt=""></p>
+<p><img src="machine-learning-in-action-note5/reshape34.png" alt=""></p>
 <p>当我们 <code>reshape((12, 1))</code>，它其实也是有两个索引，只是其中一个恒为0：</p>
-<p><img src="/2017/11/05/machine-learning-in-action-note5/reshape1.png" alt=""></p>
+<p><img src="machine-learning-in-action-note5/reshape1.png" alt=""></p>
 <p>于是修改代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">plotROC</span><span class="params">(predStrengths, classLabels)</span>:</span></div><div class="line">    cur = (<span class="number">1</span>, <span class="number">1</span>) <span class="comment"># 保留绘制光标的位置</span></div><div class="line">    ySum = <span class="number">0</span> <span class="comment"># 计算AUC</span></div><div class="line">    numPosClas = sum(array(classLabels) == <span class="number">1</span>)</div><div class="line">    yStep = <span class="number">1</span> / float(numPosClas)</div><div class="line">    xStep = <span class="number">1</span> / float(len(classLabels) - numPosClas)</div><div class="line">    <span class="comment"># 获取排序后的索引</span></div><div class="line">    <span class="comment"># 从 (1, 1) 绘制到 (0, 0)</span></div><div class="line">    sortedIndicies = predStrengths.argsort()</div><div class="line">    <span class="comment"># fig = plt.figure();  fig.clf();ax = plt.subplot(111)</span></div><div class="line">    fig, ax = plt.subplots()</div><div class="line">    <span class="comment"># for index in sortedIndicies.tolist()[0]:</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> sortedIndicies:</div><div class="line">        print(predStrengths[i])</div><div class="line">        <span class="keyword">if</span> classLabels[i] == <span class="number">1</span>:</div><div class="line">            delX = <span class="number">0</span>; delY = yStep</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            delX = xStep; delY = <span class="number">0</span></div><div class="line">            ySum += cur[<span class="number">1</span>]</div><div class="line">        ax.plot([cur[<span class="number">0</span>], cur[<span class="number">0</span>]-delX], [cur[<span class="number">1</span>], cur[<span class="number">1</span>]-delY], c= <span class="string">'b'</span>)</div><div class="line">        cur = (cur[<span class="number">0</span>] - delX, cur[<span class="number">1</span>] - delY)</div><div class="line">    ax.plot([<span class="number">0</span>, <span class="number">1</span>], [<span class="number">0</span>, <span class="number">1</span>], <span class="string">'b--'</span>)</div><div class="line">    plt.xlabel(<span class="string">'False Positive Rate'</span>)</div><div class="line">    plt.ylabel(<span class="string">'True Positive Rate'</span>)</div><div class="line">    ax.axis([<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>])</div><div class="line">    plt.show()</div><div class="line">    print(<span class="string">"the Area Under the Curve is: "</span>, ySum * xStep)</div><div class="line"></div><div class="line">predStrengths = aggClassEst.getA().reshape((<span class="number">-1</span>, ))</div><div class="line">plotROC(predStrengths, labels)</div></pre></td></tr></table></figure>
-<p><img src="/2017/11/05/machine-learning-in-action-note5/roc.png" alt=""></p>
+<p><img src="machine-learning-in-action-note5/roc.png" alt=""></p>
 <p><strong>参考链接</strong></p>
 <p>1) <a href="https://stackoverflow.com/questions/22053050/difference-between-numpy-array-shape-r-1-and-r" target="_blank" rel="external">Difference between numpy.array shape (R, 1) and (R,)</a></p>
 <p>2）<a href="https://www.kesci.com/apps/home/project/5a0aecde60680b295c25f5d8" target="_blank" rel="external">LIghtGBM官方介绍视频</a></p>

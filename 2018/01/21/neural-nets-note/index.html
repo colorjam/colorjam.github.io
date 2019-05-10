@@ -13,19 +13,19 @@
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="在cs231n上学习了关于神经网络一系列数据处理、参数训练、结果分析的方法，为加深印象做一些整理。">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/data_preprocessing1.jpeg">
-<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/data_preprocessing2.jpeg">
-<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/svmvssoftmax.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/gradientdescent.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/opt2.gif">
-<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/loss.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/accuracies.jpeg">
-<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/firstlayer.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/neural-nets-note/data_preprocessing1.jpeg">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/neural-nets-note/data_preprocessing2.jpeg">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/neural-nets-note/svmvssoftmax.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/neural-nets-note/gradientdescent.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/neural-nets-note/opt2.gif">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/neural-nets-note/loss.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/neural-nets-note/accuracies.jpeg">
+<meta property="og:image" content="http://yoursite.com/2018/01/21/neural-nets-note/neural-nets-note/firstlayer.png">
 <meta property="og:updated_time" content="2018-07-26T04:35:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="神经网络方法小结">
 <meta name="twitter:description" content="在cs231n上学习了关于神经网络一系列数据处理、参数训练、结果分析的方法，为加深印象做一些整理。">
-<meta name="twitter:image" content="http://yoursite.com/2018/01/21/neural-nets-note/data_preprocessing1.jpeg">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/21/neural-nets-note/neural-nets-note/data_preprocessing1.jpeg">
     
     
         
@@ -153,14 +153,14 @@
 <li><p><strong>均值减法（Mean subtraction）</strong>：使数据零均值化<code> X -= np.mean(X)</code></p>
 </li>
 <li><p><strong>归一化（Normalization）</strong>：使数据范围近似相等<code>X /= np.std(X, axis=0)</code></p>
-<p><img src="/2018/01/21/neural-nets-note/data_preprocessing1.jpeg" alt=""></p>
+<p><img src="neural-nets-note/data_preprocessing1.jpeg" alt=""></p>
 </li>
 <li><p><strong>主成分分析（Principal Component Analysis，PCA）</strong>：降低数据维度</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">X -= np.mean(X, axis = <span class="number">0</span>) <span class="comment"># 对数据进行零中心化(重要)</span></div><div class="line">cov = np.dot(X.T, X) / X.shape[<span class="number">0</span>] <span class="comment"># 得到数据的协方差矩阵</span></div><div class="line">U,S,V = np.linalg.svd(cov) <span class="comment"># 奇异值分解</span></div><div class="line">Xrot = np.dot(X,U) <span class="comment"># 对数据去相关性</span></div><div class="line">Xrot_reduced = np.dot(X, U[:,:<span class="number">100</span>]) <span class="comment"># 降维</span></div></pre></td></tr></table></figure>
 </li>
 <li><p><strong>白化（Whitening）</strong>：降低数据的冗余度</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 除以特征值 </span></div><div class="line">Xwhite = Xrot / np.sqrt(S + <span class="number">1e-5</span>)</div></pre></td></tr></table></figure>
-<p><img src="/2018/01/21/neural-nets-note/data_preprocessing2.jpeg" alt=""></p>
+<p><img src="neural-nets-note/data_preprocessing2.jpeg" alt=""></p>
 </li>
 </ul>
 <p>❗️在进行预处理的过程中，对所有数据统一处理后再划分训练集/验证集/测试集的做法是<strong>错误的</strong>。正确做法是：先将数据划分为训练集/验证集/测试集，对<strong>训练集</strong>进行操作后，将其运用于验证集和测试集。</p>
@@ -184,7 +184,7 @@
 <li><p><strong>Softmax</strong>：Softmax分类器将评分值视为每个分类的未归一化的对数概率$e^{f_{y_{i}}}$，把折页损失替换成了<strong>交叉熵损失（cross-entropy loss）</strong>，它所做的就是最小化在估计分类概率和“真实”分布之间的交叉熵：<br>$$<br>L_i = -\log\left(\frac{e^{f_{y_i}}}{ \sum_j e^{f_j} }\right)<br>$$</p>
 </li>
 </ul>
-<p>❗️在实际编程实现Softmax的过程中，中间项 $e^{f_{y_i}}$和$\sum_j e^{f_j}$ 因为存在指数函数，数值可能非常大。除以大数值可能导致数值计算的不稳定，所以学会使用归一化的小技巧非常重要。通常将𝐶设为$\log C = -\max_j f_j$<br>$$<br>\frac{e^{f_{y_i}}}{\sum_j e^{f_j}}<br>= \frac{Ce^{f_{y_i}}}{C\sum_j e^{f_j}}<br>= \frac{e^{f_{y_i} + \log C}}{\sum_j e^{f_j + \log C}}<br>$$<br><img src="/2018/01/21/neural-nets-note/svmvssoftmax.png" alt="svmvssoftmax"></p>
+<p>❗️在实际编程实现Softmax的过程中，中间项 $e^{f_{y_i}}$和$\sum_j e^{f_j}$ 因为存在指数函数，数值可能非常大。除以大数值可能导致数值计算的不稳定，所以学会使用归一化的小技巧非常重要。通常将𝐶设为$\log C = -\max_j f_j$<br>$$<br>\frac{e^{f_{y_i}}}{\sum_j e^{f_j}}<br>= \frac{Ce^{f_{y_i}}}{C\sum_j e^{f_j}}<br>= \frac{e^{f_{y_i} + \log C}}{\sum_j e^{f_j + \log C}}<br>$$<br><img src="neural-nets-note/svmvssoftmax.png" alt="svmvssoftmax"></p>
 <h3 id="正则化（Regularization）"><a href="#正则化（Regularization）" class="headerlink" title="正则化（Regularization）"></a>正则化（Regularization）</h3><p>除了数据损失部分，正则项也是在损失函数很重要的一部分。如果模型太复杂即出现过拟合（overfitting），我们就需要加入一些正则项来解决这个问题。</p>
 <ul>
 <li><p><strong>L2正则化</strong>：$R(W) = \sum_k\sum_lW_{k,l}^2$</p>
@@ -230,7 +230,7 @@
 </li>
 <li><p><strong>Nesterov动量</strong>：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">v_prev = v <span class="comment"># 存储备份</span></div><div class="line">v = mu * v - learning_rate * dx <span class="comment"># 速度更新保持不变</span></div><div class="line">x += -mu * v_prev + (<span class="number">1</span> + mu) * v <span class="comment"># 位置更新变了形式</span></div></pre></td></tr></table></figure>
-<p><img src="/2018/01/21/neural-nets-note/gradientdescent.png" alt="loss"></p>
+<p><img src="neural-nets-note/gradientdescent.png" alt="loss"></p>
 <p>​</p>
 </li>
 </ul>
@@ -245,7 +245,7 @@
 </li>
 <li><p><strong>Adam</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">m = beta1*m + (<span class="number">1</span>-beta1)*dx</div><div class="line">v = beta2*v + (<span class="number">1</span>-beta2)*(dx**<span class="number">2</span>)</div><div class="line">x += - learning_rate * m / (np.sqrt(v) + eps)</div></pre></td></tr></table></figure>
-<p><img src="/2018/01/21/neural-nets-note/opt2.gif" alt="loss"></p>
+<p><img src="neural-nets-note/opt2.gif" alt="loss"></p>
 </li>
 </ul>
 <h3 id="超参数调优"><a href="#超参数调优" class="headerlink" title="超参数调优"></a>超参数调优</h3><p>整个训练过程我们会遇到很多超参数，掌握一些小技巧对于超参数初的始化和调整是必不可少的。</p>
@@ -259,11 +259,11 @@
 <h3 id="检查学习过程"><a href="#检查学习过程" class="headerlink" title="检查学习过程"></a>检查学习过程</h3><p>可以通过可视化的方式来检查我们的损失值、精确值等是否符合预期。</p>
 <ul>
 <li><p><strong>损失值</strong>：损失值的震荡程度和批尺寸（batch size）有关，当批尺寸为1，震荡会相对较大。当批尺寸就是整个数据集时，震荡就会最小。</p>
-<p><img src="/2018/01/21/neural-nets-note/loss.png" alt="loss"></p>
+<p><img src="neural-nets-note/loss.png" alt="loss"></p>
 <p>​</p>
 </li>
 <li><p><strong>训练集和测试集的准确率</strong>：在训练集准确率和验证集准确率中间的空隙指明了模型过拟合的程度</p>
-<p><img src="/2018/01/21/neural-nets-note/accuracies.jpeg" alt="accuracies"> </p>
+<p><img src="neural-nets-note/accuracies.jpeg" alt="accuracies"> </p>
 </li>
 <li><p><strong>权重更新比例</strong>：权重中更新值的数量和全部值的数量之间的比例</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 假设参数向量为W，其梯度向量为dW</span></div><div class="line">param_scale = np.linalg.norm(W.ravel())</div><div class="line">update = -learning_rate*dW <span class="comment"># 简单SGD更新</span></div><div class="line">update_scale = np.linalg.norm(update.ravel())</div><div class="line">W += update <span class="comment"># 实际更新</span></div><div class="line"><span class="keyword">print</span> update_scale / param_scale <span class="comment"># 要得到1e-3左右</span></div></pre></td></tr></table></figure>
@@ -271,7 +271,7 @@
 <li><p><strong>每层的激活数据及梯度分布</strong>：可以输出网络中所有层的激活数据和梯度分布的柱状图。如果看到任何奇怪的分布情况，那都不是好兆头。</p>
 </li>
 <li><p><strong>权重可视化</strong>：如果数据是图像像素数据，可以对第一层权重进行可视化，观察特征分布。</p>
-<p><img src="/2018/01/21/neural-nets-note/firstlayer.png" alt="accuracies"></p>
+<p><img src="neural-nets-note/firstlayer.png" alt="accuracies"></p>
 </li>
 </ul>
 <h3 id="模型集成"><a href="#模型集成" class="headerlink" title="模型集成"></a>模型集成</h3><p>有时候单个模型并不能满足需求，可以进行模型集成来获得额外的性能提高。进行集成有以下几种方法：</p>

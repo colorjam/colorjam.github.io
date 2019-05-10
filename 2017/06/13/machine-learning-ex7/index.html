@@ -13,18 +13,10 @@
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="这一章主要学习了 K-均值算法 和 PCA 算法，前者用于无监督学习中聚类的训练，后者用于压缩输入特征值的维度。">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/iter1.png">
-<meta property="og:image" content="http://yoursite.com/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/iter6.png">
-<meta property="og:image" content="http://yoursite.com/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/iter10.png">
-<meta property="og:image" content="http://yoursite.com/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/compress.png">
-<meta property="og:image" content="http://yoursite.com/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/compress2.png">
-<meta property="og:image" content="http://yoursite.com/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/compress3.png">
-<meta property="og:image" content="http://yoursite.com/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/reconstruction.png">
 <meta property="og:updated_time" content="2017-06-15T04:38:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mmachine Learning ex7">
 <meta name="twitter:description" content="这一章主要学习了 K-均值算法 和 PCA 算法，前者用于无监督学习中聚类的训练，后者用于压缩输入特征值的维度。">
-<meta name="twitter:image" content="http://yoursite.com/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/iter1.png">
     
     
         
@@ -156,19 +148,19 @@
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span> : K</div><div class="line">  <span class="comment">% 查找聚类样本</span></div><div class="line">  examples_idx = <span class="built_in">find</span>(idx == <span class="built_in">i</span>);</div><div class="line">  <span class="comment">% 计算中心值</span></div><div class="line">  X(examples_idx, :);</div><div class="line">  centroids(<span class="built_in">i</span>,:) = sum( X(examples_idx, :) ) / <span class="built_in">size</span>(examples_idx, <span class="number">1</span>);</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
 <p>这里出现的问题在<code>centroids(i,:) = sum( X(examples_idx, :) ) / size(examples_idx, 1);</code> 。注意包含centroids的所有列，和在计算szie()的时候，选择所有行的大小。</p>
 <p>然后我们就可以运行我们的K-均值算法来聚类了。可以看到初始化的时候三个中心点分别为（3,3）、（6,2）、（8,5）。</p>
-<img src="/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/iter1.png" alt="iter1.png" title="">
+
 <p>经过6次迭代可以看到中心点逐渐往好的方向移动：</p>
-<img src="/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/iter6.png" alt="iter6.png" title="">
+
 <p>经过10次迭代基本到达有模有样的聚类中心了：</p>
-<img src="/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/iter10.png" alt="iter10.png" title="">
+
 <p>接下来我们要使用K均值算法来压缩图像了。每个像素用 <strong>24-bit</strong> 来表示颜色，即3个 <strong>8-bit</strong> 的无符号整形来表示RGB的值，目标压缩成用<strong>16-bit</strong> 来表示。</p>
 <p>我们使用 <strong>imread(A)</strong> 来读入图像，因为我们原始图像的大小为128x128，因此 A 为一个三维矩阵，<strong>size(A) = 128x128x3</strong> ，然后reshape图像变为 <strong>mX3</strong>（m = 16384 = 128x128） 的矩阵，用于后面执行K-均值算法。</p>
 <p>我们将K设置为16，对每个像素点进行聚类。获得最后的图像。原始图像需要 <strong>128 x 128 x 24 = 393,216</strong> bits。而压缩后我们使用 24bits存储16种颜色，但每个像素点只需要4bits 来进行定位。因此压缩后的图像为 <strong>16 x 24+128x128x4 = 65,920</strong> bits。（从pdf里理解是这样，然而真实的情况似乎并没有进行压缩，看了助教在论坛里的回答，完整的压缩过程还要创建一个新的图像，只使用4bit来表示，因为本课程只是关于聚类，而不是关于压缩图像的细节。）因此压缩后的图片如下：</p>
-<img src="/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/compress.png" alt="compress.png" title="">
+
 <p>然后我们换一张自己的图片来看看效果：</p>
-<img src="/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/compress2.png" alt="compress2.png" title="">
+
 <p>然后修改 <strong>K=5</strong> 再看看效果：</p>
-<img src="/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/compress3.png" alt="compress3.png" title="">
+
 <h3 id="Principal-Component-Analysis"><a href="#Principal-Component-Analysis" class="headerlink" title="Principal Component Analysis"></a>Principal Component Analysis</h3><p>我们使用PCA来减少数据集的维度。先实验2D的数据集来了解一下PCA的运作，再将其运用更高的维度上。</p>
 <p>PCA的步骤为：1、正规化数据集。2、计算协方差矩阵。3、利用SVD函数计算主成分（U、S）。</p>
 <p>2、3步骤实现</p>
@@ -182,7 +174,7 @@
 <p>通过SVD函数计算出了主成分后，我们可以就利用特征向量U来将每个样本映射为更低的维度，x^(i)^ -&gt; z^(i)^ 。</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">U_reduce = U(:, <span class="number">1</span>:K);</div><div class="line">Z = X * U_reduce;</div></pre></td></tr></table></figure>
 <p>重构出通过PCA映射后的点（红色）：</p>
-<img src="/2017/06/13/machine-learning-ex7/2017/06/13/machine-learning-ex7/reconstruction.png" alt="reconstruction.png" title="">
+
 
   </div>
 </article>

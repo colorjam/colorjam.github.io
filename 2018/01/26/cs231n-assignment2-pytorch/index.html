@@ -13,20 +13,20 @@
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="用pytorch来构建自己的网络啦～记录一下训练过程">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/strided_conv.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/pooling.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/conv_num_filters.jpg">
-<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/batch_norm.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/network1.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/network1_epoch1.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/network1_epoch5.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/val_accr.png">
-<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/test_accr.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/cs231n-assignment2-pytorch/strided_conv.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/cs231n-assignment2-pytorch/pooling.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/cs231n-assignment2-pytorch/conv_num_filters.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/cs231n-assignment2-pytorch/batch_norm.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/cs231n-assignment2-pytorch/network1.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/cs231n-assignment2-pytorch/network1_epoch1.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/cs231n-assignment2-pytorch/network1_epoch5.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/cs231n-assignment2-pytorch/val_accr.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/cs231n-assignment2-pytorch/test_accr.png">
 <meta property="og:updated_time" content="2018-01-28T05:56:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cs231n-assignment2-pytorch">
 <meta name="twitter:description" content="用pytorch来构建自己的网络啦～记录一下训练过程">
-<meta name="twitter:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/strided_conv.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/26/cs231n-assignment2-pytorch/cs231n-assignment2-pytorch/strided_conv.png">
     
     
         
@@ -176,15 +176,15 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Strided convolution</span></div><div class="line">nn.Conv2d(<span class="number">3</span>, <span class="number">32</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>)</div><div class="line"><span class="comment"># no Max Pooling</span></div><div class="line">...</div><div class="line">nn.Linear(<span class="number">7200</span>, <span class="number">1024</span>), <span class="comment"># affine layer (32-3+1)/2</span></div><div class="line"></div><div class="line"><span class="comment"># Pooling</span></div><div class="line">nn.Conv2d(<span class="number">3</span>, <span class="number">32</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>)</div><div class="line">...</div><div class="line">nn.MaxPool2d(kernel_size=<span class="number">2</span>, stride=<span class="number">2</span>)</div><div class="line">...</div><div class="line">nn.Linear(<span class="number">7200</span>, <span class="number">1024</span>), <span class="comment"># affine layer</span></div></pre></td></tr></table></figure>
 <p>设置stride为2刚好最后进入全连接时都是7200个神经元～先大致查找了一下学习率的范围，然后缩小范围learning_rate = [10 ** np.random.uniform(-5, -2) for i in range(20)]分别尝试两个模型的准确率。</p>
 <p>Strided convolution同学的准确率在50%以上的不多，然鹅Pooling同学准确率达到50%的就比较多了，说明使用Pooling的效果比较好。</p>
-<p><img src="/2018/01/26/cs231n-assignment2-pytorch/strided_conv.png" alt="cross-validation"></p>
-<p><img src="/2018/01/26/cs231n-assignment2-pytorch/pooling.png" alt="cross-validation"></p>
+<p><img src="cs231n-assignment2-pytorch/strided_conv.png" alt="cross-validation"></p>
+<p><img src="cs231n-assignment2-pytorch/pooling.png" alt="cross-validation"></p>
 <p>猜想：因为Strided convolution多跳了几个格子，可能会遗漏某些图像特征，而Max-pooling过滤出最大的像素值，反而强调了图像特征。</p>
 <h3 id="Try-2"><a href="#Try-2" class="headerlink" title="Try 2"></a>Try 2</h3><p>比较一下过滤器数量为50和20两个模型的效率：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">learning_rate = [<span class="number">10</span> ** np.random.uniform(<span class="number">-5</span>, <span class="number">-3</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>)]</div><div class="line"><span class="comment"># Convolution of 50 filters</span></div><div class="line">nn.Conv2d(<span class="number">3</span>, <span class="number">50</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>) </div><div class="line">...</div><div class="line">nn.Linear(<span class="number">11250</span>, <span class="number">1024</span>) <span class="comment"># (32-3+1)/2 **2 x 50</span></div><div class="line"><span class="comment"># Convolution of 20 filters</span></div><div class="line">nn.Conv2d(<span class="number">3</span>, <span class="number">20</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">1</span>) </div><div class="line">...</div><div class="line">nn.Linear(<span class="number">4500</span>, <span class="number">1029</span>) <span class="comment"># (32-3+1)/2 **2 x 20</span></div></pre></td></tr></table></figure>
-<p><img src="/2018/01/26/cs231n-assignment2-pytorch/conv_num_filters.jpg" alt="cross-validation"></p>
+<p><img src="cs231n-assignment2-pytorch/conv_num_filters.jpg" alt="cross-validation"></p>
 <p>随机了10个学习率，可以看到相对来说还是过滤器比较多的结果比较好，但同时也比较耗时</p>
 <h3 id="Try-3"><a href="#Try-3" class="headerlink" title="Try 3"></a>Try 3</h3><p>使用上面50个过滤器的模型，在第一个卷积层之后、全连接层之后加Batch normalization。</p>
-<p><img src="/2018/01/26/cs231n-assignment2-pytorch/batch_norm.png" alt="cross-validation"></p>
+<p><img src="cs231n-assignment2-pytorch/batch_norm.png" alt="cross-validation"></p>
 <p>虽然准确率最高的没有上面不使用Batch normalization的高，但是整体水平提升了。但是Hints里貌似是说训练速度变快了？但是俺忘记打印出时间了。。。</p>
 <h3 id="Try-4"><a href="#Try-4" class="headerlink" title="Try 4"></a>Try 4</h3><p>之前总结神经网络的时候就总结过，softmax代表交叉熵损失（cross-entropy loss），SVM是折页损失（hinge loss），这个在pytorch里都有对应的loss函数。接下来就是要改变网络结构啦～</p>
 <p>模型结构：[conv-relu-pool]x2 -&gt; [affine]x2 -&gt; [softmax]（在每层中间都插入了batchnorm）</p>
@@ -235,11 +235,11 @@
 </tbody>
 </table>
 <p>搜索一下合适的学习率～</p>
-<p><img src="/2018/01/26/cs231n-assignment2-pytorch/network1.png" alt="cross-validation"></p>
+<p><img src="cs231n-assignment2-pytorch/network1.png" alt="cross-validation"></p>
 <p>可以看到最好的准确率接近0.6啦，撒花～现在用学习率训练1个epoch试试</p>
-<p><img src="/2018/01/26/cs231n-assignment2-pytorch/network1_epoch1.png" alt="cross-validation"></p>
+<p><img src="cs231n-assignment2-pytorch/network1_epoch1.png" alt="cross-validation"></p>
 <p>训练5个epoch～</p>
-<p><img src="/2018/01/26/cs231n-assignment2-pytorch/network1_epoch5.png" alt="cross-validation"></p>
+<p><img src="cs231n-assignment2-pytorch/network1_epoch5.png" alt="cross-validation"></p>
 <p>准确率达到70%啦，撒花~</p>
 <h3 id="Try-5"><a href="#Try-5" class="headerlink" title="Try 5"></a>Try 5</h3><p>现在我们再改变一下网络结构，尝试一下<strong>整体平均汇聚</strong>，也就是不在中间使用多个全链接层，而是将图片训练得足够小大约（7, 7），在最后使用一个汇聚层使得图像变成 (1, 1 , Filter#)。</p>
 <p>模型结构：[conv-relul]x4 -&gt; [pool]x1 -&gt; [softmax]</p>
@@ -293,9 +293,9 @@
 <h3 id="Try-5-1"><a href="#Try-5-1" class="headerlink" title="Try 5"></a>Try 5</h3><p>[batchnorm-relu-conv]x7 -&gt; [pool]x1 -&gt; [softmax]</p>
 <p>太久了。。放弃。。我决定回到Try4的模型多来几层。。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">    </div><div class="line">model1 = nn.Sequential( </div><div class="line">                    nn.Conv2d(<span class="number">3</span>, <span class="number">50</span>, kernel_size=<span class="number">3</span>, stride = <span class="number">1</span>), <span class="comment"># input: 32x32x3</span></div><div class="line">                    nn.BatchNorm2d(<span class="number">50</span>),</div><div class="line">                    nn.ReLU(inplace=<span class="keyword">True</span>),</div><div class="line">                    nn.BatchNorm2d(<span class="number">50</span>),</div><div class="line">                    nn.MaxPool2d(kernel_size=<span class="number">2</span>, stride=<span class="number">2</span>), <span class="comment"># input: 28x28x32</span></div><div class="line">                    </div><div class="line">                    nn.Conv2d(<span class="number">50</span>, <span class="number">80</span>, kernel_size=<span class="number">3</span>, stride = <span class="number">1</span>), <span class="comment"># input: 14x14x32</span></div><div class="line">                    nn.BatchNorm2d(<span class="number">80</span>),</div><div class="line">                    nn.ReLU(inplace=<span class="keyword">True</span>),</div><div class="line">                    nn.BatchNorm2d(<span class="number">80</span>),</div><div class="line">                    nn.MaxPool2d(kernel_size=<span class="number">2</span>, stride=<span class="number">2</span>), <span class="comment"># 8x8x150</span></div><div class="line">    </div><div class="line">                    Flatten(), </div><div class="line">                    nn.Linear(<span class="number">2880</span>, <span class="number">1000</span>),</div><div class="line">                    nn.ReLU(inplace=<span class="keyword">True</span>),</div><div class="line">                    nn.Linear(<span class="number">1000</span>,<span class="number">10</span>)</div><div class="line">            )</div></pre></td></tr></table></figure>
-<p><img src="/2018/01/26/cs231n-assignment2-pytorch/val_accr.png" alt="cross-validation"></p>
+<p><img src="cs231n-assignment2-pytorch/val_accr.png" alt="cross-validation"></p>
 <p>经过10个epoch，loss已经挺小的了，而且达到了74%的准确率，现在在测试集上尝试</p>
-<p><img src="/2018/01/26/cs231n-assignment2-pytorch/test_accr.png" alt="cross-validation"></p>
+<p><img src="cs231n-assignment2-pytorch/test_accr.png" alt="cross-validation"></p>
 <p>完成啦～</p>
 
   </div>

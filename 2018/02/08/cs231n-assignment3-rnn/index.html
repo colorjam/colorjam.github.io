@@ -13,15 +13,15 @@
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="递归神经网络（Recurrent Neural Network, RNN）是为了处理序列数据。之前学的一些机器学习算法的输入数据之间相互是没有联系的，当下一个数据出现的可能依赖于之前出现过的数据，爱捅幺蛾子的科学家们就想出了RNN。 RNN对比之前学习过的CNN，CNN的输入仅为数据，中间网络层的输入即上一层输出的向量，使用不同的参数计算得到该层的输出向量，最后再使用softmax或svm得到输出">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/rnn_graph.png">
-<meta property="og:image" content="http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/rnn_formula.png">
-<meta property="og:image" content="http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/word_back1.png">
-<meta property="og:image" content="http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/word_back2.png">
+<meta property="og:image" content="http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/cs231n-assignment3-rnn/rnn_graph.png">
+<meta property="og:image" content="http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/cs231n-assignment3-rnn/rnn_formula.png">
+<meta property="og:image" content="http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/cs231n-assignment3-rnn/word_back1.png">
+<meta property="og:image" content="http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/cs231n-assignment3-rnn/word_back2.png">
 <meta property="og:updated_time" content="2018-02-09T07:51:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cs231n-assignment3-rnn">
 <meta name="twitter:description" content="递归神经网络（Recurrent Neural Network, RNN）是为了处理序列数据。之前学的一些机器学习算法的输入数据之间相互是没有联系的，当下一个数据出现的可能依赖于之前出现过的数据，爱捅幺蛾子的科学家们就想出了RNN。 RNN对比之前学习过的CNN，CNN的输入仅为数据，中间网络层的输入即上一层输出的向量，使用不同的参数计算得到该层的输出向量，最后再使用softmax或svm得到输出">
-<meta name="twitter:image" content="http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/rnn_graph.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/cs231n-assignment3-rnn/rnn_graph.png">
     
     
         
@@ -106,9 +106,9 @@
   <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/&name=cs231n-assignment3-rnn&description=&lt;p&gt;递归神经网络（Recurrent Neural Network, RNN）是为了处理序列数据。之前学的一些机器学习算法的输入数据之间相互是没有联系的，当下一个数据出现的可能依赖于之前出现过的数据，爱捅幺蛾子的科学家们就想出了RNN。&lt;/p&gt;
 &lt;h3 id=&#34;RNN&#34;&gt;&lt;a href=&#34;#RNN&#34; class=&#34;headerlink&#34; title=&#34;RNN&#34;&gt;&lt;/a&gt;RNN&lt;/h3&gt;&lt;p&gt;对比之前学习过的CNN，CNN的输入仅为数据，中间网络层的输入即上一层输出的向量，使用不同的参数计算得到该层的输出向量，最后再使用softmax或svm得到输出值。&lt;/p&gt;
 &lt;p&gt;而RNN加入了一个玩意儿叫&lt;strong&gt;状态（state）&lt;/strong&gt;，RNN的输入包括序列数据的第一步和初始状态，中间的网络层的输入是时间序列中对应的那一步和上一层的状态，使用&lt;strong&gt;相同的参数&lt;/strong&gt;计算得到该层的状态，通过这个状态计算输出。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/2018/02/08/cs231n-assignment3-rnn/rnn_graph.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;cs231n-assignment3-rnn/rnn_graph.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;最普通的RNN使用tanh作为激活函数，计算公式如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/2018/02/08/cs231n-assignment3-rnn/rnn_formula.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+&lt;p&gt;&lt;img src=&#34;cs231n-assignment3-rnn/rnn_formula.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -150,9 +150,9 @@
     <p>递归神经网络（Recurrent Neural Network, RNN）是为了处理序列数据。之前学的一些机器学习算法的输入数据之间相互是没有联系的，当下一个数据出现的可能依赖于之前出现过的数据，爱捅幺蛾子的科学家们就想出了RNN。</p>
 <h3 id="RNN"><a href="#RNN" class="headerlink" title="RNN"></a>RNN</h3><p>对比之前学习过的CNN，CNN的输入仅为数据，中间网络层的输入即上一层输出的向量，使用不同的参数计算得到该层的输出向量，最后再使用softmax或svm得到输出值。</p>
 <p>而RNN加入了一个玩意儿叫<strong>状态（state）</strong>，RNN的输入包括序列数据的第一步和初始状态，中间的网络层的输入是时间序列中对应的那一步和上一层的状态，使用<strong>相同的参数</strong>计算得到该层的状态，通过这个状态计算输出。</p>
-<p><img src="/2018/02/08/cs231n-assignment3-rnn/rnn_graph.png" alt=""></p>
+<p><img src="cs231n-assignment3-rnn/rnn_graph.png" alt=""></p>
 <p>最普通的RNN使用tanh作为激活函数，计算公式如下：</p>
-<p><img src="/2018/02/08/cs231n-assignment3-rnn/rnn_formula.png" alt=""></p>
+<p><img src="cs231n-assignment3-rnn/rnn_formula.png" alt=""></p>
 <a id="more"></a>
 <p>单步rnn的过程比较简单，tanh的求导需要利用到状态值<br>$$<br>f(x) = tanh = \frac{e^{x}-e^{-x}}{e^x+e^{-x}}<br>$$</p>
 <p>$$<br>tan’h = \frac{(e^x-(-e^{-x}))(e^x+e^{-x})-(e^{x}-e^{-x})(e^x-e^{-x})}{(e^x+e^{-x})^2}<br>$$</p>
@@ -167,8 +167,8 @@
 <p>但是当词汇表很大的时候，将seq保存在cache中，会占用了很大的内存，一定有更好的办法😏</p>
 <p>再仔细研究了一下python的indexing，其实可以同时扩展seq的三个维度，这样就省略了for循环：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rows = np.array(range(N))[:, np.newaxis] </div><div class="line">seq = np.zeros((N, T, V))</div><div class="line">seq[np.tile(rows, T), [list(range(T))]*N, x] = <span class="number">1</span></div><div class="line">out = seq.dot(W)</div></pre></td></tr></table></figure>
-<p>至于反向传播没有使用到np.add.at，说明代码还不够高效。我们已经假设T=4，V=5，那么写出<code>seq[0].T.dot(dout[0, :, :])</code>一个具体公式（dout当然不可能这么大，我随便写的）：<img src="/2018/02/08/cs231n-assignment3-rnn/word_back1.png" alt=""></p>
-<p>可以看到这个矩阵乘法是在进行行变化，这就是矩阵左乘的变换意义。再来仔细分析一下左边这个伪初等矩阵。<img src="/2018/02/08/cs231n-assignment3-rnn/word_back2.png" alt=""></p>
+<p>至于反向传播没有使用到np.add.at，说明代码还不够高效。我们已经假设T=4，V=5，那么写出<code>seq[0].T.dot(dout[0, :, :])</code>一个具体公式（dout当然不可能这么大，我随便写的）：<img src="cs231n-assignment3-rnn/word_back1.png" alt=""></p>
+<p>可以看到这个矩阵乘法是在进行行变化，这就是矩阵左乘的变换意义。再来仔细分析一下左边这个伪初等矩阵。<img src="cs231n-assignment3-rnn/word_back2.png" alt=""></p>
 <p>它的每一行其实代表一个单词，每一列代表一个时刻，dw的结果即为每个单词在它出现时刻的误差的累加。还是用上面的例子来解释，为方便说明假设下标从1开始。w1在t1时刻出现，dw1就应该加上dout1，w2在t3时刻出现，dw2就应该加上dout3，w5没有出现，就没啥好加了。因此俺们的代码终于可以写出来了！（竟然这么简洁）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">np.add.at(dW, x, dout)</div></pre></td></tr></table></figure>
 <p><strong>参考链接</strong></p>
@@ -218,9 +218,9 @@
   <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/02/08/cs231n-assignment3-rnn/&name=cs231n-assignment3-rnn&description=&lt;p&gt;递归神经网络（Recurrent Neural Network, RNN）是为了处理序列数据。之前学的一些机器学习算法的输入数据之间相互是没有联系的，当下一个数据出现的可能依赖于之前出现过的数据，爱捅幺蛾子的科学家们就想出了RNN。&lt;/p&gt;
 &lt;h3 id=&#34;RNN&#34;&gt;&lt;a href=&#34;#RNN&#34; class=&#34;headerlink&#34; title=&#34;RNN&#34;&gt;&lt;/a&gt;RNN&lt;/h3&gt;&lt;p&gt;对比之前学习过的CNN，CNN的输入仅为数据，中间网络层的输入即上一层输出的向量，使用不同的参数计算得到该层的输出向量，最后再使用softmax或svm得到输出值。&lt;/p&gt;
 &lt;p&gt;而RNN加入了一个玩意儿叫&lt;strong&gt;状态（state）&lt;/strong&gt;，RNN的输入包括序列数据的第一步和初始状态，中间的网络层的输入是时间序列中对应的那一步和上一层的状态，使用&lt;strong&gt;相同的参数&lt;/strong&gt;计算得到该层的状态，通过这个状态计算输出。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/2018/02/08/cs231n-assignment3-rnn/rnn_graph.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;cs231n-assignment3-rnn/rnn_graph.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;最普通的RNN使用tanh作为激活函数，计算公式如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/2018/02/08/cs231n-assignment3-rnn/rnn_formula.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+&lt;p&gt;&lt;img src=&#34;cs231n-assignment3-rnn/rnn_formula.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

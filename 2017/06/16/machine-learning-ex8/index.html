@@ -13,12 +13,10 @@
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="以光速刷课。。昨天一天刷完week9，今天又刷完week10，正在向week11进军。。还是要完成一下wee9的编程作业。 这一章主要是讲了异常检测和推荐系统。异常检测算法使用的是以前概率论学过的正态（高斯）分布。只使用特征值X来计算出概率分布，根据临界值的大小再判断y是否异常。">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/2017/06/16/machine-learning-ex8/2017/06/16/machine-learning-ex8/detected.png">
 <meta property="og:updated_time" content="2017-10-21T09:38:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Machine Learning ex8">
 <meta name="twitter:description" content="以光速刷课。。昨天一天刷完week9，今天又刷完week10，正在向week11进军。。还是要完成一下wee9的编程作业。 这一章主要是讲了异常检测和推荐系统。异常检测算法使用的是以前概率论学过的正态（高斯）分布。只使用特征值X来计算出概率分布，根据临界值的大小再判断y是否异常。">
-<meta name="twitter:image" content="http://yoursite.com/2017/06/16/machine-learning-ex8/2017/06/16/machine-learning-ex8/detected.png">
     
     
         
@@ -148,7 +146,7 @@
 <p>在这里要注意函数 var() 除以的是m-1所以我们要修改一下函数。然后我们要利用交叉验证样本，计算 F~1~ Score 并挑选临界值 <strong>ε</strong>：</p>
  <figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">% 获取验证集异常值坐标</span></div><div class="line">cvPredictions = (pval &lt; epsilon);</div><div class="line">tp = sum( (cvPredictions == <span class="number">1</span>) &amp; (yval == <span class="number">1</span>) );</div><div class="line">fp = sum( (cvPredictions == <span class="number">1</span>) &amp; (yval == <span class="number">0</span>) );</div><div class="line">fn = sum( (cvPredictions == <span class="number">0</span>) &amp; (yval == <span class="number">1</span>) );</div><div class="line"><span class="comment">% 计算精确率</span></div><div class="line">prec = tp / (tp + fp);</div><div class="line"><span class="comment">% 计算召回率</span></div><div class="line">rec = tp / (tp + fn);</div><div class="line">F1 = <span class="number">2</span> * prec * rec / (prec + rec);</div></pre></td></tr></table></figure>
 <p>然后可以看到红红的圈出的异常值：</p>
-<img src="/2017/06/16/machine-learning-ex8/2017/06/16/machine-learning-ex8/detected.png" alt="detected.png" title="">
+
 <h3 id="Recommender-Systems"><a href="#Recommender-Systems" class="headerlink" title="Recommender Systems"></a>Recommender Systems</h3><p>说到推荐系统，以电影为例，一方面要预测用户对于某电影的评分，另一方面要寻找相似的电影，我们经常使用的算法是协同过滤算法。进一步了解这个算法，查了一些中文资料。原本的线性回归，我们只需要根据特征值计算出参数 <strong>θ</strong>，但是现在变态了，我们不光要预测用户的喜好，还要查找相似的特征向量，俩参数（都用矩阵表示）一起学习。</p>
 <p>首先我们完成未正规化的梯度和代价函数的计算：</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">X_grad = (X * Theta' - Y) .* R * Theta;</div><div class="line">Theta_grad = (X * Theta' - Y)' .* R' * X;</div><div class="line"></div><div class="line">J = sum(( (X * Theta' - Y).^<span class="number">2</span> .* R )(:)) / <span class="number">2</span>;</div></pre></td></tr></table></figure>

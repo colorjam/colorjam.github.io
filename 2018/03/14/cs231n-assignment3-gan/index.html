@@ -13,15 +13,15 @@
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 到底什么是生成式对抗网络GAN？ 其中以男女朋友做比喻还蛮">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/model.png">
-<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/vanilla_result.png">
-<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/ls_result.png">
-<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/dc_result.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/cs231n-assignment3-gan/model.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/cs231n-assignment3-gan/vanilla_result.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/cs231n-assignment3-gan/ls_result.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/cs231n-assignment3-gan/dc_result.png">
 <meta property="og:updated_time" content="2018-07-11T01:50:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cs231n-assignment3-gan">
 <meta name="twitter:description" content="最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 到底什么是生成式对抗网络GAN？ 其中以男女朋友做比喻还蛮">
-<meta name="twitter:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/model.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/cs231n-assignment3-gan/model.png">
     
     
         
@@ -144,7 +144,7 @@
   <div class="content" itemprop="articleBody">
     <p>最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 <a href="https://www.msra.cn/zh-cn/news/features/gan-20170511" target="_blank" rel="external">到底什么是生成式对抗网络GAN？</a> 其中以男女朋友做比喻还蛮可爱的。 </p>
 <a id="more"></a>
-<p><img src="/2018/03/14/cs231n-assignment3-gan/model.png" alt="cross-validation"></p>
+<p><img src="cs231n-assignment3-gan/model.png" alt="cross-validation"></p>
 <p>整个训练过程其实是 \(G\) 和 \(D\) 之间的博弈，在这个博弈中有两个场景。第一个场景的输入是真实图像 <strong>x</strong>，输出概率 \(D(x)\) 指一个图片是真实图片的概率，在这个场景中 \(D(x)\) 努力接近1。第二场景的输入是噪音 <strong>z</strong>， \(G\) 生成一个新的图像 \(G(z)\) 努力欺骗 \(D\) 使 \(D(G(z))\) 接近1， \(D\) 努力让 \(D(G(z))\) 接近0。 </p>
 <p>在本次作用中我们采用以下的更新规则：</p>
 <ol>
@@ -163,20 +163,20 @@
 <p>上面我们说到 <strong>G</strong> 努力欺骗 <strong>D</strong> 使 <strong>D(G(z))</strong> 接近1，因此要将labels都设置为1，得到下面的代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator_loss</span><span class="params">(logits_fake)</span>:</span></div><div class="line">    N = logits_fake.shape[<span class="number">0</span>]</div><div class="line">    fake_labels = Variable(torch.ones(N)).type(dtype)</div><div class="line">    loss = bce_loss(logits_fake, fake_labels)</div><div class="line">    <span class="keyword">return</span> loss</div></pre></td></tr></table></figure>
 <p>最终训练结果：</p>
-<p><img src="/2018/03/14/cs231n-assignment3-gan/vanilla_result.png" alt="cross-validation"></p>
+<p><img src="cs231n-assignment3-gan/vanilla_result.png" alt="cross-validation"></p>
 <h3 id="Least-Square-GAN"><a href="#Least-Square-GAN" class="headerlink" title="Least Square GAN"></a>Least Square GAN</h3><p>图片生成模型G（Generator）的损失函数：</p>
 <p>$$\ell_G  =  \frac{1}{2}\mathbb{E}_{z \sim p(z)}\left[\left(D(G(z))-1\right)^2\right]$$</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ls_generator_loss</span><span class="params">(scores_fake)</span>:</span></div><div class="line">    loss = ((scores_fake<span class="number">-1</span>)**<span class="number">2</span>).mean()</div><div class="line">    <span class="keyword">return</span> loss / <span class="number">2</span></div></pre></td></tr></table></figure>
 <p>图像判别模型的损失函数：<br>$$ \ell_D = \frac{1}{2}\mathbb{E}_{x \sim p_\text{data}}\left[\left(D(x)-1\right)^2\right] + \frac{1}{2}\mathbb{E}_{z \sim p(z)}\left[ \left(D(G(z))\right)^2\right]$$</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ls_discriminator_loss</span><span class="params">(scores_real, scores_fake)</span>:</span></div><div class="line">    loss = ((scores_real<span class="number">-1</span>)**<span class="number">2</span>).mean() + (scores_fake**<span class="number">2</span>).mean()</div><div class="line">    <span class="keyword">return</span> loss / <span class="number">2</span></div></pre></td></tr></table></figure>
-<p><img src="/2018/03/14/cs231n-assignment3-gan/ls_result.png" alt="cross-validation"></p>
+<p><img src="cs231n-assignment3-gan/ls_result.png" alt="cross-validation"></p>
 <p>作业中提出了几个问题</p>
 <blockquote>
 <p>Describe how the visual quality of the samples changes over the course of training. Do you notice anything about the distribution of the samples? How do the results change across different training runs?</p>
 </blockquote>
 <p>可以看到通过训练，生成图像从噪音逐渐变为能辨认出来的数字。生成的图像中似乎1、3、9比较多。</p>
 <h3 id="Deeply-Convolutional-GANs"><a href="#Deeply-Convolutional-GANs" class="headerlink" title="Deeply Convolutional GANs"></a>Deeply Convolutional GANs</h3><p>前面的网络结构都是使用全连接网络，搞事的科学家们加上了几层卷积网络，虽然训练速度很慢，但生成的图片可骗人了。。</p>
-<p><img src="/2018/03/14/cs231n-assignment3-gan/dc_result.png" alt="cross-validation"></p>
+<p><img src="cs231n-assignment3-gan/dc_result.png" alt="cross-validation"></p>
 
   </div>
 </article>

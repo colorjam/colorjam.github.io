@@ -13,15 +13,15 @@
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="首先我们先来说说「回归」。wiki告诉我们，回归指的是研究变量关系的一种统计分析方法。回归分析是一种数学模型，而我们最熟悉的非「线性模型」莫属了。以下引入的理论来源于西瓜书。 「线性回归」试图通过给定数据集学得一个「线性模型」以尽可能准确地预测输出标记。用公式来表示：$$f(x_i) = wx_i+b，\\ 使得f(x_i) \approx y_i$$有时我们示例对应的输出标记是在指数尺度上变化，">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/2017/10/20/machine-learning-in-action-note3/geta_test.png">
-<meta property="og:image" content="http://yoursite.com/2017/10/20/machine-learning-in-action-note3/matnarr.png">
-<meta property="og:image" content="http://yoursite.com/2017/10/20/machine-learning-in-action-note3/mat_trans.png">
-<meta property="og:image" content="http://yoursite.com/2017/10/20/machine-learning-in-action-note3/test_result.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/20/machine-learning-in-action-note3/machine-learning-in-action-note3/geta_test.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/20/machine-learning-in-action-note3/machine-learning-in-action-note3/matnarr.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/20/machine-learning-in-action-note3/machine-learning-in-action-note3/mat_trans.png">
+<meta property="og:image" content="http://yoursite.com/2017/10/20/machine-learning-in-action-note3/machine-learning-in-action-note3/test_result.png">
 <meta property="og:updated_time" content="2017-11-07T11:53:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Machine Learning in Action》学习笔记三：对数几率回归">
 <meta name="twitter:description" content="首先我们先来说说「回归」。wiki告诉我们，回归指的是研究变量关系的一种统计分析方法。回归分析是一种数学模型，而我们最熟悉的非「线性模型」莫属了。以下引入的理论来源于西瓜书。 「线性回归」试图通过给定数据集学得一个「线性模型」以尽可能准确地预测输出标记。用公式来表示：$$f(x_i) = wx_i+b，\\ 使得f(x_i) \approx y_i$$有时我们示例对应的输出标记是在指数尺度上变化，">
-<meta name="twitter:image" content="http://yoursite.com/2017/10/20/machine-learning-in-action-note3/geta_test.png">
+<meta name="twitter:image" content="http://yoursite.com/2017/10/20/machine-learning-in-action-note3/machine-learning-in-action-note3/geta_test.png">
     
     
         
@@ -150,11 +150,11 @@
 <p>将 y 视为样本x作为正例的可能性，则 1-y 时其反例的可能性，两者比值称为“对率”（odds）：<br>$$<br>\frac{y}{1-y}<br>$$<br>对率反映了x作为正例的相对可能性。对几率取对数则得到“对数几率”（log odds，亦称logit）：<br>$$<br>\ln\frac{y}{1-y}<br>$$<br>由此可看出，实际上是在用线性回归模型的预测结果去逼近真实标记的对数几率。</p>
 <p>不管怎么说，在理解一个回归模型的时候至少先把它的名字念对吧233</p>
 <h3 id="分析：可视化分析数据"><a href="#分析：可视化分析数据" class="headerlink" title="分析：可视化分析数据"></a>分析：可视化分析数据</h3><p>在调用plotBestFit时，有一个<code>weights.getA())</code>这个getA()是啥玩意儿？根据参考链接[1]-11楼的小伙伴给出了答案，矩阵通过这个getA()这个方法可以将自身返回成一个n维数组对象</p>
-<p><img src="/2017/10/20/machine-learning-in-action-note3/geta_test.png" alt=""></p>
+<p><img src="machine-learning-in-action-note3/geta_test.png" alt=""></p>
 <p>从上图输出类型可以看出，使用getA函数将矩阵转化为了数组</p>
-<p><img src="/2017/10/20/machine-learning-in-action-note3/matnarr.png" alt=""></p>
+<p><img src="machine-learning-in-action-note3/matnarr.png" alt=""></p>
 <p>当矩阵只有一行的时候输出 mat[1] 是会报错的</p>
-<p><img src="/2017/10/20/machine-learning-in-action-note3/mat_trans.png" alt=""></p>
+<p><img src="machine-learning-in-action-note3/mat_trans.png" alt=""></p>
 <p>将 mat 转制后 mat[1] 输出的是一个1x1的矩阵而不是一个数值</p>
 <p>###训练：梯度下降（Gradient Descent）</p>
 <p>在对数几率函数的训练过程中，最重要的就是如何训练权值w。为了使其公式化，我们定义了一个“代价函数”（cost function），来衡量预测值和实例标记的差距：<br>$$<br>J(w) = \frac{1}{2}\sum_{i=1}^m(h_w(x^{(i)})-y^{i})^2<br>$$<br>我们希望这个值很小，于是就有了梯度下降算法的迭代公式：<br>$$<br>w_j := w_j - 𝛼\frac{\partial }{\partial w_j}J(w)<br>$$<br>让我们针对一个训练样本 (x, y) 算算这个偏导是啥：<br>$$<br>\begin{align}\frac{\partial }{\partial w_j}J(w)   &amp; =   \frac{\partial }{\partial w_j}\frac{1}{2}(h_w(x)-y)^2\\<br>&amp; =  2･\frac{1}{2}(h_w(x)-y)･\frac{𝜕}{𝜕w_j}(h_w(x)-y)\\<br>&amp; = (h_w(x)-y)･\frac{𝜕}{𝜕w_j}(\sum_{i=0}^nw_ix_i-y)\\<br>&amp; = (h_w(x)-y)x_j\end{align}<br>$$<br>因此对于一个训练样本有：<br>$$<br>w_j := w_j - 𝛼(y^{i}-h_w(x^{i}))x_j^{(i)}<br>$$<br>运用在多于一个样本的训练集上时，我们有两种选择：</p>
@@ -191,7 +191,7 @@
 <p>好的，说了这么多，作者已经帮我们处理完数据了。</p>
 <p>终于我们要开始预测了！</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">classifyVector</span><span class="params">(inX, weights)</span>:</span></div><div class="line">    prob = sigmoid(sum(inX*weights))</div><div class="line">    <span class="keyword">if</span> prob &gt; <span class="number">0.5</span>: <span class="keyword">return</span> <span class="number">1</span></div><div class="line">    <span class="keyword">else</span>: <span class="keyword">return</span> <span class="number">0</span></div></pre></td></tr></table></figure>
-<p><img src="/2017/10/20/machine-learning-in-action-note3/test_result.png" alt=""></p>
+<p><img src="machine-learning-in-action-note3/test_result.png" alt=""></p>
 <p>我的妈呀训练快一小时呢。。。</p>
 <p><strong>参考链接：</strong></p>
 <p>[1] <a href="http://tieba.baidu.com/p/2905471495" target="_blank" rel="external">http://tieba.baidu.com/p/2905471495</a></p>

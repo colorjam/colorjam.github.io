@@ -13,12 +13,12 @@
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="用神经网络基于两张画来生成一副新的画，一张画表现内容，一张画代表风格，科学家的脑洞也是大！作业里就实现了这种技术，下面一起来学习一下吧～">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/style_content.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/cs231n-assignment3-styletransfer/style_content.png">
 <meta property="og:updated_time" content="2018-04-12T00:55:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cs231n-assignment3-styletransfer">
 <meta name="twitter:description" content="用神经网络基于两张画来生成一副新的画，一张画表现内容，一张画代表风格，科学家的脑洞也是大！作业里就实现了这种技术，下面一起来学习一下吧～">
-<meta name="twitter:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/style_content.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/cs231n-assignment3-styletransfer/style_content.png">
     
     
         
@@ -101,7 +101,7 @@
   <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
   <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
   <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&name=cs231n-assignment3-styletransfer&description=&lt;p&gt;用神经网络基于两张画来生成一副新的画，一张画表现内容，一张画代表风格，科学家的脑洞也是大！作业里就实现了这种技术，下面一起来学习一下吧～&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/2018/03/14/cs231n-assignment3-styletransfer/style_content.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+&lt;p&gt;&lt;img src=&#34;cs231n-assignment3-styletransfer/style_content.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -141,7 +141,7 @@
 
   <div class="content" itemprop="articleBody">
     <p>用神经网络基于两张画来生成一副新的画，一张画表现内容，一张画代表风格，科学家的脑洞也是大！作业里就实现了这种技术，下面一起来学习一下吧～</p>
-<p><img src="/2018/03/14/cs231n-assignment3-styletransfer/style_content.png" alt=""></p>
+<p><img src="cs231n-assignment3-styletransfer/style_content.png" alt=""></p>
 <a id="more"></a>
 <p>我们知道神经网络的损失函数非常重要，在图像风格转换的技术中，损失函数由三个部分组成：<strong>content loss + style loss + total variation loss</strong></p>
 <h3 id="内容损失（Content-loss）"><a href="#内容损失（Content-loss）" class="headerlink" title="内容损失（Content loss）"></a>内容损失（Content loss）</h3><p>内容损失代表生成图的特征图(feature map)和原图的特征图的差异。我们仅关注网络的一层\(\ell\)，它的特征图为 \(A^\ell \in \mathbb{R}^{1 \times C_\ell \times H_\ell \times W_\ell}\)。我们会将特征图在空间上合并到一个维度，并利用这个变形后的版本。用 \(F^\ell \in \mathbb{R}^{N_\ell \times M_\ell}\) 代表当前图像的特征图，\(P^\ell \in \mathbb{R}^{N_\ell \times M_\ell}\) 代表原图的特征图，其中 \(M_\ell=H_\ell\times W_\ell\)。\(F^\ell\) 和 \(P^\ell\) 的每一行代表特定滤波器的激活向量，是由图像的所有位置卷积而成的。\(w_c\) 是内容损失的权重。</p>
@@ -209,7 +209,7 @@
   <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&title=cs231n-assignment3-styletransfer"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/14/cs231n-assignment3-styletransfer/&name=cs231n-assignment3-styletransfer&description=&lt;p&gt;用神经网络基于两张画来生成一副新的画，一张画表现内容，一张画代表风格，科学家的脑洞也是大！作业里就实现了这种技术，下面一起来学习一下吧～&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/2018/03/14/cs231n-assignment3-styletransfer/style_content.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+&lt;p&gt;&lt;img src=&#34;cs231n-assignment3-styletransfer/style_content.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
