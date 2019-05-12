@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="cat123head -n [行数a] # 显示开始a行tail -n [行数a] # 显示最后a行tail -n +[行数a] # 从a行以后开始显示 单独使用 tail 和 head 比较简单，组合使用时它们的顺序是有讲究的。 从200行开始显示10行： 1cat [filename] | tail -n +200 | head -n 10 等同于显示200行到210行： 1cat [file">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-05T01:47:23.147Z">
+<meta property="og:updated_time" content="2019-05-12T05:29:04.159Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux命令 - 显示文件指定行">
 <meta name="twitter:description" content="cat123head -n [行数a] # 显示开始a行tail -n [行数a] # 显示最后a行tail -n +[行数a] # 从a行以后开始显示 单独使用 tail 和 head 比较简单，组合使用时它们的顺序是有讲究的。 从200行开始显示10行： 1cat [filename] | tail -n +200 | head -n 10 等同于显示200行到210行： 1cat [file">
@@ -149,10 +149,12 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat [filename] | tail -n +200 | head -n 10</div></pre></td></tr></table></figure>
 <p>等同于显示200行到210行：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat [filename] | head -n 210 | tail -n +200</div></pre></td></tr></table></figure>
-<h3 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h3><p>还有一种使用<code>sed</code>命令的方式：</p>
+<h3 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h3><p>还有一种使用<code>sed</code>命令的方式，从200行开始现实10行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sed -n <span class="string">'200, 210p'</span> [filename]</div></pre></td></tr></table></figure>
 <p>参考链接：</p>
-<p><a href="https://blog.csdn.net/vitaminc4/article/details/78136696" target="_blank" rel="external">https://blog.csdn.net/vitaminc4/article/details/78136696</a></p>
+<ul>
+<li><a href="https://blog.csdn.net/vitaminc4/article/details/78136696" target="_blank" rel="external">https://blog.csdn.net/vitaminc4/article/details/78136696</a></li>
+</ul>
 
   </div>
 </article>

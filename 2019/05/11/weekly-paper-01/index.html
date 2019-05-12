@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/05/09/5cd39f284e1fb.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/09/5cd39f84c5807.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/09/5cd3a1b27ccf1.png">
-<meta property="og:updated_time" content="2019-05-10T23:59:26.769Z">
+<meta property="og:updated_time" content="2019-05-12T05:26:00.080Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="每周论文 Vol.01">
 <meta name="twitter:description" content="1️⃣ SNIP: SINGLE-SHOT NETWORK PRUNING BASED ON CONNECTION SENSITIVITY (ICLR2019)基于度量的一种剪枝方法。度量的是权重之间的连接敏感度。优点在于不需要layer-by-layer的训练过程。 砍掉某个连接$j$对loss的影响：$$\Delta L_{j}(\mathbf{w} ; \mathcal{D})=L(\mat">
@@ -156,10 +156,10 @@
 </blockquote>
 <h3 id="2️⃣-Numerical-Coordinate-Regression-with-Convolutional-Neural-Networks"><a href="#2️⃣-Numerical-Coordinate-Regression-with-Convolutional-Neural-Networks" class="headerlink" title="2️⃣ Numerical Coordinate Regression with Convolutional Neural Networks"></a>2️⃣ Numerical Coordinate Regression with Convolutional Neural Networks</h3><p>📍<a href="https://github.com/anibali/dsntnn" target="_blank" rel="external">https://github.com/anibali/dsntnn</a></p>
 <p>本文提出了一个空间可微的数值转换操作(DSNT)来找到输入图像的显著点坐标。</p>
-<p>传统方法有<strong>Heatmap matching</strong>和<strong>Fully connected</strong>，代表性的运用是_Human pose estimation_和_STN_。前者不完全可微，后者缺乏空间泛化能力。</p>
+<p>传统方法有<strong>Heatmap matching</strong>和<strong>Fully connected</strong>，代表性的运用是<em>Human pose estimation</em>和<em>STN</em>。前者不完全可微，后者缺乏空间泛化能力。</p>
 <p><img src="https://i.loli.net/2019/05/07/5cd10b71062f2.png" alt=""></p>
 <p>DSNT的输入是一个单通道归一化的大小为$m \times n$ 的 heatmap $\hat{Z}$，代表了概率分布。输出是显著点的坐标，即概率分布最大点的那个坐标值。用两个相同大小的矩阵$X$和$Y$分别代表$x-$和$y-$坐标，让坐标分布变为左上角是(-1, -1)，右下角是(1,1)。</p>
-<p>我们可以通过坐标 $c$ 计算出这个概率函数：<br>$$<br>\operatorname{Pr}\left(\mathbf{c}=\left[ \begin{array}{ll}{X_{i, j}} &amp; {Y_{i, j}}\end{array}\right]\right)=\hat{Z}_{i, j}<br>$$<br>传统方法利用的是 $c$ 的模，DSNT利用的是 $c$ 的期望$\boldsymbol{\mu}=\mathbb{E}[\mathbf{c}]$，可以用如下公式表示：<br>$$<br>\operatorname{DSNT}(\hat{Z})=\boldsymbol{\mu}=\left[\langle\hat{Z}, \boldsymbol{X}\rangle_{F}<br>\quad\langle\hat{\boldsymbol{Z}}, \boldsymbol{Y}\rangle_{F}\right]<br>$$</p>
+<p>我们可以通过坐标$c$计算出这个概率函数：<br>$$<br>\operatorname{Pr}\left(\mathbf{c}=\left[ \begin{array}{ll}{X_{i, j}} &amp; {Y_{i, j}}\end{array}\right]\right)=\hat{Z}_{i, j}<br>$$<br>传统方法利用的是$c$的模，DSNT利用的是$c$的期望$\boldsymbol{\mu}=\mathbb{E}[\mathbf{c}]$，可以用如下公式表示：<br>$$<br>\operatorname{DSNT}(\hat{Z})=\boldsymbol{\mu}=\left[\langle\hat{Z}, \boldsymbol{X}\rangle_{F}<br>\quad\langle\hat{\boldsymbol{Z}}, \boldsymbol{Y}\rangle_{F}\right]<br>$$</p>
 <blockquote>
 <p>The “mode” is the value that occurs most often. The “mean” is the “average” you’re used to, where you add up all the numbers and then divide by the number of numbers.</p>
 </blockquote>
