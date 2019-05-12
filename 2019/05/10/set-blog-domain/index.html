@@ -6,17 +6,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="在namesilo上购买 官方IP地址：https://help.github.com/en/articles/troubleshooting-custom-domains#dns-configuration-errors 使用DNSpod解析域名 参考链接： http://cps.ninja/2016/10/09/customize-your-blog-domain/">
+    <meta name="description" content="1. 域名购买和设置首先在工信部公示查看可备案的网站后缀，在namesilo上购买喜欢的域名，可以使用支付宝付款。  进入「域名管理」，点击刚申请到的域名    更新「DNS记录」   在其中添加以下三条记录：   A记录类型在这里查看Github的地址，最后一行CNAME是自己的usernmae.github.io，实际上A记录和CNAME指向的是相同的IP地址，设置一项即可。  2. 修改域名">
 <meta property="og:type" content="article">
-<meta property="og:title" content="博客域名设置">
+<meta property="og:title" content="namesilo域名购买 &amp; github pages域名设置">
 <meta property="og:url" content="http://yoursite.com/2019/05/10/set-blog-domain/index.html">
 <meta property="og:site_name" content="Colorjam">
-<meta property="og:description" content="在namesilo上购买 官方IP地址：https://help.github.com/en/articles/troubleshooting-custom-domains#dns-configuration-errors 使用DNSpod解析域名 参考链接： http://cps.ninja/2016/10/09/customize-your-blog-domain/">
+<meta property="og:description" content="1. 域名购买和设置首先在工信部公示查看可备案的网站后缀，在namesilo上购买喜欢的域名，可以使用支付宝付款。  进入「域名管理」，点击刚申请到的域名    更新「DNS记录」   在其中添加以下三条记录：   A记录类型在这里查看Github的地址，最后一行CNAME是自己的usernmae.github.io，实际上A记录和CNAME指向的是相同的IP地址，设置一项即可。  2. 修改域名">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-10T15:44:54.962Z">
+<meta property="og:image" content="https://i.loli.net/2019/05/11/5cd613b55c18e.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/11/5cd612451ffa6.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/11/5cd612ba05f60.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/11/5cd6152a1859a.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/11/5cd6160b109d2.png">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190511082546709.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/11/5cd6186e83770.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/11/5cd6190c11dab.png">
+<meta property="og:updated_time" content="2019-05-12T04:50:42.535Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="博客域名设置">
-<meta name="twitter:description" content="在namesilo上购买 官方IP地址：https://help.github.com/en/articles/troubleshooting-custom-domains#dns-configuration-errors 使用DNSpod解析域名 参考链接： http://cps.ninja/2016/10/09/customize-your-blog-domain/">
+<meta name="twitter:title" content="namesilo域名购买 &amp; github pages域名设置">
+<meta name="twitter:description" content="1. 域名购买和设置首先在工信部公示查看可备案的网站后缀，在namesilo上购买喜欢的域名，可以使用支付宝付款。  进入「域名管理」，点击刚申请到的域名    更新「DNS记录」   在其中添加以下三条记录：   A记录类型在这里查看Github的地址，最后一行CNAME是自己的usernmae.github.io，实际上A记录和CNAME指向的是相同的IP地址，设置一项即可。  2. 修改域名">
+<meta name="twitter:image" content="https://i.loli.net/2019/05/11/5cd613b55c18e.png">
     
     
         
@@ -36,7 +45,7 @@
         
     
     <!-- title -->
-    <title>博客域名设置</title>
+    <title>namesilo域名购买 &amp; github pages域名设置</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -73,6 +82,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" href="/2019/05/11/weekly-paper-01/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" href="/2019/05/10/along-axis/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -88,20 +99,20 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/10/set-blog-domain/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/10/set-blog-domain/&text=博客域名设置"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=博客域名设置"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/10/set-blog-domain/&is_video=false&description=博客域名设置"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=博客域名设置&body=Check out this article: http://yoursite.com/2019/05/10/set-blog-domain/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=博客域名设置"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=博客域名设置"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=博客域名设置"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=博客域名设置"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/10/set-blog-domain/&name=博客域名设置&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/10/set-blog-domain/&text=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/10/set-blog-domain/&is_video=false&description=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=namesilo域名购买 &amp; github pages域名设置&body=Check out this article: http://yoursite.com/2019/05/10/set-blog-domain/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/10/set-blog-domain/&name=namesilo域名购买 &amp; github pages域名设置&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-域名购买和设置"><span class="toc-number">1.</span> <span class="toc-text">1. 域名购买和设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-修改域名DNS服务器"><span class="toc-number">2.</span> <span class="toc-text">2. 修改域名DNS服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-更新Github上的自定义域名"><span class="toc-number">3.</span> <span class="toc-text">3. 更新Github上的自定义域名</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -113,7 +124,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        博客域名设置
+        namesilo域名购买 &amp; github pages域名设置
     </h1>
 
 
@@ -135,11 +146,42 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>在namesilo上购买</p>
-<p>官方IP地址：<a href="https://help.github.com/en/articles/troubleshooting-custom-domains#dns-configuration-errors" target="_blank" rel="external">https://help.github.com/en/articles/troubleshooting-custom-domains#dns-configuration-errors</a></p>
-<p>使用DNSpod解析域名</p>
-<p>参考链接：</p>
-<p><a href="http://cps.ninja/2016/10/09/customize-your-blog-domain/" target="_blank" rel="external">http://cps.ninja/2016/10/09/customize-your-blog-domain/</a></p>
+    <h3 id="1-域名购买和设置"><a href="#1-域名购买和设置" class="headerlink" title="1. 域名购买和设置"></a>1. 域名购买和设置</h3><p>首先在<a href="http://xn--eqrt2g.xn--vuq861b/#" target="_blank" rel="external">工信部公示</a>查看可备案的网站后缀，在<a href="https://www.namesilo.com/" target="_blank" rel="external">namesilo</a>上购买喜欢的域名，可以使用支付宝付款。</p>
+<ul>
+<li>进入「域名管理」，点击刚申请到的域名</li>
+</ul>
+<p><img src="https://i.loli.net/2019/05/11/5cd613b55c18e.png" alt=""></p>
+<ul>
+<li>更新「DNS记录」</li>
+</ul>
+<p><img src="https://i.loli.net/2019/05/11/5cd612451ffa6.png" alt=""></p>
+<p>在其中添加以下三条记录：</p>
+<p><img src="https://i.loli.net/2019/05/11/5cd612ba05f60.png" alt=""></p>
+<blockquote>
+<p>A记录类型在<a href="https://help.github.com/en/articles/troubleshooting-custom-domains#dns-configuration-errors" target="_blank" rel="external">这里</a>查看Github的地址，最后一行CNAME是自己的<code>usernmae.github.io</code>，实际上A记录和CNAME指向的是相同的IP地址，设置一项即可。</p>
+</blockquote>
+<h3 id="2-修改域名DNS服务器"><a href="#2-修改域名DNS服务器" class="headerlink" title="2. 修改域名DNS服务器"></a>2. 修改域名DNS服务器</h3><ul>
+<li>在namesilo上将域名服务商修改为<a href="https://www.dnspod.cn/console/dns" target="_blank" rel="external">DNSpod</a></li>
+</ul>
+<p><img src="https://i.loli.net/2019/05/11/5cd6152a1859a.png" alt=""></p>
+<blockquote>
+<p>DNSpod提供了两个免费的DNS地址：f1g1ns1.dnspod.net / f1g1ns2.dnspod.net</p>
+</blockquote>
+<ul>
+<li>登陆DNSpod，添加域名和记录</li>
+</ul>
+<p><img src="https://i.loli.net/2019/05/11/5cd6160b109d2.png" alt=""></p>
+<p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190511082546709.png" alt="image-20190511082546709"></p>
+<h3 id="3-更新Github上的自定义域名"><a href="#3-更新Github上的自定义域名" class="headerlink" title="3. 更新Github上的自定义域名"></a>3. 更新Github上的自定义域名</h3><p>进入本地存储博客的文件夹</p>
+<p><img src="https://i.loli.net/2019/05/11/5cd6186e83770.png" alt=""></p>
+<p>创建一个没有后缀的<code>CNAME</code>文件，输入购买的域名。</p>
+<p><img src="https://i.loli.net/2019/05/11/5cd6190c11dab.png" alt=""></p>
+<p>部署到github上，就可以利用自定义的域名访问博客啦～</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo clean &amp;&amp; hexo generate &amp;&amp; hexo deploy</div></pre></td></tr></table></figure>
+<p><strong>参考链接：</strong></p>
+<ul>
+<li><a href="http://cps.ninja/2016/10/09/customize-your-blog-domain/" target="_blank" rel="external">http://cps.ninja/2016/10/09/customize-your-blog-domain/</a></li>
+</ul>
 
   </div>
 </article>
@@ -166,21 +208,21 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-域名购买和设置"><span class="toc-number">1.</span> <span class="toc-text">1. 域名购买和设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-修改域名DNS服务器"><span class="toc-number">2.</span> <span class="toc-text">2. 修改域名DNS服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-更新Github上的自定义域名"><span class="toc-number">3.</span> <span class="toc-text">3. 更新Github上的自定义域名</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/10/set-blog-domain/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/10/set-blog-domain/&text=博客域名设置"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=博客域名设置"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/10/set-blog-domain/&is_video=false&description=博客域名设置"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=博客域名设置&body=Check out this article: http://yoursite.com/2019/05/10/set-blog-domain/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=博客域名设置"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=博客域名设置"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=博客域名设置"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=博客域名设置"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/10/set-blog-domain/&name=博客域名设置&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/10/set-blog-domain/&text=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/10/set-blog-domain/&is_video=false&description=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=namesilo域名购买 &amp; github pages域名设置&body=Check out this article: http://yoursite.com/2019/05/10/set-blog-domain/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/10/set-blog-domain/&title=namesilo域名购买 &amp; github pages域名设置"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/10/set-blog-domain/&name=namesilo域名购买 &amp; github pages域名设置&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

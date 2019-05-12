@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1️⃣ SNIP: SINGLE-SHOT NETWORK PRUNING BASED ON CONNECTION SENSITIVITY (ICLR2019)基于度量的一种剪枝方法。度量的是权重之间的连接敏感度。优点在于不需要layer-by-layer的训练过程。 砍掉某个连接$j$对loss的影响：$$\Delta L_{j}(\mathbf{w} ; \mathcal{D})=L(\mat">
+<meta name="keywords" content="paper, 每周论文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每周论文 Vol.01">
+<meta property="og:url" content="http://yoursite.com/2019/05/11/weekly-paper-01/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="1️⃣ SNIP: SINGLE-SHOT NETWORK PRUNING BASED ON CONNECTION SENSITIVITY (ICLR2019)基于度量的一种剪枝方法。度量的是权重之间的连接敏感度。优点在于不需要layer-by-layer的训练过程。 砍掉某个连接$j$对loss的影响：$$\Delta L_{j}(\mathbf{w} ; \mathcal{D})=L(\mat">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://i.loli.net/2019/05/09/5cd3a33306172.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/07/5cd10b71062f2.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/07/5cd1422432340.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/09/5cd39f284e1fb.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/09/5cd39f84c5807.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/09/5cd3a1b27ccf1.png">
+<meta property="og:updated_time" content="2019-05-10T23:59:26.769Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="每周论文 Vol.01">
+<meta name="twitter:description" content="1️⃣ SNIP: SINGLE-SHOT NETWORK PRUNING BASED ON CONNECTION SENSITIVITY (ICLR2019)基于度量的一种剪枝方法。度量的是权重之间的连接敏感度。优点在于不需要layer-by-layer的训练过程。 砍掉某个连接$j$对loss的影响：$$\Delta L_{j}(\mathbf{w} ; \mathcal{D})=L(\mat">
+<meta name="twitter:image" content="https://i.loli.net/2019/05/09/5cd3a33306172.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>每周论文 Vol.01</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/05/10/set-blog-domain/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/11/weekly-paper-01/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/11/weekly-paper-01/&text=每周论文 Vol.01"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/11/weekly-paper-01/&title=每周论文 Vol.01"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/11/weekly-paper-01/&is_video=false&description=每周论文 Vol.01"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每周论文 Vol.01&body=Check out this article: http://yoursite.com/2019/05/11/weekly-paper-01/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/11/weekly-paper-01/&title=每周论文 Vol.01"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/11/weekly-paper-01/&title=每周论文 Vol.01"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/11/weekly-paper-01/&title=每周论文 Vol.01"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/11/weekly-paper-01/&title=每周论文 Vol.01"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/11/weekly-paper-01/&name=每周论文 Vol.01&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-SNIP-SINGLE-SHOT-NETWORK-PRUNING-BASED-ON-CONNECTION-SENSITIVITY-ICLR2019"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ SNIP: SINGLE-SHOT NETWORK PRUNING BASED ON CONNECTION SENSITIVITY (ICLR2019)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2️⃣-Numerical-Coordinate-Regression-with-Convolutional-Neural-Networks"><span class="toc-number">2.</span> <span class="toc-text">2️⃣ Numerical Coordinate Regression with Convolutional Neural Networks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3️⃣-Searching-for-MobileNetV3"><span class="toc-number">3.</span> <span class="toc-text">3️⃣ Searching for MobileNetV3</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        每周论文 Vol.01
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-05-10T23:57:11.000Z" itemprop="datePublished">2019-05-11</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/paper-每周论文/">paper, 每周论文</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="1️⃣-SNIP-SINGLE-SHOT-NETWORK-PRUNING-BASED-ON-CONNECTION-SENSITIVITY-ICLR2019"><a href="#1️⃣-SNIP-SINGLE-SHOT-NETWORK-PRUNING-BASED-ON-CONNECTION-SENSITIVITY-ICLR2019" class="headerlink" title="1️⃣ SNIP: SINGLE-SHOT NETWORK PRUNING BASED ON CONNECTION SENSITIVITY (ICLR2019)"></a>1️⃣ SNIP: SINGLE-SHOT NETWORK PRUNING BASED ON CONNECTION SENSITIVITY (ICLR2019)</h3><p>基于度量的一种剪枝方法。度量的是权重之间的连接敏感度。优点在于不需要layer-by-layer的训练过程。</p>
+<p>砍掉某个连接$j$对loss的影响：<br>$$<br>\Delta L_{j}(\mathbf{w} ; \mathcal{D})=L(\mathbf{1} \odot \mathbf{w} ; \mathcal{D})-L\left(\left(\mathbf{1}-\mathbf{e}_{j}\right) \odot \mathbf{w} ; \mathcal{D}\right)<br>$$<br>但是上式不可导，作者用$g_j$来代表评估指标，将离散的$e_j$松弛为连续值$\delta e_j$：<br>$$<br>\Delta L_{j}(\mathbf{w} ; \mathcal{D}) \approx g_{j}(\mathbf{w} ; \mathcal{D})=\left.\frac{\partial L(\mathbf{c} \odot \mathbf{w} ; \mathcal{D})}{\partial c_{j}}\right|_{\mathbf{c}=1}=\lim _{\delta \rightarrow 0}\left.\frac{L(\mathbf{c} \odot \mathbf{w} ; \mathcal{D})-L\left(\left(\mathbf{c}-\delta \mathbf{e}_{j}\right) \odot \mathbf{w} ; \mathcal{D}\right)}{\delta}\right|_{\mathbf{c}=1}<br>$$<br>定义了连接敏感度：<br>$$<br>s_{j}=\frac{\left|g_{j}(\mathbf{w} ; \mathcal{D})\right|}{\sum_{k=1}^{m}\left|g_{k}(\mathbf{w} ; \mathcal{D})\right|}<br>$$<br>算法过程：</p>
+<p><img src="https://i.loli.net/2019/05/09/5cd3a33306172.png" alt=""></p>
+<blockquote>
+<p>连接敏感度的计算方式简单，就像是在权重上加了一些噪音，看一下它对loss的影响。但是它的算法过程是对随机初始化的网络权重进行剪枝，再训练q。这样的剪枝是否有意义？</p>
+</blockquote>
+<h3 id="2️⃣-Numerical-Coordinate-Regression-with-Convolutional-Neural-Networks"><a href="#2️⃣-Numerical-Coordinate-Regression-with-Convolutional-Neural-Networks" class="headerlink" title="2️⃣ Numerical Coordinate Regression with Convolutional Neural Networks"></a>2️⃣ Numerical Coordinate Regression with Convolutional Neural Networks</h3><p>📍<a href="https://github.com/anibali/dsntnn" target="_blank" rel="external">https://github.com/anibali/dsntnn</a></p>
+<p>本文提出了一个空间可微的数值转换操作(DSNT)来找到输入图像的显著点坐标。</p>
+<p>传统方法有<strong>Heatmap matching</strong>和<strong>Fully connected</strong>，代表性的运用是_Human pose estimation_和_STN_。前者不完全可微，后者缺乏空间泛化能力。</p>
+<p><img src="https://i.loli.net/2019/05/07/5cd10b71062f2.png" alt=""></p>
+<p>DSNT的输入是一个单通道归一化的大小为$m \times n$ 的 heatmap $\hat{Z}$，代表了概率分布。输出是显著点的坐标，即概率分布最大点的那个坐标值。用两个相同大小的矩阵$X$和$Y$分别代表$x-$和$y-$坐标，让坐标分布变为左上角是(-1, -1)，右下角是(1,1)。</p>
+<p>我们可以通过坐标 $c$ 计算出这个概率函数：<br>$$<br>\operatorname{Pr}\left(\mathbf{c}=\left[ \begin{array}{ll}{X_{i, j}} &amp; {Y_{i, j}}\end{array}\right]\right)=\hat{Z}_{i, j}<br>$$<br>传统方法利用的是 $c$ 的模，DSNT利用的是 $c$ 的期望$\boldsymbol{\mu}=\mathbb{E}[\mathbf{c}]$，可以用如下公式表示：<br>$$<br>\operatorname{DSNT}(\hat{Z})=\boldsymbol{\mu}=\left[\langle\hat{Z}, \boldsymbol{X}\rangle_{F}<br>\quad\langle\hat{\boldsymbol{Z}}, \boldsymbol{Y}\rangle_{F}\right]<br>$$</p>
+<blockquote>
+<p>The “mode” is the value that occurs most often. The “mean” is the “average” you’re used to, where you add up all the numbers and then divide by the number of numbers.</p>
+</blockquote>
+<p>一个直观的例子：</p>
+<p><img src="https://i.loli.net/2019/05/07/5cd1422432340.png" alt=""></p>
+<p>DSNT的损失函数由两个部分组成：<br>$$<br>\mathcal{L}(\hat{Z}, \boldsymbol{p})=\mathcal{L}_{e u c}(\operatorname{DSNT}(\hat{Z}), \boldsymbol{p})+\lambda \mathcal{L}_{r e g}(\hat{Z})<br>$$<br>第一部分直接计算预测坐标和gt的欧式距离：<br>$$<br>\mathcal{L}_{e u c}(\boldsymbol{\mu}, \boldsymbol{p})=|\boldsymbol{p}-\boldsymbol{\mu}|_{2}<br>$$<br>第二部分是正则项，文章对比了两种正则方法：</p>
+<ol>
+<li><p>方差正则：<br>$$<br>\begin{aligned} \operatorname{Var}\left[\mathrm{c}_{x}\right] &amp;=\mathbb{E}\left[\left(\mathrm{c}_{x}-\mathbb{E}\left[\mathrm{c}_{x}\right]\right)^{2}\right] \\ &amp;=\left\langle\hat{Z},\left(\boldsymbol{X}-\mu_{x}\right) \odot\left(\boldsymbol{X}-\mu_{x}\right)\right\rangle_{F} \end{aligned}<br>$$</p>
+<p>$$<br>\mathcal{L}_{v a r}(\hat{Z})=\left(\operatorname{Var}\left[c_{x}\right]-\sigma_{t}^{2}\right)^{2}+\left(\operatorname{Var}\left[\mathrm{c}_{y}\right]-\sigma_{t}^{2}\right)^{2}<br>$$</p>
+</li>
+<li><p>分布正则（KL散度/JS散度）：<br>$$<br>\mathcal{L}_{D}(\hat{Z}, \boldsymbol{p})=D\left(p(\mathbf{c}) | \mathcal{N}\left(\boldsymbol{p}, \sigma_{t}^{2} \boldsymbol{I}_{2}\right)\right)<br>$$</p>
+</li>
+</ol>
+<h3 id="3️⃣-Searching-for-MobileNetV3"><a href="#3️⃣-Searching-for-MobileNetV3" class="headerlink" title="3️⃣ Searching for MobileNetV3"></a>3️⃣ Searching for MobileNetV3</h3><ul>
+<li><p>用搜索的方式搜索网络结构</p>
+<ul>
+<li>Block-wise：用MnasNet-A1作为初始大网络，修改了反馈$A C C(m) \times[L A T(m) / T A R]^{w}$</li>
+<li>Layer-wise：NetAdapt的剪枝方式，修改了评估指标$\frac{\Delta \mathrm{Acc}}{|\Delta \mathrm{latency}|}$</li>
+</ul>
+</li>
+<li><p>加入了SEblock，重新设计了网络的输出层</p>
+<p><img src="https://i.loli.net/2019/05/09/5cd39f284e1fb.png" alt=""></p>
+<p><img src="https://i.loli.net/2019/05/09/5cd39f84c5807.png" alt=""></p>
+</li>
+<li><p>基于swish提出了h-swish替代ReLU<br>$$<br>\mathrm{h}-\operatorname{swish}[x]=x \frac{\operatorname{Re} \mathrm{LU} 6(x+3)}{6}<br>$$</p>
+</li>
+<li><p>在语义分割任务上基于R-ASPP，提出了LR-ASSP。</p>
+<p><img src="https://i.loli.net/2019/05/09/5cd3a1b27ccf1.png" alt=""></p>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-SNIP-SINGLE-SHOT-NETWORK-PRUNING-BASED-ON-CONNECTION-SENSITIVITY-ICLR2019"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ SNIP: SINGLE-SHOT NETWORK PRUNING BASED ON CONNECTION SENSITIVITY (ICLR2019)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2️⃣-Numerical-Coordinate-Regression-with-Convolutional-Neural-Networks"><span class="toc-number">2.</span> <span class="toc-text">2️⃣ Numerical Coordinate Regression with Convolutional Neural Networks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3️⃣-Searching-for-MobileNetV3"><span class="toc-number">3.</span> <span class="toc-text">3️⃣ Searching for MobileNetV3</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/11/weekly-paper-01/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/11/weekly-paper-01/&text=每周论文 Vol.01"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/11/weekly-paper-01/&title=每周论文 Vol.01"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/11/weekly-paper-01/&is_video=false&description=每周论文 Vol.01"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每周论文 Vol.01&body=Check out this article: http://yoursite.com/2019/05/11/weekly-paper-01/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/11/weekly-paper-01/&title=每周论文 Vol.01"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/11/weekly-paper-01/&title=每周论文 Vol.01"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/11/weekly-paper-01/&title=每周论文 Vol.01"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/11/weekly-paper-01/&title=每周论文 Vol.01"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/11/weekly-paper-01/&name=每周论文 Vol.01&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
