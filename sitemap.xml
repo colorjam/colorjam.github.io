@@ -2,23 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2019/05/05/linux-cat/</loc>
+    <loc>http://yoursite.com/2019/05/13/weekly-paper-02/</loc>
     
-    <lastmod>2019-05-12T05:29:04.159Z</lastmod>
+    <lastmod>2019-05-15T10:16:50.289Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/05/11/weekly-paper-01/</loc>
+    <loc>http://yoursite.com/2019/05/12/Revisiting%20the%20Importance%20of%20Individual%20Units%20in%20CNNs%20via%20Ablation/</loc>
     
-    <lastmod>2019-05-12T05:26:00.080Z</lastmod>
+    <lastmod>2019-05-14T08:10:47.189Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/05/14/file/</loc>
+    
+    <lastmod>2019-05-14T08:01:59.430Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/2019/05/10/set-blog-domain/</loc>
     
-    <lastmod>2019-05-12T04:50:42.535Z</lastmod>
+    <lastmod>2019-05-12T10:56:08.729Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/05/11/weekly-paper-01/</loc>
+    
+    <lastmod>2019-05-12T09:01:21.046Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/05/05/linux-cat/</loc>
+    
+    <lastmod>2019-05-12T05:29:04.159Z</lastmod>
     
   </url>
   

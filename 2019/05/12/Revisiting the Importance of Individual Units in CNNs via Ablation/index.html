@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="之前的一些工作通过可视化每个神经元的方式来理解神经网络，它们选择的是high selectivity的神经元，发现网络浅层识别的是具体的图案（e.g 纹理、图像），网络深层识别的是语义信息（e.g 狗头、车轮），论文[11]似乎打脸了这种方式，表明对于代表整体分类精度，class selectivity属性不能用来预测神经元的重要性。 本文表明这两种方式都是合理的。用class selectivi">
+<meta name="keywords" content="paper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Revisiting the Importance of Individual Units in CNNs via Ablation">
+<meta property="og:url" content="http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="之前的一些工作通过可视化每个神经元的方式来理解神经网络，它们选择的是high selectivity的神经元，发现网络浅层识别的是具体的图案（e.g 纹理、图像），网络深层识别的是语义信息（e.g 狗头、车轮），论文[11]似乎打脸了这种方式，表明对于代表整体分类精度，class selectivity属性不能用来预测神经元的重要性。 本文表明这两种方式都是合理的。用class selectivi">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-14T08:10:47.189Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Revisiting the Importance of Individual Units in CNNs via Ablation">
+<meta name="twitter:description" content="之前的一些工作通过可视化每个神经元的方式来理解神经网络，它们选择的是high selectivity的神经元，发现网络浅层识别的是具体的图案（e.g 纹理、图像），网络深层识别的是语义信息（e.g 狗头、车轮），论文[11]似乎打脸了这种方式，表明对于代表整体分类精度，class selectivity属性不能用来预测神经元的重要性。 本文表明这两种方式都是合理的。用class selectivi">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Revisiting the Importance of Individual Units in CNNs via Ablation</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/13/weekly-paper-02/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/11/weekly-paper-01/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&text=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&title=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&is_video=false&description=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Revisiting the Importance of Individual Units in CNNs via Ablation&body=Check out this article: http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&title=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&title=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&title=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&title=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&name=Revisiting the Importance of Individual Units in CNNs via Ablation&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Revisiting the Importance of Individual Units in CNNs via Ablation
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-05-12T05:51:59.000Z" itemprop="datePublished">2019-05-12</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/paper/">paper</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>之前的一些工作通过可视化每个神经元的方式来理解神经网络，它们选择的是<em>high selectivity</em>的神经元，发现网络浅层识别的是具体的图案（e.g 纹理、图像），网络深层识别的是语义信息（e.g 狗头、车轮），论文[11]似乎打脸了这种方式，表明对于代表整体分类精度，<em>class selectivity</em>属性不能用来预测神经元的重要性。</p>
+<p>本文表明这两种方式都是合理的。用<em>class selectivity</em>或其他属性来预测神经元的重要性从整体分类精度（网络的泛化性</p>
+<p>）上来看确实不好，但是能作为具体类别的判断依据。</p>
+<p><strong>抑制神经元的方式</strong>：将其weight和bias设置成0。</p>
+<p><strong>两种精度下降类型：</strong>overall accuracy drop &amp; max class accuracy drop</p>
+<p><strong>判断神经元重要性的属性：</strong></p>
+<ul>
+<li><p>L1 Norm：<br>$$<br>\operatorname{norm}_{1}(i)=\left|w_{i}\right|_{1}=\sum_{j}\left|\left(w_{i}\right)_{j}\right|<br>$$</p>
+</li>
+<li><p>Class Correlation：<br>$$<br>\operatorname{corr}(i, k)=\frac{E\left[\left(x_{i}-\overline{x}_{i}\right)\left(p_{k}-\overline{p}_{k}\right)\right]}{\sigma_{x_{i}} \sigma_{p_{k}}}<br>$$</p>
+</li>
+<li><p>Class Selectivity：</p>
+</li>
+</ul>
+<p>$$<br>\operatorname{select}(i, k)=\frac{\overline{x}_{i}^{k}-\overline{x}_{i}^{-k}}{\overline{x}_{i}^{k}+\overline{x}_{i}^{-k}}<br>$$</p>
+<p>​        其中$\overline{x}_{i}^{k}$表示神经元$i$属于kth类别的平均激活值，$\overline{x}_{i}^{-k}$表示神经元$i$属于non-kth类别的平均激活值的均值。这个值的范围是[0, 1]，0表示一个神经元的平均激活值与其他类别都相同，1表示一个神经元只对某个类别的输入有反应。</p>
+<ul>
+<li>Concept Alighment：IoU between unit activation and gt concepts</li>
+<li>Unit Visualization</li>
+</ul>
+<p>🔺 <strong>实验一：</strong>验证抑制单个神经元/一组神经元对两种精度下降类型的影响。</p>
+<ul>
+<li>实验方式：<ul>
+<li>抑制某个神经元，横轴表示CLass，纵轴表示Class Accuracy Drop。</li>
+<li>针对特定的网络层，根据Mac Class Accuracy Drop进行排序，绘制三条曲线（Overal Accuracy Drop / Max Class Accuracy Drop / Min Class Accuracy Drop）。</li>
+<li>利用greedy的方式迭代地移除降低特定类准确率最多的神经元。绘制了特定类别精度下降的曲线，和所有类别平均精度下降的曲线。同时用random作为baseline。</li>
+</ul>
+</li>
+<li>结论：<ul>
+<li>抑制单个神经元对某些类别的分类精度影响很大，但对总体的精度影响不大，并且能通过可视化的形式看出这些抑制的神经元确实展现出了相应类别的特点。</li>
+<li>greedy地抑制一组神经元，能使这个类别的精度大大降低，但是random的方式影响不大。</li>
+</ul>
+</li>
+</ul>
+<p>🔺 <strong>实验二：</strong>验证不同属性与精度下降之间的关系。</p>
+<ul>
+<li>实验方式：<ul>
+<li>用斯皮尔曼相关系数和P值统计了不同属性值与精度下降之间的相关性。</li>
+<li>用不同属性判断出的最重要的那个神经元来预测分类</li>
+</ul>
+</li>
+<li>结论：<ul>
+<li>对于整体精度下降：class selectivity，class correlation和concept alighment表示出正相关，L1是负相关。也就是说，当抑制class selectivity值很大的神经元，对整体网络的精度下降影响较小，与论文[11]中结论一致。</li>
+<li>对于最大类别精度下降：每个属性基本都表现出负相关。说明抑制这些属性值大的神经元，对特定类别精度影响很大。</li>
+<li>Concept Alignment似乎最能代表神经元的重要性</li>
+</ul>
+</li>
+</ul>
+<p>🔺 <strong>实验三：</strong>验证选择的神经元与其方向相关，而不是随机方向。</p>
+<p>🔺 <strong>实验四：</strong>验证BN和Dropout的影响。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&text=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&title=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&is_video=false&description=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Revisiting the Importance of Individual Units in CNNs via Ablation&body=Check out this article: http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&title=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&title=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&title=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&title=Revisiting the Importance of Individual Units in CNNs via Ablation"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/&name=Revisiting the Importance of Individual Units in CNNs via Ablation&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

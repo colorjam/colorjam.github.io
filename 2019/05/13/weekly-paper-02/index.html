@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1️⃣ ON THE IMPORTANCE OF SINGLE DIRECTIONS FOR GENERALIZATION在《Revisiting the Importance of Individual Units in CNNs via Ablation》的基础上看了这篇论文。 本文探究的是激活值的单方向依赖对网络泛化性能的影响，通过对units进行抑制/加噪声，表示网络对单反向的依赖能较好的">
+<meta name="keywords" content="paper,每周论文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="weekly-paper-02">
+<meta property="og:url" content="http://yoursite.com/2019/05/13/weekly-paper-02/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="1️⃣ ON THE IMPORTANCE OF SINGLE DIRECTIONS FOR GENERALIZATION在《Revisiting the Importance of Individual Units in CNNs via Ablation》的基础上看了这篇论文。 本文探究的是激活值的单方向依赖对网络泛化性能的影响，通过对units进行抑制/加噪声，表示网络对单反向的依赖能较好的">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-15T10:16:50.289Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="weekly-paper-02">
+<meta name="twitter:description" content="1️⃣ ON THE IMPORTANCE OF SINGLE DIRECTIONS FOR GENERALIZATION在《Revisiting the Importance of Individual Units in CNNs via Ablation》的基础上看了这篇论文。 本文探究的是激活值的单方向依赖对网络泛化性能的影响，通过对units进行抑制/加噪声，表示网络对单反向的依赖能较好的">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>weekly-paper-02</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/14/file/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/12/Revisiting the Importance of Individual Units in CNNs via Ablation/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/13/weekly-paper-02/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/13/weekly-paper-02/&text=weekly-paper-02"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/13/weekly-paper-02/&title=weekly-paper-02"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/13/weekly-paper-02/&is_video=false&description=weekly-paper-02"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=weekly-paper-02&body=Check out this article: http://yoursite.com/2019/05/13/weekly-paper-02/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/13/weekly-paper-02/&title=weekly-paper-02"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/13/weekly-paper-02/&title=weekly-paper-02"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/13/weekly-paper-02/&title=weekly-paper-02"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/13/weekly-paper-02/&title=weekly-paper-02"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/13/weekly-paper-02/&name=weekly-paper-02&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-ON-THE-IMPORTANCE-OF-SINGLE-DIRECTIONS-FOR-GENERALIZATION"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ ON THE IMPORTANCE OF SINGLE DIRECTIONS FOR GENERALIZATION</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2️⃣-MaskConnect-Connectivity-Learning-by-Gradient-Descent"><span class="toc-number">2.</span> <span class="toc-text">2️⃣  MaskConnect: Connectivity Learning by Gradient Descent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3️⃣-MODEL-COMPRESSION-VIA-DISTILLATION-AND-QUANTIZATION"><span class="toc-number">3.</span> <span class="toc-text">3️⃣ MODEL COMPRESSION VIA DISTILLATION AND QUANTIZATION</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        weekly-paper-02
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-05-13T02:50:43.000Z" itemprop="datePublished">2019-05-13</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/paper/">paper</a>, <a class="tag-link" href="/tags/每周论文/">每周论文</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="1️⃣-ON-THE-IMPORTANCE-OF-SINGLE-DIRECTIONS-FOR-GENERALIZATION"><a href="#1️⃣-ON-THE-IMPORTANCE-OF-SINGLE-DIRECTIONS-FOR-GENERALIZATION" class="headerlink" title="1️⃣ ON THE IMPORTANCE OF SINGLE DIRECTIONS FOR GENERALIZATION"></a>1️⃣ ON THE IMPORTANCE OF SINGLE DIRECTIONS FOR GENERALIZATION</h3><p>在《Revisiting the Importance of Individual Units in CNNs via Ablation》的基础上看了这篇论文。</p>
+<p>本文探究的是激活值的单方向依赖对网络泛化性能的影响，通过对units进行抑制/加噪声，表示网络对单反向的依赖能较好的预测其泛化性能。文章讲了一个故事，一个网络只通过记忆每张输入和其对应的输出，泛化性差(memorizing network)，另一个网络能够找到数据中的结构性，泛化性佳(structure-finding network)。memorizing network找到的最小描述长度应该大于structure-finding network。因此，memorizing network会使用更多的单反向，那么，如果随机扰乱单一方向，对memorizing network的影响应该大于structure-finding network。</p>
+<p>通过对dropout和BN实验（两个方法都增强了网络的泛化性），表明尽管dropout能在一定程度上避免记忆随机标签，但不能避免训练过程中的过度单方向依赖。加了BN的网络进行神经元抑制时，训练精度会降得比较慢，说明BN也不鼓励单方向依赖。</p>
+<p>接着文章验证了class selectivity与神经元重要性的关系。提出了两个问题：</p>
+<ol>
+<li><p>BN不鼓励单方向依赖，那么是否会影响单反向的类别信息分布？</p>
+<p>文章使用class selectivity来衡量类别信息分布，high class selectivity说明关注的是单一类别，low class selectivity说明关注的是多个类别。没有BN的网络反而显示出更高的class selectivity。表明BN层鼓励feature map去学习多种类别的信息，而不是关注单一类别。</p>
+</li>
+<li><p>是否能够利用unit的class selectivity，判断unit的重要性？</p>
+<p>文章发现class selectivity和网络浅层的feature map负相关，与网络深层则无关。作者利用互信息也做了相同的实验。得到一致的结果。以此说明class selectiviy并不能代表unit的重要性。</p>
+</li>
+</ol>
+<blockquote>
+<p>🧐 本文的结论是紧凑网络对单方向的依赖性较少，那么如何找到一个衡量unit方向性的函数，来进行网络压缩呢？</p>
+</blockquote>
+<h3 id="2️⃣-MaskConnect-Connectivity-Learning-by-Gradient-Descent"><a href="#2️⃣-MaskConnect-Connectivity-Learning-by-Gradient-Descent" class="headerlink" title="2️⃣  MaskConnect: Connectivity Learning by Gradient Descent"></a>2️⃣  MaskConnect: Connectivity Learning by Gradient Descent</h3><p>用梯度下降自动学习连接。和网络权重一起学习<em>connectivity masks</em>，来决定网络block之间的连接。</p>
+<p>第$j$个block的输入可以由前面所有输出相加而成，用二值的$m$表示是否连接：<br>$$<br>\mathbf{x}_{j}=\sum_{k=1}^{j-1} m_{j, k} \cdot \mathbf{y}_{k}<br>$$<br>本文表示每个block只和$K$个连接效果最好：<br>$$<br>m_{j, k} \in\{0,1\} \forall j, k, \quad and \quad \sum_{k=1}^{j-1} m_{j, k}=K \forall j<br>$$<br>🔺 训练过程：</p>
+<p><strong>Forward Propagation</strong>. 限制实值的mask的和为1，即$\sum_{k=1}^{j-1} \tilde{m}_{j, k}=1$，代表一个多项式分布，从中采样K个样本$a_{1}, a_{2}, \ldots, a_{K} \in\{1, \ldots,(j-1)\}$，激活对应的mask $m_{j, a_{k}} \leftarrow 1$。</p>
+<p><strong>Backward Propagation.</strong> 第$k$个block输出的梯度通过二值$m_{j,k}$和$x_j$的梯度获得。</p>
+<p><strong>Mask Update.</strong> 通过clip实值mask，限制它们在[0,1]的范围。</p>
+<p>🔺 训练结束：</p>
+<p>（1）为每个$m_j$激活$\tilde{m}_{j}$中top-K的连接，</p>
+<p>（2）固定二值mask，ft网络权重$\theta$</p>
+<blockquote>
+<p>🧐 本文算是NAS的分支吧，搜索的只是网络块之间的连接。每个block有一个多项式分布，代表它与之前所有block连接的概率，从这个分布中采样激活的连接。结合我想做的东西，<strong>根据不同的输入图片选择不同的block</strong>，每个block的输出为一个num_classes的分布，每个元素代表某个类激活这个block概率，利用这个概率进行二项式分布的采样。</p>
+</blockquote>
+<h3 id="3️⃣-MODEL-COMPRESSION-VIA-DISTILLATION-AND-QUANTIZATION"><a href="#3️⃣-MODEL-COMPRESSION-VIA-DISTILLATION-AND-QUANTIZATION" class="headerlink" title="3️⃣ MODEL COMPRESSION VIA DISTILLATION AND QUANTIZATION"></a>3️⃣ MODEL COMPRESSION VIA DISTILLATION AND QUANTIZATION</h3><p>本文提出了两个压缩方法：1.<em> quantized distillation</em>：利用蒸馏训练权重是量化的小网络。 2. <em>differentiable quantization</em>：通过梯度下降优化量化点的位置。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-ON-THE-IMPORTANCE-OF-SINGLE-DIRECTIONS-FOR-GENERALIZATION"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ ON THE IMPORTANCE OF SINGLE DIRECTIONS FOR GENERALIZATION</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2️⃣-MaskConnect-Connectivity-Learning-by-Gradient-Descent"><span class="toc-number">2.</span> <span class="toc-text">2️⃣  MaskConnect: Connectivity Learning by Gradient Descent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3️⃣-MODEL-COMPRESSION-VIA-DISTILLATION-AND-QUANTIZATION"><span class="toc-number">3.</span> <span class="toc-text">3️⃣ MODEL COMPRESSION VIA DISTILLATION AND QUANTIZATION</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/13/weekly-paper-02/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/13/weekly-paper-02/&text=weekly-paper-02"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/13/weekly-paper-02/&title=weekly-paper-02"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/13/weekly-paper-02/&is_video=false&description=weekly-paper-02"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=weekly-paper-02&body=Check out this article: http://yoursite.com/2019/05/13/weekly-paper-02/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/13/weekly-paper-02/&title=weekly-paper-02"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/13/weekly-paper-02/&title=weekly-paper-02"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/13/weekly-paper-02/&title=weekly-paper-02"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/13/weekly-paper-02/&title=weekly-paper-02"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/13/weekly-paper-02/&name=weekly-paper-02&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
