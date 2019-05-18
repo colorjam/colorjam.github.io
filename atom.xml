@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-05-14T08:01:59.430Z</updated>
+  <updated>2019-05-18T05:20:42.614Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,26 +17,93 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>syntax error</title>
-    <link href="http://yoursite.com/2019/05/14/file/"/>
-    <id>http://yoursite.com/2019/05/14/file/</id>
-    <published>2019-05-14T07:59:37.000Z</published>
-    <updated>2019-05-14T08:01:59.430Z</updated>
+    <title>tf-memory-leak</title>
+    <link href="http://yoursite.com/2019/05/18/tf-memory-leak/"/>
+    <id>http://yoursite.com/2019/05/18/tf-memory-leak/</id>
+    <published>2019-05-18T05:13:31.000Z</published>
+    <updated>2019-05-18T05:20:42.614Z</updated>
     
-    <content type="html"><![CDATA[<p>执行报错bash命令报错：syntax error: unexpected end of file</p>]]></content>
+    <content type="html"><![CDATA[<p>用tensorflow经常会出现OOM的现象，查了一下发现了一篇文章<a href="https://dantkz.github.io/How-To-Debug-A-Memory-Leak-In-TensorFlow/" target="_blank" rel="external">How To Debug A Memory Leak In Tensorflow</a></p><p>由于tf存在内存泄漏问题，许多人会用 <a href="http://goog-perftools.sourceforge.net/doc/tcmalloc.html" target="_blank" rel="external">tcmalloc</a> 来替代 malloc()。</p><p>但是运行程序的时候会报错：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ERROR: ld.so: object <span class="string">'/usr/lib/libtcmalloc.so.4'</span> from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored.</div></pre></td></tr></table></figure><p>踩了一系列坑以后发现，将<code>/usr/lib/libtcmalloc.so.4</code>改为<code>/usr/local/lib/libtcmalloc.so.4</code>即可。</p><p><strong>参考链接：</strong></p><ul><li><a href="https://www.cnblogs.com/Lelouch/p/3365672.html" target="_blank" rel="external">https://www.cnblogs.com/Lelouch/p/3365672.html</a></li></ul>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;执行报错bash命令报错：syntax error: unexpected end of file&lt;/p&gt;
-
+        &lt;p&gt;用tensorflow经常会出现OOM的现象，查了一下发现了一篇文章&lt;a href=&quot;https://dantkz.github.io/How-To-Debug-A-Memory-Leak-In-TensorFlow/&quot; target=&quot;_blank&quot; rel=&quot;exter
       
     
     </summary>
     
     
-      <category term="知识口袋" scheme="http://yoursite.com/tags/%E7%9F%A5%E8%AF%86%E5%8F%A3%E8%A2%8B/"/>
+      <category term="维修指南" scheme="http://yoursite.com/tags/%E7%BB%B4%E4%BF%AE%E6%8C%87%E5%8D%97/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pair-wise-loss</title>
+    <link href="http://yoursite.com/2019/05/17/pair-wise-loss/"/>
+    <id>http://yoursite.com/2019/05/17/pair-wise-loss/</id>
+    <published>2019-05-17T05:44:19.000Z</published>
+    <updated>2019-05-17T08:08:40.815Z</updated>
+    
+    <content type="html"><![CDATA[<p>用Tensorflow复现论文中的pair wise loss<br>$$<br>\ell_{p a}(\mathrm{S})=\frac{1}{\left(W^{\prime} \times H{\prime}\right)^{2}} \sum_{i \in \mathcal{R}} \sum_{j \in \mathcal{R}}\left(a_{ij}^{s}-a_{ij}^{t}\right){2}<br>$$<br>其中<br>$$<br>a_{i j}=\mathbf{f}_{i}^{\top} \mathbf{f}_{j} /\left(\left|\mathbf{f}_{i}\right|_{2}\left|\mathbf{f}_{j}\right|_{2}\right)<br>$$<br>$f_i$和$f_j$分别代表ith / jth像素点的c维特征。参考了余弦相似性的计算方法：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">similarity</span><span class="params">(x)</span>:</span></div><div class="line">    x = tf.reshape(x, [x.shape[<span class="number">0</span>], <span class="number">-1</span>, x.shape[<span class="number">-1</span>]])</div><div class="line">    norm = tf.nn.l2_normalize(x, <span class="number">2</span>)</div><div class="line">    a = tf.matmul(norm, norm, adjoint_b = <span class="keyword">True</span>)</div><div class="line">    <span class="keyword">return</span> a</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dist_loss</span><span class="params">(x, y)</span>:</span></div><div class="line">    _, h, w, _  = x.shape</div><div class="line">    pa = tf.reduce_sum(tf.pow((similarity(x) - similarity(y)), <span class="number">2</span>)) / tf.pow(tf.cast(h*w, tf.float32),<span class="number">2</span>)</div><div class="line">    <span class="keyword">return</span> pa</div></pre></td></tr></table></figure><p>参考链接：</p><ul><li><a href="https://stackoverflow.com/questions/48485373/pairwise-cosine-similarity-using-tensorflow?rq=1" target="_blank" rel="external">https://stackoverflow.com/questions/48485373/pairwise-cosine-similarity-using-tensorflow?rq=1</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;用Tensorflow复现论文中的pair wise loss&lt;br&gt;$$&lt;br&gt;\ell_{p a}(\mathrm{S})=\frac{1}{\left(W^{\prime} \times H{\prime}\right)^{2}} \sum_{i \in \mathc
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>A Survey Of Methods For Explaining Black Box Models</title>
+    <link href="http://yoursite.com/2019/05/17/a-survey-of-methods-for-explaning-black-box-models/"/>
+    <id>http://yoursite.com/2019/05/17/a-survey-of-methods-for-explaning-black-box-models/</id>
+    <published>2019-05-17T02:35:35.000Z</published>
+    <updated>2019-05-18T08:45:01.259Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文总结了已有工作关于黑箱模型可解释性的方法。分为以下几个部分：1）通过一些案例表明为什么需要解释黑箱模型。2）什么是可解释性。3）阐明了本文的归类标准。4）现有的方法、论文及其解决方案。</p><h3 id="Needs-for-Interpretable-Models"><a href="#Needs-for-Interpretable-Models" class="headerlink" title="Needs for Interpretable Models"></a>Needs for Interpretable Models</h3><p>模型的预测结果可能会造成<strong>社会歧视问题</strong>：St. George’s Hospital Medical School在70-80年代编程利用申请者信息（姓氏、出生地点）降低少数民族和妇女的机会。<em>propublica.org</em>利用COMPAS分数预测再犯罪的的风险，其中黑人是白人的两倍。同时模型预测存在<strong>训练偏差问题：</strong>在训练和测试过程的精度可能很高，但是在实际应用效果不好（举了坦克、狼和狗的例子）。在深度学习的各个领域（计算机视觉、自然语言处理）也都存在人与计算机之间差距很大的问题。</p><h3 id="Interpretable-Explainable-and-Comprehensible-Models"><a href="#Interpretable-Explainable-and-Comprehensible-Models" class="headerlink" title="Interpretable, Explainable and Comprehensible Models"></a>Interpretable, Explainable and Comprehensible Models</h3><p>可解释性与决策判断密切相关，当需要利用模型的预测结果进行决策时，我们才需要解释模型为何会呈现这样的结果。进行解释的时候我们要考虑很多维度：全局/局部可解释性、时间限制、用户习惯等。模型需要具备的特征：多大程度能够被理解（interpretable/comprehensibility）、准确度（accuracy）、忠诚度（fidelity）。在特定领域还有一些特征比如公平性（fairness）、隐私性（privacy）、可靠性（raliability）、鲁棒性（robustness）、因果性（causality）、可扩展性（scalability）、通用型（generality）等也需要考虑。</p><p>目前已有的可解释模型包括决策树（decision tree）、规则（rules）、线性模型（linear models）。模型的复杂度（complexity）时常会被人们忘记。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;本文总结了已有工作关于黑箱模型可解释性的方法。分为以下几个部分：1）通过一些案例表明为什么需要解释黑箱模型。2）什么是可解释性。3）阐明了本文的归类标准。4）现有的方法、论文及其解决方案。&lt;/p&gt;
+&lt;h3 id=&quot;Needs-for-Interpretable-Models
+      
+    
+    </summary>
+    
+    
+      <category term="Paper" scheme="http://yoursite.com/tags/Paper/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LQ-Nets</title>
+    <link href="http://yoursite.com/2019/05/14/LQ-Nets/"/>
+    <id>http://yoursite.com/2019/05/14/LQ-Nets/</id>
+    <published>2019-05-14T09:02:31.000Z</published>
+    <updated>2019-05-18T08:21:12.014Z</updated>
+    
+    <content type="html"><![CDATA[<p>传统的量化方法主要使用固定的或者手工设计的量化方案（均匀量化/对数量化）：<br>$$<br>Q(x)=q_{l}, \text { if } x \in\left(t_{l}, t_{l+1}\right]<br>$$<br>本文提出了可学习的量化方式：<br>$$<br>Q_{\text { ours }}(x, \mathbf{v})=\mathbf{v}^{\mathrm{T}} \mathbf{e}_{l}, \quad \text { if } x \in\left(t_{l}, t_{l+1}\right]<br>$$<br>其中 $\mathbf{v} \in \mathbb{R}^{K}$是$\mathbf{e}_{l} \in\{-1,1\}^{K}$, $K$代表bit数。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;传统的量化方法主要使用固定的或者手工设计的量化方案（均匀量化/对数量化）：&lt;br&gt;$$&lt;br&gt;Q(x)=q_{l}, \text { if } x \in\left(t_{l}, t_{l+1}\right]&lt;br&gt;$$&lt;br&gt;本文提出了可学习的量化方式：&lt;br&gt;$$&lt;br
+      
+    
+    </summary>
+    
+    
+      <category term="paper" scheme="http://yoursite.com/tags/paper/"/>
     
   </entry>
   
@@ -401,78 +468,9 @@
     </summary>
     
     
-      <category term="SISR" scheme="http://yoursite.com/tags/SISR/"/>
-    
       <category term="GPR" scheme="http://yoursite.com/tags/GPR/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>读论文《Image super-resolution using non-local Gaussian process regression》</title>
-    <link href="http://yoursite.com/2018/05/21/paper-ngpr/"/>
-    <id>http://yoursite.com/2018/05/21/paper-ngpr/</id>
-    <published>2018-05-21T03:02:06.000Z</published>
-    <updated>2018-05-24T02:08:12.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>大部分使用GPR的SR方法是局部采样的，这些方法将图像分成几个固定大小（e.g  $45\times45$）并且有一小部分重叠的大块，对每个大块，只使用到其中小块的自相似性（e.g $3\times3$）来建立GPR模型，因此很难完全利用到自然图像中的自相似性。本文作者提出了一种非局部的基于GPR模型的NGPR超分辨率重建方法。</p><h2 id="系统总览"><a href="#系统总览" class="headerlink" title="系统总览"></a>系统总览</h2><p>该系统包括两个阶段：</p><ol><li>学习阶段：在LR层面学习NGPR模型用于细节合成</li><li>预测阶段：在HR层面预测高频细节用于SR估计</li></ol><p>系统流程图如下所示：</p><p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1frj17sdk7qj31180iidqf.jpg" alt=""></p><p>具体地，在学习阶段可以分成两个主要部分：1）生成训练图像对；2）学习NGPR模型。</p><p>首先获取由原始图像 $I$ 进行上采样再下采样生成的辅助差值图像 $I_I$ ，将 $I$ 和  $I_I$ 分别减去均值图像 $I_M$，提取出高频特征 $I’$ 和 $I’_I$ 。其中 $I_M$ 是用 $3\times3$ 的平均过滤器在 $I_I$ 上的过滤结果。接下来提取出 $I’_I$ 中图像块的邻近像素序列 $\left\{ {x_i}\right\}^n_{i=1}$ ，以及 $I’$ 中对应图像块的中心像素序列 $\left\{ {y_i}\right\}^n_{i=1}$ 作为训练集，用于学习NGPR模型的映射关系。</p><p>在预测阶段，利用插值法获得上采样图像 $S_I$，减去均值图像 $S_M$ 以提取图像的高频特征 $S’_I$ 。利用学习阶段学习出的模型，将 $S’_I$ 中图像块的邻近像素序列 $\left\{ x _ { j * } \right\} _ { j = 1} ^ { m } $ 映射为缺失的高频细节 $\left\{ { f(x_{j*}) } \right\}^m_{j=1}$。</p><h2 id="特征提取"><a href="#特征提取" class="headerlink" title="特征提取"></a>特征提取</h2><p>作者提出了在特征提取过程中，使用到的三个方法。</p><h4 id="1）非局部采样"><a href="#1）非局部采样" class="headerlink" title="1）非局部采样"></a>1）非局部采样</h4><p>在生成训练图像对的时候，采样间隔为4，将训练集大小降低为原来的1/16。在提高重建效率的同时保持重建图像的质量。</p><h4 id="2）块剪枝"><a href="#2）块剪枝" class="headerlink" title="2）块剪枝"></a>2）块剪枝</h4><p>在训练样本中排除了标准差接近0的图像块，避免一些不含有信息的图像块影响学习过程。</p><h4 id="3）块标准化"><a href="#3）块标准化" class="headerlink" title="3）块标准化"></a>3）块标准化</h4><p>在训练前对训练图像对进行标准化处理：<br>$$<br>&lt; x _ { i } ,y _ { i } &gt; \leftarrow &lt; x _ { i } / || x _ { i } || ,y _ { i } / || y _ { i } || &gt; ,\quad \forall i = 1,2,\dots ,n<br>$$</p><p>同时也对测试样本$\left\{ x _ { j * } \right\} _ { j = 1} ^ { m } $ 进行标准化处理，并且在预测后进行恢复：</p><p>$$<br>f \left( \mathbf { x } _ { j * } \right) \leftarrow f \left( \mathbf { x } _ { j * } \right) \times || \mathbf { x } _ { j * } || ,\quad \forall j = 1,2,\dots ,m<br>$$</p><h2 id="NGPR模型"><a href="#NGPR模型" class="headerlink" title="NGPR模型"></a>NGPR模型</h2><p>作者提到了三个核函数：</p><h4 id="1-径向基函数核（RBF-kernel）"><a href="#1-径向基函数核（RBF-kernel）" class="headerlink" title="1)  径向基函数核（RBF kernel）"></a>1)  径向基函数核（RBF kernel）</h4><p>$$<br>k _ { S E i so} \left( \mathbf { x } ,\mathbf { x } ^ { \prime } \right) = \sigma _ { f } ^ { 2} \exp \left( - \frac { 1} { 2l ^ { 2} } \left( \mathbf { x } - \mathbf { x } ^ { \prime } \right) ^ { T } \left( \mathbf { x } - \mathbf { x } ^ { \prime } \right) \right)<br>$$</p><p>其中，$ \sigma _ { f } ^ { 2}$  代表信号方差， $l$ 代表长度尺度。RBF核是各向同性的，可以用来描述具有较小欧拉距离的样本。但是各向同性会忽视图像块的结构信息，导致协方差矩阵产生线性依赖。</p><h4 id="2）加性测量噪声核（Additive-measurement-noise-kernel）"><a href="#2）加性测量噪声核（Additive-measurement-noise-kernel）" class="headerlink" title="2）加性测量噪声核（Additive measurement noise kernel）"></a>2）加性测量噪声核（Additive measurement noise kernel）</h4><p>$$<br>k _ { N o i s e } \left( \mathbf { x } ,\mathbf { x } ^ { \prime } \right) = \sigma _ { n } ^ { 2} \delta \left( \mathbf { x } - \mathbf { x } ^ { \prime } \right)<br>$$</p><p>其中，$\sigma _ { n } ^ { 2}$ 代表噪声方差，$\delta$ 代表克罗内克函数。</p><h4 id="3）线性核（Linear-kernel）"><a href="#3）线性核（Linear-kernel）" class="headerlink" title="3）线性核（Linear kernel）"></a>3）线性核（Linear kernel）</h4><p>$$<br>k _ { L I N } \left( \mathbf { x } ,\mathbf { x } ^ { \prime } \right) = \mathbf { x} ^ { T } \mathbf { x} ^ { \prime }<br>$$</p><p>线性核是对称但是各向异性的，可以用来测量结构信息。RBF核的协方差总是大于0，忽略了负协方差也可获得的事实。线性核比RBF核更有利于反向相关的训练样本。因此线性核比RBF核能揭示更内在的结构。</p><p>最后作者将三个核函数进行组合，提出了一个新的核函数：<br>$$<br>k = k_{SEiso} + k_{Noise} + c \times k_{LIN}<br>$$<br>其中 $c$ 是一个常数，用来调整线性核的重要性。</p><h2 id="超参数确定"><a href="#超参数确定" class="headerlink" title="超参数确定"></a>超参数确定</h2><h4 id="1）噪声标准差-sigma-n"><a href="#1）噪声标准差-sigma-n" class="headerlink" title="1）噪声标准差 $\sigma _ { n }$"></a>1）噪声标准差 $\sigma _ { n }$</h4><p>由于 $I’_I$ 可以看作 $I’$ 的估计，那么 $I’-I’_I$ 可以看作噪声的估计。因此我们利用 $I’-I’_I$ 的标准差对 $\sigma _ { n }$进行初始化。<br>$$<br>\sigma _ { n } ^ { 2} = \frac { 1} { R _ { L R } \times C _ { L R } - 1} \sum _ { i = 1} ^ { R _ { 1k } \times C _ { 18} } \left[ \left( I ^ { \prime } ( i ) - I _ { I } ^ { \prime } ( i ) \right) - \left( \overline { I } ^ { \prime } - \overline { I } _ { I } ^ { \prime } \right) \right] ^ { 2}<br>$$</p><h4 id="2）长度尺度-l"><a href="#2）长度尺度-l" class="headerlink" title="2）长度尺度 $l$"></a>2）长度尺度 $l$</h4><p>$l$ 是RBF核的标准差，可以通过输入训练样本之间距离矩阵的标准差来进行初始化。<br>$$<br>l ^ { 2} = \frac { 1} { (R _ { L R } \times C _ { L R })^2 - 1} \sum _ { i, j=1} ^{ { R _ { L R } \times C _ { L R } }}(||P(i)-P(j)|| - m_d)^2<br>$$</p><p>$$<br>m_d = \frac { 1} { (R _ { L R } \times C _ { L R })^2 } \sum _ { i, j=1} ^{ { R _ { L R } \times C _ { L R } }}(||P_E(i)-P_E(j)||)<br>$$</p><h4 id="3）-信号标准差-sigma-f"><a href="#3）-信号标准差-sigma-f" class="headerlink" title="3） 信号标准差 $ \sigma _ { f }$"></a>3） 信号标准差 $ \sigma _ { f }$</h4><p>通过从 $I’$ 中提取的样本的标准差来进行初始化。<br>$$<br>\sigma _ { n } ^ { 2} = \frac { 1} { R _ { L R } \times C _ { L R } - 1} \sum _ { i = 1} ^{ { R _ { L R } \times C _ { L R } }}(I’(i) -\overline { I’ })^2<br>$$</p><h4 id="4-常数-c"><a href="#4-常数-c" class="headerlink" title="4) 常数 $c$"></a>4) 常数 $c$</h4><p>$$<br>c = \tau \sigma_f^2<br>$$</p><p>其中，$R_{LR}$ ，$ C_{LR}$ 分别代表 $I’$ 的行数和列数。$P(i)$ 代表 $I’_I$ 的 $i$ 个块。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;大部分使用GPR的SR方法是局部采样的，这些方法将图像分成几个固定大小（e.g  $45\times45$）并且有一小部分重叠的大块，对每个大块，只使用到其中小块的自相似性（e.g $3\times3$）来建立GPR模型，因此很难完全利用到自然图像中的自相似性。本文作者提出
-      
-    
-    </summary>
-    
-    
-      <category term="GPR" scheme="http://yoursite.com/tags/GPR/"/>
-    
-      <category term="SSIR" scheme="http://yoursite.com/tags/SSIR/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>读论文《Single Image Super-Resolution using Gaussian Process Regression》</title>
-    <link href="http://yoursite.com/2018/05/16/paper-ssir-using-gpr/"/>
-    <id>http://yoursite.com/2018/05/16/paper-ssir-using-gpr/</id>
-    <published>2018-05-16T07:01:06.000Z</published>
-    <updated>2018-05-24T02:45:50.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>本文的作者提出了利用高斯回归过程来实现超分辨率重建的方法。该方法只需要输入低分辨率图像，而不需要额外的数据集和样本图像。</p><p>作者的灵感来自于自然图像中的结构冗余。两个像素之间的相似性可以定义为它们局部几何结构的差异。一个像素的邻近像素可以表明该像素的局部特征（比如平滑或边缘区域），因此可以预测基于回归的模型。</p><h2 id="高斯过程回归"><a href="#高斯过程回归" class="headerlink" title="高斯过程回归"></a>高斯过程回归</h2><p>高斯过程（GP）定义了函数 $f$ 的分布，$f$ 将输入空间从 𝒳 映射到 ℛ。对于 𝒳 的任意有限子集，其边缘分布 $P(f(x_1), f(x_2)…f(x_n))$ 是一个多元高斯分布，其中 $x$ 代表一个输入向量。通过均值函数 $m(x)$ 和协方差函数 $k(x_i, x_j)$ 我们有：<br>$$<br>f(x) \sim \mathcal{GP}(m(x), k(x_i,x_j))<br>$$<br>其中矩阵 $X​$ 的每一行为输入向量，$f​$ 是函数值的向量，$K(X, X)​$ 代表 $n \times n​$ 的协方差矩阵，其中 $K_(i,j) = k(x_i, x_j)​$</p><p>高斯过程回归（GPR）即我们假设了目标函数为高斯过程的先验分布。令 $y$ 表示一个观测值，$\epsilon$ 为高斯噪声，高斯过程回归模型表示如下：<br>$$<br>y = f(x) + \epsilon, \epsilon \sim \mathcal{N}(n, \sigma^2_n)<br>$$<br>均值函数为零的观测值 $\mathbf { y }$ 和输出 $f_*$ 的联合分布为：<br>$$<br>\left[\begin{array}{c} \mathbf { y } \\ f_*\end{array}\right] \sim \mathcal{N}\left( \begin{array}{cc}0, \left[\begin{array}{cc}K(X,X)+\sigma^2_nI &amp; K(X,X_*)\\K(X_*,X) &amp; K(X_*,X_*)\end{array} \right]\end{array} \right)<br>$$<br>其中$X$代表训练集，$X_*$代表测试集。我们可以推导出条件分布：<br>$$<br>f_*|X,y,X_* \sim \mathcal{N}(\bar{f}_*, V(f_*))<br>$$<br>其中，<br>$$<br>\bar{f}_* = K(X_*, X)[K(X,X) + \sigma^2_nI]^{-1}\mathbf { y }<br>$$</p><p>$$<br>V(f_*) = K(X_*, X_*) -K(X_*, X)[K(X,X) + \sigma^2_nI]^{-1}K(X,X_*)<br>$$</p><h2 id="单帧图像重建"><a href="#单帧图像重建" class="headerlink" title="单帧图像重建"></a>单帧图像重建</h2><p>高分辨率图像块由对应的低分辨率图像块逐像素地预测得出。取 $ 3\times3$ 大小的低分辨率图像块，观测值 $\mathbf { y }$ 为图像块的中心像素，$x$ 是一个8维向量，代表观测值的临近像素。</p><p>高分辨率图像的预测由两个由粗到细的阶段组成。</p><ol><li>上采样阶段：首先利用双线性插值法获得差值后的图像 $H_b$。然后将低分辨率图像 $L$ 分块，利用每个块的中心像素 $\mathbf { y }$ （目标像素）和它的临近像素 $X_{NL}$ 训练GPR模型 $M$ 。将 $H_b$ 中每个像素的临近像素$X_{NH_b}$ 输入 $M$ 计算出预测值 $p_\tilde{H}$。最后通过 $p_\tilde{H}$获得大致的上采样图像 $\tilde{H}$。</li><li>去模糊阶段：计算 $\tilde{H}$  的下采样图像 $\tilde{L}$ ，并对其进行分块（同上采样阶段 $L$ 的分块操作）。利用每个块的目标像素 $\mathbf { y }$ 和与其对应的 $\tilde{L}$ 中的临近像素 $X_{N\tilde{L}}$ 训练GPR模型 $M$。将 $\tilde{H}$ 中每个像素的临近像素$X_{N\tilde{H}}$ 输入 $M$ 计算出预测值 $p_H$。最后通过 $ p_H$获得最终的重建图像 $H$ 。</li></ol><p>完整的算法描述过程如下：</p><p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1fre5esj0u5j30l00riaf8.jpg" alt=""></p><h2 id="协方差函数"><a href="#协方差函数" class="headerlink" title="协方差函数"></a>协方差函数</h2><p>在高斯过程回归中，协方差函数通过定义函数的相似性，编码了潜在的预测过程，因此是相当重要的。作者选择了平方指数协方差函数：</p><p>$$<br>k(x_i, x_j) = \sigma_f^2 exp(-\frac{1}{2}\frac{(x_i-x_j)’(x_i-x_j)}{ℓ^2})<br>$$<br>其中 $\sigma^2_f$ 代表信号方差(signal variance)，$ℓ$ 代表特征长度尺度(characteristic length scale)。由于目标像素周围强度值(intensity values)的差异表明了其所处位置，因此相似性的计算基于两个8维临近像素向量紧张值的欧拉距离。</p><p>通过可视化协方差矩阵 $K$， 作者表示平方指数协方差函数能很好地捕捉到图像块之间局部的以及全局的相似性。</p><p>在这个过程中我们主要需要学习的参数有：</p><ol><li>信号方差 $\sigma^2_f$</li><li>典型长度倍数 $ℓ$ ：可以看作是控制一个级别 $u$ 在一个1维高斯过程中向上交叉数量的参数</li><li>噪声方差 $\sigma^2_n$</li></ol><p>在贝叶斯回归模型中，超参数 $\theta$ 的后验概率可以表示为：<br>$$<br>p ( \mathbf { \theta } | \mathbf { X } ,\mathbf { y } ,\mathcal { H } ) = \frac { p ( \mathbf { y } | \mathbf { X } ,\theta ,\mathcal { H } ) p ( \mathbf { \theta } | \mathcal { H } ) } { \int p ( \mathbf { y } | \mathbf { X } ,\theta ,\mathcal { H } ) p ( \theta | \mathcal { H } ) d \theta }<br>$$<br>但是这个后验概率很难求解。在超分辨率问题中，可以通过最大化边际似然(marginal likelihood)来解决这个问题。在我们的模型中，边际似然可以表示为：<br>$$<br>p ( \mathbf { y } | \mathbf { X } ) = \int p ( \mathbf { y } | \mathbf { f } ,\mathbf { X } ) p ( \mathbf { f } | \mathbf { X } ) d \mathbf { f }<br>$$<br>已知 $\mathbf { y } | \mathbf { f } \sim \mathcal { N } \left( \mathbf { f } ,\sigma _ { n } ^ { 2} I \right)$ 和高斯过程先验分布 $f(x) \sim \mathcal{GP}(m(x), k(x_i,x_j))$，可以将上式转化为<br>$$<br>\log p ( \mathbf { y } | \mathbf { X } ,\theta ) = - \frac { 1} { 2} \mathbf { y } ^ { T } \mathbf { K } _ { y } ^ { - 1} \mathbf { y } - \frac { 1} { 2} \log | \mathbf { K } _ { y } | - \frac { n } { 2} \log 2\pi<br>$$<br>其中$ K _ { y } = K ( \mathbf { X } ,\mathbf { X } ) + \sigma _ { n } ^ { 2} I $，对参数求偏导得到：<br>$$<br>\frac { \partial \mathcal { L } } { \partial \theta _ { i } } = \frac { 1} { 2} \mathbf { y } ^ { T } \mathbf { K } ^ { - 1} \frac { \partial \mathbf { K } } { \partial \theta _ { i } } \mathbf { K } ^ { - 1} \mathbf { y } - \frac { 1} { 2} \operatorname{tr} \left( \mathbf { K } ^ { - 1} \frac { \partial \mathbf { K } } { \partial \theta _ { i } } \right)<br>$$<br>然后我们就可以利用梯度下降法来求解最优参数。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;本文的作者提出了利用高斯回归过程来实现超分辨率重建的方法。该方法只需要输入低分辨率图像，而不需要额外的数据集和样本图像。&lt;/p&gt;
-&lt;p&gt;作者的灵感来自于自然图像中的结构冗余。两个像素之间的相似性可以定义为它们局部几何结构的差异。一个像素的邻近像素可以表明该像素的局部特征（比
-      
-    
-    </summary>
-    
     
       <category term="SISR" scheme="http://yoursite.com/tags/SISR/"/>
-    
-      <category term="GPR" scheme="http://yoursite.com/tags/GPR/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>cs231n-assignment3-gan</title>
-    <link href="http://yoursite.com/2018/03/14/cs231n-assignment3-gan/"/>
-    <id>http://yoursite.com/2018/03/14/cs231n-assignment3-gan/</id>
-    <published>2018-03-14T11:44:48.000Z</published>
-    <updated>2018-07-11T01:50:41.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 <a href="https://www.msra.cn/zh-cn/news/features/gan-20170511" target="_blank" rel="external">到底什么是生成式对抗网络GAN？</a> 其中以男女朋友做比喻还蛮可爱的。 </p><a id="more"></a><p><img src="cs231n-assignment3-gan/model.png" alt="cross-validation"></p><p>整个训练过程其实是 \(G\) 和 \(D\) 之间的博弈，在这个博弈中有两个场景。第一个场景的输入是真实图像 <strong>x</strong>，输出概率 \(D(x)\) 指一个图片是真实图片的概率，在这个场景中 \(D(x)\) 努力接近1。第二场景的输入是噪音 <strong>z</strong>， \(G\) 生成一个新的图像 \(G(z)\) 努力欺骗 \(D\) 使 \(D(G(z))\) 接近1， \(D\) 努力让 \(D(G(z))\) 接近0。 </p><p>在本次作用中我们采用以下的更新规则：</p><ol><li>更新生成模型 (\(G\)) ，最大化判别模型对于生成的图像，作出<strong>错误选择</strong>的概率：<br>$$\underset{G}{\text{maximize}}\;  \mathbb{E}_{z \sim p(z)}\left[\log D(G(z))\right]$$</li><li>更新判别模型 (\(D\))，最大化判别模型对于真实和生成的图像，作出<strong>正确选择</strong>的概率：<br>$$\underset{D}{\text{maximize}}\; \mathbb{E}_{x \sim p_\text{data}}\left[\log D(x)\right] + \mathbb{E}_{z \sim p(z)}\left[\log \left(1-D(G(z))\right)\right]$$</li></ol><h3 id="Vanilla-GAN"><a href="#Vanilla-GAN" class="headerlink" title="Vanilla GAN"></a>Vanilla GAN</h3><p>图像判别模型D（Discriminator）的损失函数：</p><p>$$ \ell_D = -\mathbb{E}_{x \sim p_\text{data}}\left[\log D(x)\right] - \mathbb{E}_{z \sim p(z)}\left[\log \left(1-D(G(z))\right)\right]$$</p><p>图像生成模型G（Generator）的损失函数：</p><p>$$\ell_G  =  -\mathbb{E}_{z \sim p(z)}\left[\log D(G(z))\right]$$</p><p>我们可以通过计算二元交叉熵损失（binary cross entropy loss）来计算logits的对数概率：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bce_loss</span><span class="params">(input, target)</span>:</span></div><div class="line">    neg_abs = - input.abs()</div><div class="line">    loss = input.clamp(min=<span class="number">0</span>) - input * target + (<span class="number">1</span> + neg_abs.exp()).log()</div><div class="line">    <span class="keyword">return</span> loss.mean()</div></pre></td></tr></table></figure><p>交叉熵用于衡量两个取值为正数的函数的相似性，取值越小差异越小，因此最小化损失函数相当于最小化交叉熵。</p><p>对应上面的两个场景，<strong>D</strong> 判断真实图片的labels都为1，生成图片的labels都为0，可以得到下面的代码：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">discriminator_loss</span><span class="params">(logits_real, logits_fake)</span>:</span></div><div class="line">    N = logits_real.shape[<span class="number">0</span>]</div><div class="line">    real_labels = Variable(torch.ones(N)).type(dtype)</div><div class="line">    fake_labels = Variable(torch.zeros(N)).type(dtype)</div><div class="line">    loss = bce_loss(logits_real, real_labels) + bce_loss(logits_fake, fake_labels)</div><div class="line">    <span class="keyword">return</span> loss</div></pre></td></tr></table></figure><p>上面我们说到 <strong>G</strong> 努力欺骗 <strong>D</strong> 使 <strong>D(G(z))</strong> 接近1，因此要将labels都设置为1，得到下面的代码：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator_loss</span><span class="params">(logits_fake)</span>:</span></div><div class="line">    N = logits_fake.shape[<span class="number">0</span>]</div><div class="line">    fake_labels = Variable(torch.ones(N)).type(dtype)</div><div class="line">    loss = bce_loss(logits_fake, fake_labels)</div><div class="line">    <span class="keyword">return</span> loss</div></pre></td></tr></table></figure><p>最终训练结果：</p><p><img src="cs231n-assignment3-gan/vanilla_result.png" alt="cross-validation"></p><h3 id="Least-Square-GAN"><a href="#Least-Square-GAN" class="headerlink" title="Least Square GAN"></a>Least Square GAN</h3><p>图片生成模型G（Generator）的损失函数：</p><p>$$\ell_G  =  \frac{1}{2}\mathbb{E}_{z \sim p(z)}\left[\left(D(G(z))-1\right)^2\right]$$</p><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ls_generator_loss</span><span class="params">(scores_fake)</span>:</span></div><div class="line">    loss = ((scores_fake<span class="number">-1</span>)**<span class="number">2</span>).mean()</div><div class="line">    <span class="keyword">return</span> loss / <span class="number">2</span></div></pre></td></tr></table></figure><p>图像判别模型的损失函数：<br>$$ \ell_D = \frac{1}{2}\mathbb{E}_{x \sim p_\text{data}}\left[\left(D(x)-1\right)^2\right] + \frac{1}{2}\mathbb{E}_{z \sim p(z)}\left[ \left(D(G(z))\right)^2\right]$$</p><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ls_discriminator_loss</span><span class="params">(scores_real, scores_fake)</span>:</span></div><div class="line">    loss = ((scores_real<span class="number">-1</span>)**<span class="number">2</span>).mean() + (scores_fake**<span class="number">2</span>).mean()</div><div class="line">    <span class="keyword">return</span> loss / <span class="number">2</span></div></pre></td></tr></table></figure><p><img src="cs231n-assignment3-gan/ls_result.png" alt="cross-validation"></p><p>作业中提出了几个问题</p><blockquote><p>Describe how the visual quality of the samples changes over the course of training. Do you notice anything about the distribution of the samples? How do the results change across different training runs?</p></blockquote><p>可以看到通过训练，生成图像从噪音逐渐变为能辨认出来的数字。生成的图像中似乎1、3、9比较多。</p><h3 id="Deeply-Convolutional-GANs"><a href="#Deeply-Convolutional-GANs" class="headerlink" title="Deeply Convolutional GANs"></a>Deeply Convolutional GANs</h3><p>前面的网络结构都是使用全连接网络，搞事的科学家们加上了几层卷积网络，虽然训练速度很慢，但生成的图片可骗人了。。</p><p><img src="cs231n-assignment3-gan/dc_result.png" alt="cross-validation"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最后一份作业来会一会生成式对抗网络（Generative Adversarial Networks, GAN）。网络中有两个模型，生成模型 \(G\)（Generator）和判别模型 \(D\)（Discriminator）。\(D\) 的目标是判断一个图像是真的还是假的，\(G\) 的目标是欺骗 \(D\) 使其相信它生成的图像是真的。 &lt;a href=&quot;https://www.msra.cn/zh-cn/news/features/gan-20170511&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;到底什么是生成式对抗网络GAN？&lt;/a&gt; 其中以男女朋友做比喻还蛮可爱的。 &lt;/p&gt;
-    
-    </summary>
-    
     
   </entry>
   

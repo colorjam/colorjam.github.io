@@ -6,18 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="执行报错bash命令报错：syntax error: unexpected end of file">
-<meta name="keywords" content="知识口袋">
+    <meta name="description" content="用Tensorflow复现论文中的pair wise loss$$\ell_{p a}(\mathrm{S})=\frac{1}{\left(W^{\prime} \times H{\prime}\right)^{2}} \sum_{i \in \mathcal{R}} \sum_{j \in \mathcal{R}}\left(a_{ij}^{s}-a_{ij}^{t}\right){2}$$其">
 <meta property="og:type" content="article">
-<meta property="og:title" content="syntax error">
-<meta property="og:url" content="http://yoursite.com/2019/05/14/file/index.html">
+<meta property="og:title" content="pair-wise-loss">
+<meta property="og:url" content="http://yoursite.com/2019/05/17/pair-wise-loss/index.html">
 <meta property="og:site_name" content="Colorjam">
-<meta property="og:description" content="执行报错bash命令报错：syntax error: unexpected end of file">
+<meta property="og:description" content="用Tensorflow复现论文中的pair wise loss$$\ell_{p a}(\mathrm{S})=\frac{1}{\left(W^{\prime} \times H{\prime}\right)^{2}} \sum_{i \in \mathcal{R}} \sum_{j \in \mathcal{R}}\left(a_{ij}^{s}-a_{ij}^{t}\right){2}$$其">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-14T08:01:59.430Z">
+<meta property="og:updated_time" content="2019-05-17T08:08:40.815Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="syntax error">
-<meta name="twitter:description" content="执行报错bash命令报错：syntax error: unexpected end of file">
+<meta name="twitter:title" content="pair-wise-loss">
+<meta name="twitter:description" content="用Tensorflow复现论文中的pair wise loss$$\ell_{p a}(\mathrm{S})=\frac{1}{\left(W^{\prime} \times H{\prime}\right)^{2}} \sum_{i \in \mathcal{R}} \sum_{j \in \mathcal{R}}\left(a_{ij}^{s}-a_{ij}^{t}\right){2}$$其">
     
     
         
@@ -37,7 +36,7 @@
         
     
     <!-- title -->
-    <title>syntax error</title>
+    <title>pair-wise-loss</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -74,8 +73,10 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" href="/2019/05/18/tf-memory-leak/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
-        <li><a class="icon" href="/2019/05/13/weekly-paper-02/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="/2019/05/17/a-survey-of-methods-for-explaning-black-box-models/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -88,16 +89,16 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/14/file/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/14/file/&text=syntax error"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/14/file/&title=syntax error"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/14/file/&is_video=false&description=syntax error"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=syntax error&body=Check out this article: http://yoursite.com/2019/05/14/file/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/14/file/&title=syntax error"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/14/file/&title=syntax error"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/14/file/&title=syntax error"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/14/file/&title=syntax error"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/14/file/&name=syntax error&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/17/pair-wise-loss/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/17/pair-wise-loss/&text=pair-wise-loss"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/17/pair-wise-loss/&title=pair-wise-loss"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/17/pair-wise-loss/&is_video=false&description=pair-wise-loss"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=pair-wise-loss&body=Check out this article: http://yoursite.com/2019/05/17/pair-wise-loss/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/17/pair-wise-loss/&title=pair-wise-loss"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/17/pair-wise-loss/&title=pair-wise-loss"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/17/pair-wise-loss/&title=pair-wise-loss"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/17/pair-wise-loss/&title=pair-wise-loss"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/17/pair-wise-loss/&name=pair-wise-loss&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -114,7 +115,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        syntax error
+        pair-wise-loss
     </h1>
 
 
@@ -125,23 +126,23 @@
       </span>
       
     <div class="postdate">
-        <time datetime="2019-05-14T07:59:37.000Z" itemprop="datePublished">2019-05-14</time>
+        <time datetime="2019-05-17T05:44:19.000Z" itemprop="datePublished">2019-05-17</time>
     </div>
 
 
       
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/知识口袋/">知识口袋</a>
-    </div>
-
 
     </div>
   </header>
   
 
   <div class="content" itemprop="articleBody">
-    <p>执行报错bash命令报错：syntax error: unexpected end of file</p>
+    <p>用Tensorflow复现论文中的pair wise loss<br>$$<br>\ell_{p a}(\mathrm{S})=\frac{1}{\left(W^{\prime} \times H{\prime}\right)^{2}} \sum_{i \in \mathcal{R}} \sum_{j \in \mathcal{R}}\left(a_{ij}^{s}-a_{ij}^{t}\right){2}<br>$$<br>其中<br>$$<br>a_{i j}=\mathbf{f}_{i}^{\top} \mathbf{f}_{j} /\left(\left|\mathbf{f}_{i}\right|_{2}\left|\mathbf{f}_{j}\right|_{2}\right)<br>$$<br>$f_i$和$f_j$分别代表ith / jth像素点的c维特征。参考了余弦相似性的计算方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">similarity</span><span class="params">(x)</span>:</span></div><div class="line">    x = tf.reshape(x, [x.shape[<span class="number">0</span>], <span class="number">-1</span>, x.shape[<span class="number">-1</span>]])</div><div class="line">    norm = tf.nn.l2_normalize(x, <span class="number">2</span>)</div><div class="line">    a = tf.matmul(norm, norm, adjoint_b = <span class="keyword">True</span>)</div><div class="line">    <span class="keyword">return</span> a</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dist_loss</span><span class="params">(x, y)</span>:</span></div><div class="line">    _, h, w, _  = x.shape</div><div class="line">    pa = tf.reduce_sum(tf.pow((similarity(x) - similarity(y)), <span class="number">2</span>)) / tf.pow(tf.cast(h*w, tf.float32),<span class="number">2</span>)</div><div class="line">    <span class="keyword">return</span> pa</div></pre></td></tr></table></figure>
+<p>参考链接：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/48485373/pairwise-cosine-similarity-using-tensorflow?rq=1" target="_blank" rel="external">https://stackoverflow.com/questions/48485373/pairwise-cosine-similarity-using-tensorflow?rq=1</a></li>
+</ul>
 
   </div>
 </article>
@@ -173,16 +174,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/14/file/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/14/file/&text=syntax error"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/14/file/&title=syntax error"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/14/file/&is_video=false&description=syntax error"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=syntax error&body=Check out this article: http://yoursite.com/2019/05/14/file/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/14/file/&title=syntax error"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/14/file/&title=syntax error"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/14/file/&title=syntax error"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/14/file/&title=syntax error"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/14/file/&name=syntax error&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/17/pair-wise-loss/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/17/pair-wise-loss/&text=pair-wise-loss"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/17/pair-wise-loss/&title=pair-wise-loss"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/17/pair-wise-loss/&is_video=false&description=pair-wise-loss"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=pair-wise-loss&body=Check out this article: http://yoursite.com/2019/05/17/pair-wise-loss/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/17/pair-wise-loss/&title=pair-wise-loss"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/17/pair-wise-loss/&title=pair-wise-loss"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/17/pair-wise-loss/&title=pair-wise-loss"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/17/pair-wise-loss/&title=pair-wise-loss"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/17/pair-wise-loss/&name=pair-wise-loss&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
