@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="cacuts的主题很简洁，用得蛮久，看到原库有更新，所以fork了新的版本并在上面做一些修改，顺便记录一下过程。 主题镜像首先根据Mirrow a repository镜像一个库。在push的时候还遇到了403问题：  remote: Permission to colorjam/hexo-theme-cactus-mirrored.git denied to xxx  通过删除Keychain">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-19T06:51:10.142Z">
+<meta property="og:updated_time" content="2019-05-19T08:55:36.409Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HEXO主题cactus修改">
 <meta name="twitter:description" content="cacuts的主题很简洁，用得蛮久，看到原库有更新，所以fork了新的版本并在上面做一些修改，顺便记录一下过程。 主题镜像首先根据Mirrow a repository镜像一个库。在push的时候还遇到了403问题：  remote: Permission to colorjam/hexo-theme-cactus-mirrored.git denied to xxx  通过删除Keychain">
@@ -150,21 +150,20 @@
 </blockquote>
 <p>通过删除<strong>Keychain Access</strong>中存储的github.com的Internet password得到解决。然后把自己的库再Clone进<code>themes</code>中</p>
 <h3 id="样式编辑"><a href="#样式编辑" class="headerlink" title="样式编辑"></a>样式编辑</h3><ul>
-<li>主题颜色</li>
-</ul>
+<li><p>主题颜色</p>
 <p>在<code>source/css/_colors</code>下新建了一个<code>pink.styl</code>，同时修改<code>_config.yml</code>中的<code>colorscheme:pink</code>。</p>
-<ul>
-<li>logo设置</li>
-</ul>
+</li>
+<li><p>logo设置</p>
 <p>把<code>source/images/</code>下的<code>favicon.ico</code>和<code>logo.png</code>换成自己喜欢的图片。修改<code>source/css/_partial/header.styl</code>中的<code>#logo</code> 的<code>background-size: contain</code></p>
-<ul>
-<li>细节调整</li>
-</ul>
+</li>
+<li><p>细节调整</p>
 <p>删除<code>header.styl</code>中html的<code>border-top</code></p>
 <p>链接样式：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span></div><div class="line">	color: $color-text</div><div class="line">	<span class="selector-tag">text-decoration</span>: <span class="selector-tag">none</span></div><div class="line"></div><div class="line"></div><div class="line">	&amp;<span class="selector-pseudo">:hover</span></div><div class="line">	background-image: linear-gradient(transparent, transparent 4px, $color-link 4px, $color-link)</div><div class="line">	<span class="selector-tag">background-position</span>: <span class="selector-tag">bottom</span></div><div class="line">	<span class="selector-tag">background-size</span>: 100% 6<span class="selector-tag">px</span></div><div class="line">	<span class="selector-tag">background-repeat</span>: <span class="selector-tag">repeat-x</span></div></pre></td></tr></table></figure>
-<p>行内代码样式：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">code</span></div><div class="line">  <span class="selector-tag">padding</span>: 0 5<span class="selector-tag">px</span></div><div class="line">  <span class="selector-tag">background</span>: <span class="selector-id">#fafafa</span></div><div class="line">  <span class="selector-tag">border-radius</span>: 2<span class="selector-tag">px</span></div><div class="line">  <span class="selector-tag">-webkit-border-radius</span>: 2<span class="selector-tag">px</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span></div><div class="line">  color: $color-text</div><div class="line">  <span class="selector-tag">text-decoration</span>: <span class="selector-tag">none</span></div><div class="line"></div><div class="line">  &amp;<span class="selector-pseudo">:hover</span></div><div class="line">  background-image: linear-gradient(transparent, transparent 4px, $color-link 4px, $color-link)</div><div class="line">  <span class="selector-tag">background-position</span>: <span class="selector-tag">bottom</span></div><div class="line">  <span class="selector-tag">background-size</span>: 100% 6<span class="selector-tag">px</span></div><div class="line">  <span class="selector-tag">background-repeat</span>: <span class="selector-tag">repeat-x</span></div></pre></td></tr></table></figure>
+<p>​    行内代码样式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">code</span></div><div class="line">  <span class="selector-tag">padding</span>: 0 5<span class="selector-tag">px</span></div><div class="line">  <span class="selector-tag">background</span>: <span class="selector-id">#f6f8fa</span></div><div class="line">  <span class="selector-tag">border-radius</span>: 2<span class="selector-tag">px</span></div><div class="line">  <span class="selector-tag">-webkit-border-radius</span>: 2<span class="selector-tag">px</span></div></pre></td></tr></table></figure>
 <h3 id="会动的粒子"><a href="#会动的粒子" class="headerlink" title="会动的粒子"></a>会动的粒子</h3><p>在背景加上<a href="https://github.com/VincentGarreau/particles.js/" target="_blank" rel="external">会动的粒子</a>，在<code>source/lib</code>里创建一个particles文件夹，把<code>particles.min.js</code>放进去。</p>
 <p>在<code>layout.ejs</code>中加入</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"particles-js"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
