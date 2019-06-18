@@ -2,6 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/06/10/weekly-paper-05/</loc>
+    
+    <lastmod>2019-06-12T00:26:54.784Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/06/09/invalid/</loc>
+    
+    <lastmod>2019-06-09T06:43:10.693Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/05/28/gumbel-softmax/</loc>
+    
+    <lastmod>2019-05-30T03:18:19.159Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/05/25/weekly-paper-04/</loc>
+    
+    <lastmod>2019-05-27T12:12:52.191Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/05/19/weekly-paper-03/</loc>
+    
+    <lastmod>2019-05-23T10:42:12.181Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/05/12/Revisiting%20the%20Importance%20of%20Individual%20Units%20in%20CNNs%20via%20Ablation/</loc>
+    
+    <lastmod>2019-05-19T09:48:53.400Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/05/19/hexo-theme-cactus/</loc>
     
     <lastmod>2019-05-19T08:55:36.409Z</lastmod>
@@ -23,13 +65,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/05/17/a-survey-of-methods-for-explaning-black-box-models/</loc>
-    
-    <lastmod>2019-05-18T08:45:01.259Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2019/05/14/LQ-Nets/</loc>
     
     <lastmod>2019-05-18T08:21:12.014Z</lastmod>
@@ -40,13 +75,6 @@
     <loc>http://yoursite.com/2019/05/17/pair-wise-loss/</loc>
     
     <lastmod>2019-05-17T08:08:40.815Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/05/12/Revisiting%20the%20Importance%20of%20Individual%20Units%20in%20CNNs%20via%20Ablation/</loc>
-    
-    <lastmod>2019-05-14T08:10:47.189Z</lastmod>
     
   </url>
   

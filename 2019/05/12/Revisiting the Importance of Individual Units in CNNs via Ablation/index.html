@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="之前的一些工作通过可视化每个神经元的方式来理解神经网络，它们选择的是high selectivity的神经元，发现网络浅层识别的是具体的图案（e.g 纹理、图像），网络深层识别的是语义信息（e.g 狗头、车轮），论文[11]似乎打脸了这种方式，表明对于代表整体分类精度，class selectivity属性不能用来预测神经元的重要性。 本文表明这两种方式都是合理的。用class selectivi">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-14T08:10:47.189Z">
+<meta property="og:updated_time" content="2019-05-19T09:48:53.400Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Revisiting the Importance of Individual Units in CNNs via Ablation">
 <meta name="twitter:description" content="之前的一些工作通过可视化每个神经元的方式来理解神经网络，它们选择的是high selectivity的神经元，发现网络浅层识别的是具体的图案（e.g 纹理、图像），网络深层识别的是语义信息（e.g 狗头、车轮），论文[11]似乎打脸了这种方式，表明对于代表整体分类精度，class selectivity属性不能用来预测神经元的重要性。 本文表明这两种方式都是合理的。用class selectivi">
@@ -146,8 +146,7 @@
 
   <div class="content" itemprop="articleBody">
     <p>之前的一些工作通过可视化每个神经元的方式来理解神经网络，它们选择的是<em>high selectivity</em>的神经元，发现网络浅层识别的是具体的图案（e.g 纹理、图像），网络深层识别的是语义信息（e.g 狗头、车轮），论文[11]似乎打脸了这种方式，表明对于代表整体分类精度，<em>class selectivity</em>属性不能用来预测神经元的重要性。</p>
-<p>本文表明这两种方式都是合理的。用<em>class selectivity</em>或其他属性来预测神经元的重要性从整体分类精度（网络的泛化性</p>
-<p>）上来看确实不好，但是能作为具体类别的判断依据。</p>
+<p>本文表明这两种方式都是合理的。用<em>class selectivity</em>或其他属性来预测神经元的重要性从整体分类精度（网络的泛化性）上来看确实不好，但是能作为具体类别的判断依据。</p>
 <p><strong>抑制神经元的方式</strong>：将其weight和bias设置成0。</p>
 <p><strong>两种精度下降类型：</strong>overall accuracy drop &amp; max class accuracy drop</p>
 <p><strong>判断神经元重要性的属性：</strong></p>
@@ -433,4 +432,8 @@
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 </body>
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
+</div>
+
 </html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1️⃣ On Compressing Deep Models by Low Rank and Sparse Decomposition本文将网络权重分解成低秩和稀疏的成分，利用贪心双边分解（GreBdec）算法进行模型压缩。 目标函数：$$\begin{array}{cl}{\min _{L, S}} &amp;amp; {\frac{1}{2}|W-L-S|_{F}^{2}} \\ {\text {s.">
+<meta name="keywords" content="paper,每周论文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每周论文 Vol.03">
+<meta property="og:url" content="http://yoursite.com/2019/05/19/weekly-paper-03/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="1️⃣ On Compressing Deep Models by Low Rank and Sparse Decomposition本文将网络权重分解成低秩和稀疏的成分，利用贪心双边分解（GreBdec）算法进行模型压缩。 目标函数：$$\begin{array}{cl}{\min _{L, S}} &amp;amp; {\frac{1}{2}|W-L-S|_{F}^{2}} \\ {\text {s.">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://i.loli.net/2019/05/20/5ce2015dee80b29804.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/23/5ce663632bbf215753.png">
+<meta property="og:updated_time" content="2019-05-23T10:42:12.181Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="每周论文 Vol.03">
+<meta name="twitter:description" content="1️⃣ On Compressing Deep Models by Low Rank and Sparse Decomposition本文将网络权重分解成低秩和稀疏的成分，利用贪心双边分解（GreBdec）算法进行模型压缩。 目标函数：$$\begin{array}{cl}{\min _{L, S}} &amp;amp; {\frac{1}{2}|W-L-S|_{F}^{2}} \\ {\text {s.">
+<meta name="twitter:image" content="https://i.loli.net/2019/05/20/5ce2015dee80b29804.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>每周论文 Vol.03</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/25/weekly-paper-04/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/19/hexo-theme-cactus/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/19/weekly-paper-03/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/19/weekly-paper-03/&text=每周论文 Vol.03"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/19/weekly-paper-03/&title=每周论文 Vol.03"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/19/weekly-paper-03/&is_video=false&description=每周论文 Vol.03"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每周论文 Vol.03&body=Check out this article: http://yoursite.com/2019/05/19/weekly-paper-03/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/19/weekly-paper-03/&title=每周论文 Vol.03"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/19/weekly-paper-03/&title=每周论文 Vol.03"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/19/weekly-paper-03/&title=每周论文 Vol.03"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/19/weekly-paper-03/&title=每周论文 Vol.03"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/19/weekly-paper-03/&name=每周论文 Vol.03&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-On-Compressing-Deep-Models-by-Low-Rank-and-Sparse-Decomposition"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ On Compressing Deep Models by Low Rank and Sparse Decomposition</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        每周论文 Vol.03
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-05-19T13:09:17.000Z" itemprop="datePublished">2019-05-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/paper/">paper</a>, <a class="tag-link" href="/tags/每周论文/">每周论文</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="1️⃣-On-Compressing-Deep-Models-by-Low-Rank-and-Sparse-Decomposition"><a href="#1️⃣-On-Compressing-Deep-Models-by-Low-Rank-and-Sparse-Decomposition" class="headerlink" title="1️⃣ On Compressing Deep Models by Low Rank and Sparse Decomposition"></a>1️⃣ On Compressing Deep Models by Low Rank and Sparse Decomposition</h3><p>本文将网络权重分解成低秩和稀疏的成分，利用贪心双边分解（GreBdec）算法进行模型压缩。</p>
+<p>目标函数：<br>$$<br>\begin{array}{cl}{\min _{L, S}} &amp; {\frac{1}{2}|W-L-S|_{F}^{2}} \\ {\text {s.t.}} &amp; {\operatorname{rank}(L) \leq r} \\ &amp;card(S) \leq c \end{array}<br>$$<br>假设$L=UV$，其中$U \in R^{m \times r}, V \in R^{r \times k}$。本文用两个卷积层进行低秩近似，$V$将通道数映射到$r$，$U$代表$1\times1$卷积。然后把低秩近似的结果和稀疏的结果相加利用mask乘到原filters上，修改目标函数：<br>$$<br>\begin{array}{cl}{\min _{L, S}} &amp; {\frac{1}{2 n}|Y-(L+S) X|_{F}^{2}} \\ {\text {s.t.}} &amp; {\frac{1}{2}|W-L-S|_{F}^{2} \leq \gamma} \\ &amp; rank(L) \leq r, \\ &amp; card(S) \leq c.\end{array}<br>$$<br>等同于利用迭代优化策略优化目标函数：<br>$$<br>\frac{1}{2 n}|Y-(L+S) X|_{2}^{2}+\frac{\lambda}{2}|W-L-S|_{F}^{2}<br>$$<br>其中<br>$$<br>\left\{\begin{array}{l}{L_{i}=\text { TruncatedGSVD }\left(B_{i} A^{\dagger}, r\right)} \\ {S_{i}=P_{\Omega}(M), \text { and } M=S_{i-1}-\eta\left(A S_{i-1}-C_{i}\right)}\end{array}\right.<br>$$<br>本文用SVD-free的GreBdec算法进行优化，令$L=UV$<br>$$<br>\begin{array}{cl}{\min _{U, V, S}} &amp; {\frac{1}{2 n}|Y-(U V+S) X|_{F}^{2}+\frac{\lambda}{2}|W-U V-S|_{F}^{2}} \\ {\text {s.t.}} &amp; {\operatorname{card}(S) \leq c}\end{array}<br>$$<br>$U,V,S$通过以下公式更新：<br>$$<br>\left\{\begin{array}{l}{U_{i}=B_{i} V_{i-1}^{\top}\left(V_{i-1} A V_{i-1}^{\top}\right)^{\dagger}} \\ {V_{i}=\left(U_{i}^{\top} U_{i}\right)^{\dagger} U_{i}^{\top}\left(B_{i} A^{\dagger}\right)} \\ {S_{i}=P_{\Omega}(M), \text { and } M=S_{i-1}-\eta\left(A S_{i-1}-C_{i}\right)}\end{array}\right.<br>$$<br>然后又经过一番变换作者利用QR分解得到一个让$U,V$更快更新的规则：<br>$$<br>\left\{\begin{array}{l}{U_{i}=Q, Q R\left(B_{i} V^{\top}\right)=Q R} \\ {V_{i}=Q^{\top}\left(B_{i} A^{\dagger}\right)}\end{array}\right.<br>$$<br><img src="https://i.loli.net/2019/05/20/5ce2015dee80b29804.png" alt=""></p>
+<p>###2️⃣ Spatial Transformer Networks</p>
+<p>对输入图像进行空间上的变换，以学到图像的不变性(invariance)。配合<a href="https://pytorch.org/tutorials/intermediate/spatial_transformer_tutorial.html" target="_blank" rel="external">PyTorch Tutorial</a>食用。</p>
+<p><img src="https://i.loli.net/2019/05/23/5ce663632bbf215753.png" alt=""></p>
+<p>STN也类似一个插件，主要由两个模块组成：</p>
+<ul>
+<li>Localisation net：输入feature map $U \in \mathbb{R}^{H \times W \times C}$，输出变换参数$\theta=f_{\mathrm{loc}}(U)$。其中$\theta$是一个6维的仿射变换。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Spatial transformer localization-network</span></div><div class="line">self.localization = nn.Sequential(</div><div class="line">	nn.Conv2d(<span class="number">1</span>, <span class="number">8</span>, kernel_size=<span class="number">7</span>),</div><div class="line">  nn.MaxPool2d(<span class="number">2</span>, stride=<span class="number">2</span>),</div><div class="line">  nn.ReLU(<span class="keyword">True</span>),</div><div class="line">  nn.Conv2d(<span class="number">8</span>, <span class="number">10</span>, kernel_size=<span class="number">5</span>),</div><div class="line">  nn.MaxPool2d(<span class="number">2</span>, stride=<span class="number">2</span>),</div><div class="line">  nn.ReLU(<span class="keyword">True</span>)</div><div class="line">)</div></pre></td></tr></table></figure>
+<ul>
+<li>Grid generator：对图像用$A_\theta$进行2D仿射变换，其中$(x_i^t, y_I^t)$为target像素点坐标，$\left(x_{i}^{s}, y_{i}^{s}\right)$为source采样点的坐标。</li>
+</ul>
+<p>$$<br>\left( \begin{array}{c}{x_{i}^{s}} \\ {y_{i}^{s}}\end{array}\right)=\mathcal{T}_{\theta}\left(G_{i}\right)=\mathrm{A}_{\theta} \left( \begin{array}{c}{x_{i}^{t}} \\ {y_{i}^{t}} \\ {1}\end{array}\right)=\left[ \begin{array}{ccc}{\theta_{11}} &amp; {\theta_{12}} &amp; {\theta_{13}} \\ {\theta_{21}} &amp; {\theta_{22}} &amp; {\theta_{23}}\end{array}\right] \left( \begin{array}{c}{x_{i}^{t}} \\ {y_{i}^{t}} \\ {1}\end{array}\right)<br>$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Regressor for the 3 * 2 affine matrix</span></div><div class="line">self.fc_loc = nn.Sequential(</div><div class="line">  nn.Linear(<span class="number">10</span> * <span class="number">3</span> * <span class="number">3</span>, <span class="number">32</span>),</div><div class="line">  nn.ReLU(<span class="keyword">True</span>),</div><div class="line">  nn.Linear(<span class="number">32</span>, <span class="number">3</span> * <span class="number">2</span>)</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>为了在$U$上应用空间变换输出$V$，需要一个可导的采样函数生成采样点$\mathcal{T}_\theta(G)$。<br>$$<br>V_{i}^{c}=\sum_{n}^{H} \sum_{m}^{W} U_{n m}^{c} k\left(x_{i}^{s}-m ; \Phi_{x}\right) k\left(y_{i}^{s}-n ; \Phi_{y}\right) \forall i \in\left[1 \ldots H^{\prime} W^{\prime}\right] \forall c \in[1 \ldots C]<br>$$<br>其中$k$为sampling kernel，可以定义为integer sampling kernel:<br>$$<br>V_{i}^{c}=\sum_{n}^{H} \sum_{m}^{W} U_{n m}^{c} \delta\left(\left\lfloor x_{i}^{s}+0.5\right\rfloor- m\right) \delta\left(\left\lfloor y_{i}^{s}+0.5\right\rfloor- n\right)<br>$$<br>也可以定义为bilinear sampling kernel：<br>$$<br>V_{i}^{c}=\sum_{n}^{H} \sum_{m}^{W} U_{n m}^{c} \max \left(0,1-\left|x_{i}^{s}-m\right|\right) \max \left(0,1-\left|y_{i}^{s}-n\right|\right)<br>$$<br>对输入求偏导有：<br>$$<br>\frac{\partial V_{i}^{c}}{\partial x_{i}^{s}}=\sum_{n}^{H} \sum_{m}^{W} U_{n m}^{c} \max \left(0,1-\left|y_{i}^{s}-n\right|\right) \left\{\begin{array}{ll}{0} &amp; {\text { if }\left|m-x_{i}^{s}\right| \geq 1} \\ {1} &amp; {\text { if } m \geq x_{i}^{s}} \\ {-1} &amp; {\text { if } m<x_{i}^{s}}\end{array}\right. $$="" 把<em="">localisation network, grid generator, sampler结合起来构成一个STN模块：</x_{i}^{s}}\end{array}\right.></p>
+<p><strong>STN</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Spatial transformer network forward function</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">stn</span><span class="params">(self, x)</span>:</span></div><div class="line">  xs = self.localization(x)</div><div class="line">  xs = xs.view(<span class="number">-1</span>, <span class="number">10</span> * <span class="number">3</span> * <span class="number">3</span>)</div><div class="line">  theta = self.fc_loc(xs)</div><div class="line">  theta = theta.view(<span class="number">-1</span>, <span class="number">2</span>, <span class="number">3</span>)</div><div class="line"></div><div class="line">  grid = F.affine_grid(theta, x.size())</div><div class="line">  x = F.grid_sample(x, grid)</div><div class="line"></div><div class="line">  <span class="keyword">return</span> x</div></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-On-Compressing-Deep-Models-by-Low-Rank-and-Sparse-Decomposition"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ On Compressing Deep Models by Low Rank and Sparse Decomposition</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/19/weekly-paper-03/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/19/weekly-paper-03/&text=每周论文 Vol.03"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/19/weekly-paper-03/&title=每周论文 Vol.03"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/19/weekly-paper-03/&is_video=false&description=每周论文 Vol.03"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每周论文 Vol.03&body=Check out this article: http://yoursite.com/2019/05/19/weekly-paper-03/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/19/weekly-paper-03/&title=每周论文 Vol.03"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/19/weekly-paper-03/&title=每周论文 Vol.03"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/19/weekly-paper-03/&title=每周论文 Vol.03"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/19/weekly-paper-03/&title=每周论文 Vol.03"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/19/weekly-paper-03/&name=每周论文 Vol.03&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
+</div>
+
+</html>

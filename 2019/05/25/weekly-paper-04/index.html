@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="为了锻炼自己的英语写作能力，以后尽量用英文做进行归纳（⌘+C &amp;amp; ⌘+V）～ 1️⃣ To prune, or not to prune: exploring the efficacy of pruning for model compression这篇是TensorFlow自己出的，直接在训练过程中融合L1剪枝。通过将操作融入TensoFlow的training graph，在训练过程中">
+<meta name="keywords" content="paper,每周论文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="weekly-paper-04">
+<meta property="og:url" content="http://yoursite.com/2019/05/25/weekly-paper-04/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="为了锻炼自己的英语写作能力，以后尽量用英文做进行归纳（⌘+C &amp;amp; ⌘+V）～ 1️⃣ To prune, or not to prune: exploring the efficacy of pruning for model compression这篇是TensorFlow自己出的，直接在训练过程中融合L1剪枝。通过将操作融入TensoFlow的training graph，在训练过程中">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://i.loli.net/2019/05/27/5ceb52642beaa24177.png">
+<meta property="og:updated_time" content="2019-05-27T12:12:52.191Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="weekly-paper-04">
+<meta name="twitter:description" content="为了锻炼自己的英语写作能力，以后尽量用英文做进行归纳（⌘+C &amp;amp; ⌘+V）～ 1️⃣ To prune, or not to prune: exploring the efficacy of pruning for model compression这篇是TensorFlow自己出的，直接在训练过程中融合L1剪枝。通过将操作融入TensoFlow的training graph，在训练过程中">
+<meta name="twitter:image" content="https://i.loli.net/2019/05/27/5ceb52642beaa24177.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>weekly-paper-04</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/28/gumbel-softmax/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/19/weekly-paper-03/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/25/weekly-paper-04/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/25/weekly-paper-04/&text=weekly-paper-04"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/25/weekly-paper-04/&title=weekly-paper-04"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/25/weekly-paper-04/&is_video=false&description=weekly-paper-04"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=weekly-paper-04&body=Check out this article: http://yoursite.com/2019/05/25/weekly-paper-04/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/25/weekly-paper-04/&title=weekly-paper-04"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/25/weekly-paper-04/&title=weekly-paper-04"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/25/weekly-paper-04/&title=weekly-paper-04"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/25/weekly-paper-04/&title=weekly-paper-04"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/25/weekly-paper-04/&name=weekly-paper-04&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-To-prune-or-not-to-prune-exploring-the-efficacy-of-pruning-for-model-compression"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ To prune, or not to prune: exploring the efficacy of pruning for model compression</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2️⃣-OBJECT-DETECTORS-EMERGE-IN-DEEP-SCENE-CNNS"><span class="toc-number">2.</span> <span class="toc-text">2️⃣ OBJECT DETECTORS EMERGE IN DEEP SCENE CNNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3️⃣-Network-Dissection-Quantifying-Interpretability-of-Deep-Visual-Representations"><span class="toc-number">3.</span> <span class="toc-text">3️⃣ Network Dissection: Quantifying Interpretability of Deep Visual Representations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4️⃣-Pixel-wise-Attentional-Gating-for-Scene-Parsing"><span class="toc-number">4.</span> <span class="toc-text">4️⃣ Pixel-wise Attentional Gating for Scene Parsing</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        weekly-paper-04
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-05-25T08:30:05.000Z" itemprop="datePublished">2019-05-25</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/paper/">paper</a>, <a class="tag-link" href="/tags/每周论文/">每周论文</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>为了锻炼自己的英语写作能力，以后尽量用英文做进行归纳（⌘+C &amp; ⌘+V）～</p>
+<h3 id="1️⃣-To-prune-or-not-to-prune-exploring-the-efficacy-of-pruning-for-model-compression"><a href="#1️⃣-To-prune-or-not-to-prune-exploring-the-efficacy-of-pruning-for-model-compression" class="headerlink" title="1️⃣ To prune, or not to prune: exploring the efficacy of pruning for model compression"></a>1️⃣ To prune, or not to prune: exploring the efficacy of pruning for model compression</h3><p>这篇是TensorFlow自己出的，直接在训练过程中融合L1剪枝。通过将操作融入TensoFlow的training graph，在训练过程中对权重进行排序，用一个mask将最小的weights置0。从inital sparsity values $s_i$开始，以$\Delta t$ 的剪枝频率，最终达到final sparsity value $s_f$<br>$$<br>s_{t}=s_{f}+\left(s_{i}-s_{f}\right)\left(1-\frac{t-t_{0}}{n \Delta t}\right)^{3} \text { for } t \in\left\{t_{0}, \quad t_{0}+\Delta t, \ldots, t_{0}+n \Delta t\right\}<br>$$<br>masks每隔$\Delta t$更新一次，直到达到$s_f$后不再更新。同时文章表明，$n$的选择与学习率的下降策略密切相关。</p>
+<h3 id="2️⃣-OBJECT-DETECTORS-EMERGE-IN-DEEP-SCENE-CNNS"><a href="#2️⃣-OBJECT-DETECTORS-EMERGE-IN-DEEP-SCENE-CNNS" class="headerlink" title="2️⃣ OBJECT DETECTORS EMERGE IN DEEP SCENE CNNS"></a>2️⃣ OBJECT DETECTORS EMERGE IN DEEP SCENE CNNS</h3><p>📍<a href="https://github.com/metalbubble/cnnvisualizer" target="_blank" rel="external">Github Repo</a></p>
+<p><strong>Contributions</strong></p>
+<ul>
+<li>object detection emerges inside a CNN trained to recognize scenes, even more than when trained with ImageNet</li>
+<li>the same network can do both object localization and scene recognition in a single forward-pass.</li>
+</ul>
+<p><strong>Experiments</strong></p>
+<ul>
+<li><p>identify the differences in the type of images preferred at the different layers of each network</p>
+</li>
+<li><p>Places-CNN and ImageNet-CNN  prefer similar images in the earlier layers, while the later layers tend to be more specialized to the specific task of scene or object categorization.</p>
+</li>
+<li><p>understand the nature of the representation that the network is learning</p>
+<ul>
+<li><em>simplifying the input images:</em> 1) removing segments from the image to produce the smallest decrease of the correct classification score until the image is incorrectly classified 2) generate the minimal image representations using image set of SUN database. =&gt; use minimal image representations as inputs to show the contribute important information for the network to recognize the scene.</li>
+<li><em>visualize the receptive fields (RFs) of units and their activatoin patterns:</em> use sliding-window to identify which regions of the image led to the high unit activations. =&gt; as the layers go deeper the RF size gradually increases and the activation regions become more semantically meaningful.</li>
+<li><em>understan and quantify the precise semantic learnd by each unit: </em>ask AMT to indentify the common concepts that exists between the top scoring segmentations for each unit.</li>
+</ul>
+</li>
+<li><p>emergence of objects as the internal representation</p>
+<ul>
+<li><p>what object classes emerge? =&gt; use pool5 to show the distribution of objects</p>
+</li>
+<li><p>why do those obejcts emerge? </p>
+<ul>
+<li><p>possibility 1:  the objects correspond to the most frequent ones in the database. (correlation is 0.54)</p>
+</li>
+<li><p>possibility 2:  the objects that allow discriminatin among scene categories. (correlation is 0.84)</p>
+<p>=&gt; the network is automatically identifying the most discriminative object categories to a large extent</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3️⃣-Network-Dissection-Quantifying-Interpretability-of-Deep-Visual-Representations"><a href="#3️⃣-Network-Dissection-Quantifying-Interpretability-of-Deep-Visual-Representations" class="headerlink" title="3️⃣ Network Dissection: Quantifying Interpretability of Deep Visual Representations"></a>3️⃣ Network Dissection: Quantifying Interpretability of Deep Visual Representations</h3><p>📍<a href="https://github.com/CSAILVision/NetDissect-Lite" target="_blank" rel="external">Github Repo</a></p>
+<p><strong>Questions</strong></p>
+<ul>
+<li>What is a disentangled representation, and how can its factors be quantified and detected?</li>
+<li><p>Do interpretable hidden units reflect a special alignment of feature space, or are interpretations a chimera?</p>
+</li>
+<li><p>What conditions in state-of-the-art training lead to representations with greater or lesser entanglement?</p>
+</li>
+</ul>
+<p><strong>Measurement of interpretability: three-step process of Network Dissection</strong></p>
+<ol>
+<li><p>Identify a broad set of human-labeld visual concepts.</p>
+</li>
+<li><p>Gather hidden variables’ response to known concepts.</p>
+<ul>
+<li>draw concepts $c$ from the Broden dataset.</li>
+</ul>
+</li>
+<li><p>Quantify alignment of hidden variable — concept pairs.</p>
+<ul>
+<li><p>Scoring Unit Interpretability</p>
+<p>input image $x$, activation map $A_{k}(\mathbf{x}) \stackrel{scale up}{\longrightarrow}S_k(x) $，individual unit activations $a_k$</p>
+<p>top quantile level $T_k$： $P\left(a_{k}&gt;T_{k}\right)=0.005$</p>
+<p>binary segmentation：$M_{k}(\mathbf{x}) \equiv S_{k}(\mathbf{x}) \geq T_{k}$</p>
+<p>input annotaion mask $L_c$ </p>
+<p>score：the accuracy of unit $k$ in detecting concept $c$<br>$$<br>I o U_{k, c}=\frac{\sum\left|M_{k}(\mathbf{x}) \cap L_{c}(\mathbf{x})\right|}{\sum\left|M_{k}(\mathbf{x}) \cup L_{c}(\mathbf{x})\right|}<br>$$</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="4️⃣-Pixel-wise-Attentional-Gating-for-Scene-Parsing"><a href="#4️⃣-Pixel-wise-Attentional-Gating-for-Scene-Parsing" class="headerlink" title="4️⃣ Pixel-wise Attentional Gating for Scene Parsing"></a>4️⃣ Pixel-wise Attentional Gating for Scene Parsing</h3><p><strong>Contributions:</strong></p>
+<ul>
+<li>Dynamic computation depth: insert PAG at multiple lyaers of ResNet to control computational parsimony.</li>
+<li>Dynamic spatial pooling: adaptively chooses the proper pooling size for each pixel to aggregate information for inference.</li>
+<li>Experimetns on various pixel labeling tasks, including semantic segmentation, boundary detection, monocular depth and surface normal estimation.</li>
+</ul>
+<p><img src="https://i.loli.net/2019/05/27/5ceb52642beaa24177.png" alt=""></p>
+<p>binary spatial mask $\mathbf{G}$ on ResBottleneck:<br>$$<br>\begin{array}{ll}{\mathbf{X}=\mathcal{F}^{1}(\mathbf{I})} &amp; {\mathbf{X}=\mathcal{F}^{1}(\mathbf{I}), \mathbf{G}=\mathcal{G}(\mathbf{I})} \\ {\mathbf{Y}=\mathcal{F}^{2}(\mathbf{X})} &amp; {\mathbf{Y}=\mathcal{F}_{\mathbf{G}}^{2}(\mathbf{X})} \\ {\mathbf{Z}=\mathcal{F}^{3}(\mathbf{Y})} &amp; {\mathbf{Z}=\mathcal{F}_{\mathbf{G}}^{3}(\overline{\mathbf{G}} \odot \mathbf{X}+\mathbf{G} \odot \mathbf{Y})} \\ {\mathbf{O}=\mathbf{I}+\mathbf{Z}} &amp; {\mathbf{O}=\mathbf{I}+\mathbf{Z}}\end{array}<br>$$<br><strong>Methods:</strong></p>
+<ul>
+<li><p>Learning attention maps</p>
+<blockquote>
+<p>The key to the proposed PAG is the gating function G that produces a discrete (binary) mask which allows for reduced computation. However, producing the binary mask using hard thresholding is non-differentiable, and thus cannot be simply incorporated in CNN where gradient descent is used for training. To bridge the gap, we exploit the Gumbel-Max trick [19] and its recent continuous relaxation [39, 28].</p>
+</blockquote>
+<p>Gumbel distribution  $m \equiv-\log (-\log (u))$, where $u \sim \mathcal{U}[0,1]$</p>
+<p>$g$ is a discrete random variable with probabilities  $P(g=k) \propto a_{k}$</p>
+<p>$\left\{m_{k}\right\}_{k=1, \dots, K}$ is a sequence of i.i.d Gumbel random variables </p>
+<p>sample from the discrete variable:<br>$$<br>g=\underset{k=1, \ldots, K}{\operatorname{argmax}}\left(\log \alpha_{k}+m_{k}\right)<br>$$<br>Gumbel Sampling Trick (replaces the argmax operation with a softmax): </p>
+</li>
+</ul>
+<p>$$<br>\mathbf{g}=\operatorname{softmax}((\log (\boldsymbol{\alpha})+\mathbf{m}) / \tau)<br>$$</p>
+<p>​        <strong>forwardd pass</strong>: discrete smaples of the argmax </p>
+<p>​        <strong>backward pass</strong>: compute gradient of the softmax relaxation</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-To-prune-or-not-to-prune-exploring-the-efficacy-of-pruning-for-model-compression"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ To prune, or not to prune: exploring the efficacy of pruning for model compression</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2️⃣-OBJECT-DETECTORS-EMERGE-IN-DEEP-SCENE-CNNS"><span class="toc-number">2.</span> <span class="toc-text">2️⃣ OBJECT DETECTORS EMERGE IN DEEP SCENE CNNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3️⃣-Network-Dissection-Quantifying-Interpretability-of-Deep-Visual-Representations"><span class="toc-number">3.</span> <span class="toc-text">3️⃣ Network Dissection: Quantifying Interpretability of Deep Visual Representations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4️⃣-Pixel-wise-Attentional-Gating-for-Scene-Parsing"><span class="toc-number">4.</span> <span class="toc-text">4️⃣ Pixel-wise Attentional Gating for Scene Parsing</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/25/weekly-paper-04/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/25/weekly-paper-04/&text=weekly-paper-04"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/25/weekly-paper-04/&title=weekly-paper-04"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/05/25/weekly-paper-04/&is_video=false&description=weekly-paper-04"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=weekly-paper-04&body=Check out this article: http://yoursite.com/2019/05/25/weekly-paper-04/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/05/25/weekly-paper-04/&title=weekly-paper-04"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/05/25/weekly-paper-04/&title=weekly-paper-04"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/05/25/weekly-paper-04/&title=weekly-paper-04"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/05/25/weekly-paper-04/&title=weekly-paper-04"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/05/25/weekly-paper-04/&name=weekly-paper-04&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
+</div>
+
+</html>
