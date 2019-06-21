@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-06-12T00:26:54.784Z</updated>
+  <updated>2019-06-21T09:12:49.701Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>weekly-paper-05</title>
+    <title>每周论文 Vol.06</title>
+    <link href="http://yoursite.com/2019/06/18/weekly-paper-06/"/>
+    <id>http://yoursite.com/2019/06/18/weekly-paper-06/</id>
+    <published>2019-06-18T01:49:16.000Z</published>
+    <updated>2019-06-21T09:12:49.701Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1️⃣-AutoSlim-Towards-One-Shot-Architecture-Search-for-Channel-Numbers"><a href="#1️⃣-AutoSlim-Towards-One-Shot-Architecture-Search-for-Channel-Numbers" class="headerlink" title="1️⃣ AutoSlim: Towards One-Shot Architecture Search for Channel Numbers"></a>1️⃣ AutoSlim: Towards One-Shot Architecture Search for Channel Numbers</h3><p>这篇和<a href="https://arxiv.org/abs/1812.08928" target="_blank" rel="external">ICLR2019</a>、<a href="https://arxiv.org/abs/1903.05134" target="_blank" rel="external">Universally Slimmable Networks</a>是同一个作者，解决的问题都是通道剪枝。下面先了解一下本文。</p><p><strong>Why?</strong></p><p>Most channel pruning methods are grouneded on <strong>the importance of trained weights</strong>, so the slimmed layer usually consists channels of discrete index. Most NAS methods have high computational cost and time cost.</p><p><strong>How?</strong></p><p>Extending the work of slimmable networks and propose AutoSlim. The training process is as following:</p><ol><li><p>Train a slimmable model for a few epochs to get a benchmark performance estimator.</p><ul><li><p>Searching space is defined between the upper bound and lower bound of channel numbers. In each training iteration, randomly sample the number of channels in each layer. In each layer remove a group of channels. </p><blockquote><p>in resents, first sample the channel number of residual dentity pathway and then randomly and independenly sample channel number inside each residual block.</p></blockquote></li></ul></li><li><p>Evaluate the trained slimmable model and greedily slim the layer with minimal accuracy drop on validation set.</p></li><li><p>Obtain the optimized channel configurations under different resource constraints.</p></li><li><p>Train optimized architectures individually or slimmable network for full training epochs.</p></li></ol><p>The paper is based on the assumption that <strong>the importance of weight is implicitly ranked by its index</strong>, which means that the smaller index of one filter the more important of this filter.</p><h3 id="2️⃣-AutoGrow-Automatic-Layer-Growing-in-Deep-Convolutional-Networks"><a href="#2️⃣-AutoGrow-Automatic-Layer-Growing-in-Deep-Convolutional-Networks" class="headerlink" title="2️⃣ AutoGrow: Automatic Layer Growing in Deep Convolutional Networks"></a>2️⃣ AutoGrow: Automatic Layer Growing in Deep Convolutional Networks</h3><p>The method can be easily found in the title, to gradually grow the depth of DNN.</p><p>The  <em>network</em> is  composed of <em>sub-netwok</em>, and <em>sub-network</em> is composed of <em>sub-modules</em>.<br>$$<br>g\left(\mathcal{X}_{0}\right)=l\left(\boldsymbol{f}_{M-1}\left(\boldsymbol{f}_{M-2}\left(\cdots \boldsymbol{f}_{1}\left(\boldsymbol{f}_{0}\left(\mathcal{X}_{0}\right)\right) \cdots\right)\right)\right)<br>$$<br>AutoGrow is based on Network Morphism, but propose to initilize the last Batch Normalization layer in a residual block of <em>AdamInit</em> insted of <em>ZeroInit</em></p><p><strong>AdamInit</strong></p><p>given the new layers $\mathcal{W}$, we have:<br>$$<br>g\left(\mathcal{X}_{0} ; \mathbb{W}\right)=g\left(\mathcal{X}_{0} ; \mathbb{W} \cup \mathcal{W}\right) \forall \mathcal{X}_{0}<br>$$<br>freeze all parameters except the last Batch Normalization layer in $\mathcal{W}$, use Adam optimizer to optimize the last Batch Normalization layer.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;1️⃣-AutoSlim-Towards-One-Shot-Architecture-Search-for-Channel-Numbers&quot;&gt;&lt;a href=&quot;#1️⃣-AutoSlim-Towards-One-Shot-Architecture-Search-f
+      
+    
+    </summary>
+    
+    
+      <category term="paper" scheme="http://yoursite.com/tags/paper/"/>
+    
+      <category term="每周论文" scheme="http://yoursite.com/tags/%E6%AF%8F%E5%91%A8%E8%AE%BA%E6%96%87/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>每周论文 Vol.05</title>
     <link href="http://yoursite.com/2019/06/10/weekly-paper-05/"/>
     <id>http://yoursite.com/2019/06/10/weekly-paper-05/</id>
     <published>2019-06-10T02:29:31.000Z</published>
-    <updated>2019-06-12T00:26:54.784Z</updated>
+    <updated>2019-06-18T01:49:25.901Z</updated>
     
     <content type="html"><![CDATA[<h3 id="1️⃣-Dynamic-Capacity-Networks"><a href="#1️⃣-Dynamic-Capacity-Networks" class="headerlink" title="1️⃣ Dynamic Capacity Networks"></a>1️⃣ Dynamic Capacity Networks</h3><p>use two alternative sub-networks: </p><ol><li>coarse layers $f_c$ on the whole input $\mathbf {x}$  </li><li>fine layers $f_f$ at salient regions </li></ol><p><strong>coarse representation vectors</strong><br>$$<br>f_{c}(\mathbf{x})=\left\{\mathbf{c}_{i, j} |(i, j) \in\left[1, s_{1}\right] \times\left[1, s_{2}\right]\right\}<br>$$</p><p>$$<br>h_{c}(\mathbf{x})= \mathbf{o}_c = g\left(f_{c}(\mathbf{x})\right)<br>$$</p><p>$\mathbf{c}_{i, j}=f_{c}\left(\mathbf{x}_{i, j}\right) \in \mathbb{R}^{D}$ </p><p><strong>salient input regions</strong><br>$$<br>H=-\sum_{l=1}^{C} \mathbf{o}_{c}^{(l)} \log \mathbf{o}_{c}^{(l)}<br>$$</p><p>$$<br>M_{i, j}=\left|\nabla_{\mathbf{c}_{i, j}} H\right|_{2}<br>$$</p><p>$C$ is the number of class labels, $\mathbf{M} \in \mathbb{R}^{s_{1} \times s_{2}}$</p><p>select top $k$ input regions $\mathbf{X}^{s}=\left\{\mathbf{x}_{i, j} |(i, j) \in \mathbf{I}^{s}\right\}$ based on $\mathbf{M}$</p><p><strong>fine representation vectors</strong><br>$$<br>f_{f}\left(\mathbf{X}^{s}\right)=\left\{\mathbf{f}_{i, j} |(i, j) \in \mathbf{I}^{s}\right\}<br>$$<br>refined representation $f_r(\mathbf {x})$ by combining $f_c(\mathbf{x})$ and $f_f(\mathbf{X}^s)$</p><p><strong>loss</strong></p><ol><li><p>Cross Entropy<br>$$<br>J=-\sum_{i=1}^{m} \log p\left(y^{(i)} | \mathbf{x}^{(i)} ; \theta\right)<br>$$</p></li><li><p>encourage similarity between the coarse and fine representations</p></li></ol><p>$$<br>\sum_{\mathbf{x}_{i, j} \in \mathbf{X}^{s}}\left|f_{c}\left(\mathbf{x}_{i, j}\right)-f_{f}\left(\mathbf{x}_{i, j}\right)\right|_{2}^{2}<br>$$</p>]]></content>
     
@@ -453,27 +478,6 @@
       
       
         &lt;h2 id=&quot;GoogleNet&quot;&gt;&lt;a href=&quot;#GoogleNet&quot; class=&quot;headerlink&quot; title=&quot;GoogleNet&quot;&gt;&lt;/a&gt;GoogleNet&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://www.cv-foundation.org/ope
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Interleaved Group Convolutions</title>
-    <link href="http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/"/>
-    <id>http://yoursite.com/2018/07/17/Interleaved-Group-Convolutions/</id>
-    <published>2018-07-17T02:29:32.000Z</published>
-    <updated>2018-07-17T06:44:17.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>本文作者提出了一个名为交叉组卷积(Interleaved Group Convolution, IGC)的神经网络模块。它由两个连续的交叉组卷积构成：主组卷积和次组卷积。主组卷积中的操作时空间卷积，而次组卷积中的操作是逐点卷积。作者的关注点在减少卷积核的冗余，这个冗余来自空间范围和通道范围。在空间范围，发展出了小的卷积核，比如$3 \times 3，3 \times 1, 1 \times 3$。在通道范围，发展出了组卷积、逐通道卷积。本文研究的是通道范围的卷积核设计。</p><p>IGC的结构如下图所示：</p><p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1ftcny366afj310g0b6jw8.jpg" alt="interleaved_group_convolution"></p><p>令$L$表示主组卷积的分组数，$M$表示次组卷积的分组数(亦即主组卷积中每组的通道数)。上图展示的是$L=2$，$M=3$。</p><p>主组卷积可以表示为：</p><p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftco2e2f78j30ho0520t0.jpg" alt="primary_group_convolution"></p><p>其中，$z_l$表示大小为$(MS)$的向量，$S$为卷积核大小。e.g. conv $ 3 \times 3$ -&gt; $S = 9$。$W_{ll}^p$表示第$l$组的卷积核，大小为$M \times (MS)$。则输出$y_l$为大小为$M$的向量。</p><p>将${y_1, y_2, \dots, y_l }$重新排列(permutation)作为次组卷积的输入：</p><p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1ftcollshyyj30q402kq31.jpg" alt="permutation1"></p><p>$\overline { y } _ { m }$表示次组卷积中的第$m$个分组，由主组卷积中不同组的第$m$个通道构成，大小为$L$。</p><p>次组卷积可以表示为：</p><p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftcp07vq3vj30pq02a0ss.jpg" alt="secondary_group_convolution"></p><p>其中，$W_{mm}^s$表示第$m$组的$1\times1$卷积，大小为$L \times L$。则每组的输出$\overline { z } _ { m }$大小仍然为$L$。</p><p>最后对次组卷积的输出进行重新排列：</p><p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftcp2dp0rwj30ps028aa5.jpg" alt="permutation2"></p><p>整个IGC块可以表示为：</p><p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftcp37eoqyj30pm02474b.jpg" alt="igc_block"></p><p>令$W = PW^sP^TW^p$为组合卷积核，则我们有：</p><p><img src="https://ws4.sinaimg.cn/large/006tKfTcly1ftcu3e9arnj30pe028dft.jpg" alt="composite_convolution_kernel"></p><p>表示由两个稀疏卷积相乘得到的正常卷积。</p><p>IGC的参数量为：</p><p><img src="https://ws3.sinaimg.cn/large/006tKfTcly1ftcu6ltmeij30pi03ywes.jpg" alt="igc_num_parameters"></p><p>假设输入输出的通道数为$C$，正常卷积的参数量为：</p><p><img src="https://ws4.sinaimg.cn/large/006tKfTcly1ftcu8q7aixj30pe02sq2y.jpg" alt="rc_num_parameters"></p><p>假设$T_{igc} = T_{rc}$，可以得到：</p><p><img src="https://ws4.sinaimg.cn/large/006tKfTcly1ftcuahfrqvj30p0030q33.jpg" alt="compare_igc_rc"></p><p>对于典型的$S=3\times3$，当$L&gt;1$就有$G&gt;C$。也就是说，除了极端的$L=1$情况下，IGC内所含通道数都比正常卷积来得多，也就能包含更多的信息。</p><p>接下来作者分析了何种情况下，$G$能够最大。</p><p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftcug9o7hxj30pu08wq3w.jpg" alt="when_widest"></p><p>由基本不等式得出公式(12)。因此当$L=MS$时，通道数最多。</p><p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftcuqfychdj30s208adig.jpg" alt="classification_accuracy_comparison"></p><p>实验结果表明，在计算代价近似，甚至IGC-L24M2更少的情况下，IGC的总体表现还是比较好的。正是由于IGC增加了宽度，更有效地利用了参数。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;本文作者提出了一个名为交叉组卷积(Interleaved Group Convolution, IGC)的神经网络模块。它由两个连续的交叉组卷积构成：主组卷积和次组卷积。主组卷积中的操作时空间卷积，而次组卷积中的操作是逐点卷积。作者的关注点在减少卷积核的冗余，这个冗余来自空
       
     
     </summary>
