@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/06/23/tf-pixshuffle/</loc>
+    
+    <lastmod>2019-06-28T02:10:01.249Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/06/25/weekly-paper-07/</loc>
+    
+    <lastmod>2019-06-27T11:48:18.266Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/05/24/Microcontrollermd/</loc>
+    
+    <lastmod>2019-06-25T03:02:13.877Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/06/18/weekly-paper-06/</loc>
     
     <lastmod>2019-06-21T09:12:49.701Z</lastmod>
@@ -12,13 +33,6 @@
     <loc>http://yoursite.com/2019/06/10/weekly-paper-05/</loc>
     
     <lastmod>2019-06-18T01:49:25.901Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/06/09/invalid/</loc>
-    
-    <lastmod>2019-06-09T06:43:10.693Z</lastmod>
     
   </url>
   
@@ -369,13 +383,6 @@
     <loc>http://yoursite.com/2017/05/29/machine-learning-ex3/</loc>
     
     <lastmod>2017-05-30T02:20:03.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/05/24/Microcontrollermd/</loc>
-    
-    <lastmod>2017-05-28T10:44:58.000Z</lastmod>
     
   </url>
   

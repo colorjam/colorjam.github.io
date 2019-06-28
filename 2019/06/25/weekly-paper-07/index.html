@@ -6,18 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="在运行strip_pruning_vars 的时候遇到了如下问题：  ValueError: graph_def is invalid at node ‘SRGAN_g_p/blocks_0/n64s1/b1/AssignMovingAvg’: Input tensor ‘SRGAN_g_p/blocks_0/n64s1/b1/moving_mean:0’ Cannot convert a ten">
-<meta name="keywords" content="维修指南">
+    <meta name="description" content="1️⃣  Universally Slimmable Networks and Improved Training TechniquesThis work extending slimmable networks to execute at arbitrary width, the contributions can list as  Post-Statistics of Batch Normal">
+<meta name="keywords" content="paper,每周论文">
 <meta property="og:type" content="article">
-<meta property="og:title" content="graph_define is invalid">
-<meta property="og:url" content="http://yoursite.com/2019/06/09/invalid/index.html">
+<meta property="og:title" content="weekly-paper-07">
+<meta property="og:url" content="http://yoursite.com/2019/06/25/weekly-paper-07/index.html">
 <meta property="og:site_name" content="Colorjam">
-<meta property="og:description" content="在运行strip_pruning_vars 的时候遇到了如下问题：  ValueError: graph_def is invalid at node ‘SRGAN_g_p/blocks_0/n64s1/b1/AssignMovingAvg’: Input tensor ‘SRGAN_g_p/blocks_0/n64s1/b1/moving_mean:0’ Cannot convert a ten">
+<meta property="og:description" content="1️⃣  Universally Slimmable Networks and Improved Training TechniquesThis work extending slimmable networks to execute at arbitrary width, the contributions can list as  Post-Statistics of Batch Normal">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-06-09T06:43:10.693Z">
+<meta property="og:updated_time" content="2019-06-27T11:48:18.266Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="graph_define is invalid">
-<meta name="twitter:description" content="在运行strip_pruning_vars 的时候遇到了如下问题：  ValueError: graph_def is invalid at node ‘SRGAN_g_p/blocks_0/n64s1/b1/AssignMovingAvg’: Input tensor ‘SRGAN_g_p/blocks_0/n64s1/b1/moving_mean:0’ Cannot convert a ten">
+<meta name="twitter:title" content="weekly-paper-07">
+<meta name="twitter:description" content="1️⃣  Universally Slimmable Networks and Improved Training TechniquesThis work extending slimmable networks to execute at arbitrary width, the contributions can list as  Post-Statistics of Batch Normal">
     
     
         
@@ -37,7 +37,7 @@
         
     
     <!-- title -->
-    <title>graph_define is invalid</title>
+    <title>weekly-paper-07</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -71,10 +71,8 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2019/06/10/weekly-paper-05/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
-        
-        <li><a class="icon" href="/2019/05/28/gumbel-softmax/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/2019/06/23/tf-pixshuffle/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -87,21 +85,21 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/09/invalid/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/09/invalid/&text=graph_define is invalid"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/09/invalid/&title=graph_define is invalid"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/09/invalid/&is_video=false&description=graph_define is invalid"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=graph_define is invalid&body=Check out this article: http://yoursite.com/2019/06/09/invalid/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/09/invalid/&title=graph_define is invalid"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/09/invalid/&title=graph_define is invalid"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/09/invalid/&title=graph_define is invalid"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/09/invalid/&title=graph_define is invalid"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/09/invalid/&name=graph_define is invalid&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/25/weekly-paper-07/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/25/weekly-paper-07/&text=weekly-paper-07"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/25/weekly-paper-07/&title=weekly-paper-07"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/25/weekly-paper-07/&is_video=false&description=weekly-paper-07"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=weekly-paper-07&body=Check out this article: http://yoursite.com/2019/06/25/weekly-paper-07/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/25/weekly-paper-07/&title=weekly-paper-07"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/25/weekly-paper-07/&title=weekly-paper-07"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/25/weekly-paper-07/&title=weekly-paper-07"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/25/weekly-paper-07/&title=weekly-paper-07"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/25/weekly-paper-07/&name=weekly-paper-07&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-Universally-Slimmable-Networks-and-Improved-Training-Techniques"><span class="toc-number">1.</span> <span class="toc-text">1️⃣  Universally Slimmable Networks and Improved Training Techniques</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -113,7 +111,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        graph_define is invalid
+        weekly-paper-07
     </h1>
 
 
@@ -125,7 +123,7 @@
       
     <div class="postdate">
       
-        <time datetime="2019-06-09T06:38:05.000Z" itemprop="datePublished">2019-06-09</time>
+        <time datetime="2019-06-25T00:55:36.000Z" itemprop="datePublished">2019-06-25</time>
         
       
     </div>
@@ -136,7 +134,7 @@
       
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/维修指南/">维修指南</a>
+        <a class="tag-link" href="/tags/paper/">paper</a>, <a class="tag-link" href="/tags/每周论文/">每周论文</a>
     </div>
 
 
@@ -145,15 +143,24 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>在运行<code>strip_pruning_vars</code> 的时候遇到了如下问题：</p>
-<blockquote>
-<p>ValueError: graph_def is invalid at node ‘SRGAN_g_p/blocks_0/n64s1/b1/AssignMovingAvg’: Input tensor ‘SRGAN_g_p/blocks_0/n64s1/b1/moving_mean:0’ Cannot convert a tensor of type float32 to an input of type float32_ref.</p>
-</blockquote>
-<p>可以看到是bn层的出了问题，<a href="https://github.com/tensorflow/tensorflow/issues/3628" target="_blank" rel="external">这里</a>指出了问题，存储模型的时候并没有把 moving_mean,  moving_variance 存好，</p>
-<p>参考链接：</p>
+    <h3 id="1️⃣-Universally-Slimmable-Networks-and-Improved-Training-Techniques"><a href="#1️⃣-Universally-Slimmable-Networks-and-Improved-Training-Techniques" class="headerlink" title="1️⃣  Universally Slimmable Networks and Improved Training Techniques"></a>1️⃣  Universally Slimmable Networks and Improved Training Techniques</h3><p>This work extending slimmable networks to execute at arbitrary width, the contributions can list as</p>
 <ol>
-<li><a href="https://cloud.tencent.com/developer/ask/126637" target="_blank" rel="external">https://cloud.tencent.com/developer/ask/126637</a></li>
-<li></li>
+<li><p>Post-Statistics of Batch Normalization</p>
+<p>Instead of using moving averages to test model, calculating BN statistics of all widths after training (exact averages).</p>
+<ul>
+<li>moving averages：</li>
+</ul>
+<p>$$<br>\begin{aligned} \mu_{t} &amp;=m \mu_{t-1}+(1-m) E_{B}\left[x_{B}\right] \\ \sigma_{t}^{2} &amp;=m \sigma_{t-1}^{2}+(1-m) \operatorname{Var}_{B}\left[x_{B}\right] \end{aligned}<br>$$</p>
+<ul>
+<li>exact averages：</li>
+</ul>
+<p>$$<br>\begin{aligned} m &amp;=(t-1) / t \\ \mu_{t} &amp;=m \mu_{t-1}+(1-m) E_{B}\left[x_{B}\right] \\ \sigma_{t}^{2} &amp;=m \sigma_{t-1}^{2}+(1-m) \operatorname{Var}_{B}\left[x_{B}\right] \end{aligned}<br>$$</p>
+</li>
+</ol>
+<ol>
+<li><p>Sandwich Rule</p>
+<p>This paper assumes that the performances at all widths are bounded by performance of the model at smallest width $0.25 \times$ and largest width $1.0 \times$ , so during training just sample n widths between [min-width, max-width]</p>
+</li>
 </ol>
 
   </div>
@@ -178,21 +185,21 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-Universally-Slimmable-Networks-and-Improved-Training-Techniques"><span class="toc-number">1.</span> <span class="toc-text">1️⃣  Universally Slimmable Networks and Improved Training Techniques</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/09/invalid/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/09/invalid/&text=graph_define is invalid"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/09/invalid/&title=graph_define is invalid"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/09/invalid/&is_video=false&description=graph_define is invalid"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=graph_define is invalid&body=Check out this article: http://yoursite.com/2019/06/09/invalid/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/09/invalid/&title=graph_define is invalid"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/09/invalid/&title=graph_define is invalid"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/09/invalid/&title=graph_define is invalid"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/09/invalid/&title=graph_define is invalid"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/09/invalid/&name=graph_define is invalid&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/25/weekly-paper-07/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/25/weekly-paper-07/&text=weekly-paper-07"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/25/weekly-paper-07/&title=weekly-paper-07"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/25/weekly-paper-07/&is_video=false&description=weekly-paper-07"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=weekly-paper-07&body=Check out this article: http://yoursite.com/2019/06/25/weekly-paper-07/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/25/weekly-paper-07/&title=weekly-paper-07"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/25/weekly-paper-07/&title=weekly-paper-07"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/25/weekly-paper-07/&title=weekly-paper-07"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/25/weekly-paper-07/&title=weekly-paper-07"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/25/weekly-paper-07/&name=weekly-paper-07&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

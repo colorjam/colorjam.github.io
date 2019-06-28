@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-06-21T09:12:49.701Z</updated>
+  <updated>2019-06-27T11:48:18.266Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,55 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>weekly-paper-07</title>
+    <link href="http://yoursite.com/2019/06/25/weekly-paper-07/"/>
+    <id>http://yoursite.com/2019/06/25/weekly-paper-07/</id>
+    <published>2019-06-25T00:55:36.000Z</published>
+    <updated>2019-06-27T11:48:18.266Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1️⃣-Universally-Slimmable-Networks-and-Improved-Training-Techniques"><a href="#1️⃣-Universally-Slimmable-Networks-and-Improved-Training-Techniques" class="headerlink" title="1️⃣  Universally Slimmable Networks and Improved Training Techniques"></a>1️⃣  Universally Slimmable Networks and Improved Training Techniques</h3><p>This work extending slimmable networks to execute at arbitrary width, the contributions can list as</p><ol><li><p>Post-Statistics of Batch Normalization</p><p>Instead of using moving averages to test model, calculating BN statistics of all widths after training (exact averages).</p><ul><li>moving averages：</li></ul><p>$$<br>\begin{aligned} \mu_{t} &amp;=m \mu_{t-1}+(1-m) E_{B}\left[x_{B}\right] \\ \sigma_{t}^{2} &amp;=m \sigma_{t-1}^{2}+(1-m) \operatorname{Var}_{B}\left[x_{B}\right] \end{aligned}<br>$$</p><ul><li>exact averages：</li></ul><p>$$<br>\begin{aligned} m &amp;=(t-1) / t \\ \mu_{t} &amp;=m \mu_{t-1}+(1-m) E_{B}\left[x_{B}\right] \\ \sigma_{t}^{2} &amp;=m \sigma_{t-1}^{2}+(1-m) \operatorname{Var}_{B}\left[x_{B}\right] \end{aligned}<br>$$</p></li></ol><ol><li><p>Sandwich Rule</p><p>This paper assumes that the performances at all widths are bounded by performance of the model at smallest width $0.25 \times$ and largest width $1.0 \times$ , so during training just sample n widths between [min-width, max-width]</p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;1️⃣-Universally-Slimmable-Networks-and-Improved-Training-Techniques&quot;&gt;&lt;a href=&quot;#1️⃣-Universally-Slimmable-Networks-and-Improved-Train
+      
+    
+    </summary>
+    
+    
+      <category term="paper" scheme="http://yoursite.com/tags/paper/"/>
+    
+      <category term="每周论文" scheme="http://yoursite.com/tags/%E6%AF%8F%E5%91%A8%E8%AE%BA%E6%96%87/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Tensorflow中的PixelShuffle(depth_to_space)</title>
+    <link href="http://yoursite.com/2019/06/23/tf-pixshuffle/"/>
+    <id>http://yoursite.com/2019/06/23/tf-pixshuffle/</id>
+    <published>2019-06-23T08:31:38.000Z</published>
+    <updated>2019-06-28T02:10:01.249Z</updated>
+    
+    <content type="html"><![CDATA[<p>在尝试对PixelShuffle前的卷积层做剪枝时遇到了一些问题，对PixelShuffle的具体操作有了进一步的了解。</p><p>PixelShuffle通过将通道重排对图像进行上采样，tf中的函数是<code>tf.depth_to_sapce</code>，第一个参数是<code>Tensor</code>，第二个参数是需要放大倍数。当输入<code>X</code>的大小为<code>[1 2 2 16]</code>，放大倍数为2，H和W各乘2，C除以4，PixelShuffle后的结果就为<code>[1 4 4 4]</code>。</p><p>🔺坑点1：想当然的以为参与重排的通道是<code>[:, :, :, i:i+4]</code></p><p>测试代码：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">x = tf.range(<span class="number">64</span>)</div><div class="line">x = tf.reshape(x, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">16</span>])</div><div class="line">y = tf.depth_to_space(x, <span class="number">2</span>) <span class="comment"># [1, 4, 4, 4]</span></div></pre></td></tr></table></figure><p>下面看一下具体x和y每个通道的值：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>x[:, :, :, <span class="number">0</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>[[[ <span class="number">0</span>, <span class="number">16</span>],</div><div class="line">[<span class="number">32</span>, <span class="number">48</span>]]]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>x[:, :, :, <span class="number">1</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>[[[ <span class="number">1</span>, <span class="number">17</span>],</div><div class="line">[<span class="number">33</span>, <span class="number">49</span>]]]</div><div class="line"> </div><div class="line"><span class="meta">&gt;&gt;&gt; </span>y[:, :, :, <span class="number">0</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>[[[ <span class="number">0</span>,  <span class="number">4</span>, <span class="number">16</span>, <span class="number">20</span>],</div><div class="line">[ <span class="number">8</span>, <span class="number">12</span>, <span class="number">24</span>, <span class="number">28</span>],</div><div class="line">[<span class="number">32</span>, <span class="number">36</span>, <span class="number">48</span>, <span class="number">52</span>],</div><div class="line">[<span class="number">40</span>, <span class="number">44</span>, <span class="number">56</span>, <span class="number">60</span>]]]</div></pre></td></tr></table></figure><p>可以看出<code>y</code>的第0维通道包含的是<code>x</code>通道数为0、4、8、12的特征图。可视化一下就是这样的效果：</p><p><img src="https://i.loli.net/2019/06/27/5d14b6a1d9bbf35069.png" alt=""></p><p>将Y的一个通道单独取出，看一下每个点属于原来X的哪个坐标：</p><p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190628095308642.png" alt="image-20190628095308642"></p><p>可以看到Y的一个通道实际上分成4个象限，在空间上由<code>(0,0)(0,1)(1,0)(1,1)</code>构成。在通道上每4个间隔提取对应通道。这里的间隔对应的是Pixshuffle后的通道数。</p><p>假设原始通道数为<code>c_out</code>，PS后的通道数为<code>ps_out</code>，实际上<code>y</code>的第<code>i</code>通道对应的是<code>x</code>的<code>[i, i+ps_out, i+2*ps_out, i+3*ps_out]</code></p><p>而我原先理解的通道排列方式是❌</p><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>y[:, :, :, <span class="number">0</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>[[[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">4</span>,  <span class="number">5</span>],</div><div class="line">[ <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">6</span>,  <span class="number">7</span>],</div><div class="line">[ <span class="number">8</span>,  <span class="number">9</span>, <span class="number">12</span>, <span class="number">13</span>],</div><div class="line">[<span class="number">10</span>, <span class="number">11</span>, <span class="number">14</span>, <span class="number">15</span>]]]</div></pre></td></tr></table></figure><p>🔺坑点2：提取k个保留的通道时，只需取索引的前k个值</p><p>假设放大倍率是4，用L1的剪枝方式，需要保留的通道数为<code>c_keep</code>。当对应到具体的剪枝通道的时候，需要找到PixShuffle后剪掉通道所对应的原始卷积输出的4个通道。从上面的坐标我们就可以看出，剪掉Y的0通道时，需要对应剪掉X的0、4、8、12通道。来看看具体的实现。主要分为几步：</p><ol><li>计算Y对应X的通道</li><li>计算Y需要保留的通道</li><li>将Y的通道映射回X</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 1. 计算Y对应X的通道</span></div><div class="line">norm_list, shuffled_idx_list = [], []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(ps_out):</div><div class="line">shuffled_idx = [i+k*ps_out <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">4</span>)]  <span class="comment"># Y通道对应的4个X通道</span></div><div class="line">shuffled_idx_list.append(shuffled_idx)</div><div class="line">  norm_sum = tf.reduce_sum(tf.gather(norm_value, shuffled_idx)) <span class="comment"># 提取对应索引的通道</span></div><div class="line">  norm_list.append(sess.run(norm_sum))</div><div class="line">  </div><div class="line"><span class="comment"># 2. 计算需要保留的通道</span></div><div class="line">remain_idx = np.sort(np.argsort(norm_list)[::<span class="number">-1</span>][:int(c_keep/<span class="number">4</span>)])</div><div class="line"></div><div class="line">remain_list = []</div><div class="line"><span class="comment"># 3. 将Y的通道映射回X</span></div><div class="line"><span class="keyword">for</span> remain <span class="keyword">in</span> remain_idx:</div><div class="line">  remain_list.extend(shuffled_idx_list[remain])</div><div class="line">remain_list = np.sort(remain_list)</div></pre></td></tr></table></figure><p>这样<code>remain_list</code>即原始卷积输出需要剪掉的通道索引。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在尝试对PixelShuffle前的卷积层做剪枝时遇到了一些问题，对PixelShuffle的具体操作有了进一步的了解。&lt;/p&gt;
+&lt;p&gt;PixelShuffle通过将通道重排对图像进行上采样，tf中的函数是&lt;code&gt;tf.depth_to_sapce&lt;/code&gt;，第一个
+      
+    
+    </summary>
+    
+    
+      <category term="维修指南" scheme="http://yoursite.com/tags/%E7%BB%B4%E4%BF%AE%E6%8C%87%E5%8D%97/"/>
+    
+  </entry>
   
   <entry>
     <title>每周论文 Vol.06</title>
@@ -63,31 +112,6 @@
       <category term="paper" scheme="http://yoursite.com/tags/paper/"/>
     
       <category term="每周论文" scheme="http://yoursite.com/tags/%E6%AF%8F%E5%91%A8%E8%AE%BA%E6%96%87/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>graph_define is invalid</title>
-    <link href="http://yoursite.com/2019/06/09/invalid/"/>
-    <id>http://yoursite.com/2019/06/09/invalid/</id>
-    <published>2019-06-09T06:38:05.000Z</published>
-    <updated>2019-06-09T06:43:10.693Z</updated>
-    
-    <content type="html"><![CDATA[<p>在运行<code>strip_pruning_vars</code> 的时候遇到了如下问题：</p><blockquote><p>ValueError: graph_def is invalid at node ‘SRGAN_g_p/blocks_0/n64s1/b1/AssignMovingAvg’: Input tensor ‘SRGAN_g_p/blocks_0/n64s1/b1/moving_mean:0’ Cannot convert a tensor of type float32 to an input of type float32_ref.</p></blockquote><p>可以看到是bn层的出了问题，<a href="https://github.com/tensorflow/tensorflow/issues/3628" target="_blank" rel="external">这里</a>指出了问题，存储模型的时候并没有把 moving_mean,  moving_variance 存好，</p><p>参考链接：</p><ol><li><a href="https://cloud.tencent.com/developer/ask/126637" target="_blank" rel="external">https://cloud.tencent.com/developer/ask/126637</a></li><li></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;在运行&lt;code&gt;strip_pruning_vars&lt;/code&gt; 的时候遇到了如下问题：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;ValueError: graph_def is invalid at node ‘SRGAN_g_p/blocks_0/n64s1/b1/
-      
-    
-    </summary>
-    
-    
-      <category term="维修指南" scheme="http://yoursite.com/tags/%E7%BB%B4%E4%BF%AE%E6%8C%87%E5%8D%97/"/>
     
   </entry>
   
@@ -457,27 +481,6 @@
       
       
         &lt;h2 id=&quot;Matrix-Factorization&quot;&gt;&lt;a href=&quot;#Matrix-Factorization&quot; class=&quot;headerlink&quot; title=&quot;Matrix Factorization&quot;&gt;&lt;/a&gt;Matrix Factorization&lt;/h2&gt;&lt;
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>与Inception有关的那些事儿</title>
-    <link href="http://yoursite.com/2018/07/24/inception/"/>
-    <id>http://yoursite.com/2018/07/24/inception/</id>
-    <published>2018-07-24T05:42:32.000Z</published>
-    <updated>2018-07-26T07:26:03.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="GoogleNet"><a href="#GoogleNet" class="headerlink" title="GoogleNet"></a>GoogleNet</h2><p><a href="https://www.cv-foundation.org/openaccess/content_cvpr_2015/html/Szegedy_Going_Deeper_With_2015_CVPR_paper.html" target="_blank" rel="external">《Going Deeper With Convolutions》</a>是最早提出Inception结构的文章。文章指出，增加神经网络的大小通常能获得更好的表现，但随之而来的缺点是模型很容易过拟合，并且计算代价高昂。关于这两个问题，最直观的解决办法是用稀疏的层来代替全连接层。</p><p>然而目前的计算机对于非均匀的稀疏数据运算不太友好，所以大多数系统是基于卷积实现的。卷积是我们稀疏空间域的好帮手，它像一个收集器，将前一层中的图像块稠密连接起来。但是，目前的卷积网络大多是均匀的结构。因此作者就提出了这么一个问题：如何利用好卷积的稀疏性，同时使用对计算机友好的稠密矩阵乘法进行计算。</p><h3 id="Inceptoin-module"><a href="#Inceptoin-module" class="headerlink" title="Inceptoin module"></a>Inceptoin module</h3><p>以往的许多文献表明，稀疏矩阵乘法运算可以通过将稀疏矩阵聚类成相对稠密的子矩阵来实现。Inception结构就是本文提出的稠密组件，用来近似卷积视觉网络的最佳局部稀疏结构。作者首先给出了naive版本的Inception组件(a)，如下图所示：</p><p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1ftlxlf8uiwj30ss0f0q46.jpg" alt="inception_module_naive"></p><p>作者假设来自前一层的每个单元与输入的某些区域对应。在网络的浅层（靠近输入）部分，单元集中在局部区域，因此可以通过1x1卷积将其传递到下一层网络。同时，在较大的图像块上进行卷积，可以获得更少数量但扩展空间更大的特征图。因此作者将1x1卷积，3x3卷积，5x5卷积，再加上由经验表明效果很好的池化层，对它们的输出进行拼接，一起构成了Inception组件。</p><p>由于要将Inception组件层层堆叠，会导致网络高层部分的特征图通道数增加，这也意味着较大卷积的计算负担加重，特别是还要拼接上池化层的输出。因此作者提出了第二种减少维度的Inception组件(b)，即在较大卷积之前，池化层之后，加入1x1卷积来减少特征图的通道数：</p><p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1ftlxlr4cz3j30sg0fidhf.jpg" alt="inception_module_dimensionality_reduction"></p><h3 id="GoogleNet-architecture"><a href="#GoogleNet-architecture" class="headerlink" title="GoogleNet architecture"></a>GoogleNet architecture</h3><p>由以上两个组件构成的GoogleNet网络结构如下图所示：</p><p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1ftm3sth6elj31ga0w2aia.jpg" alt="GoogleNet"></p><p>在计算参数数量的时候发现了两个问题🤔</p><ol><li>7x7的卷积数量应该为$7^2 \times 3 \times 64 = 9408$，但表格中是2.7K，google了一下说有可能7x7卷积由7x1和1x7卷积构成，因此参数数量为$(7 \times 1+ 1\times7 ) \times 3 \times 64=2688$。</li><li>计算参数时都没有将depth计算在内，并且最后的结果需要除以1024。比如第二个3x3卷积，$(64 \times 64 + 9 \times 64 \times 192) =114,688$，除以1024后得到112K。</li></ol><h3 id="Auxiliary-classifier"><a href="#Auxiliary-classifier" class="headerlink" title="Auxiliary classifier"></a>Auxiliary classifier</h3><p>作者还在Inception (4a) 和 (4d) 之后添加了辅助分类器，将辅助分类器获得的损失以0.3的比例，添加到最后的损失函数中。然而辅助分类器的影响在之后的实验中证明发现是很小的。</p><p>完整的GoogleNet网络图太长啦，仅贴出含辅助分类器的Inception (4a)部分：</p><p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1ftm6copd73j31020hudif.jpg" alt="googlenet_auxiliary_classifier"></p><h2 id="Inception-v2"><a href="#Inception-v2" class="headerlink" title="Inception-v2"></a>Inception-v2</h2><p>在<a href="https://arxiv.org/abs/1512.00567" target="_blank" rel="external">《Rethinking the Inception Architecture for Computer Vision》</a>中，作者基于GoogleNet的Inception组件，提出了一些新的思考。</p><h3 id="Design-Principles"><a href="#Design-Principles" class="headerlink" title="Design Principles"></a>Design Principles</h3><p>作者首先提出了四个设计原则：</p><p>➊ 避免极端压缩的瓶颈。在信息传递的过程中，应缓慢减小特征图的大小。</p><p>➋ 更高维度的特征图更容易在网络中进行本地处理。在卷积网络中增加每个区块的激活能够解开更多特征。</p><p>❸ 空间聚合可以通过嵌入较低维度的特征图来完成，并且其表示能力没有太多损失。</p><p>❹ 平衡网络的宽度和深度。</p><h3 id="Factorizing-Convolutions"><a href="#Factorizing-Convolutions" class="headerlink" title="Factorizing Convolutions"></a>Factorizing Convolutions</h3><p>➊ 更小的卷积核</p><p>较大的卷积核可以用堆叠的较小的卷积核替代。比如一个5x5卷积就可以用两个连续的3x3替代：</p><p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1ftm6xrwibpj30vo0g40y3.jpg" alt="smaller_convolutions"></p><p>这样就减小了计算代价：$(3+3) \times 2 / (5+5)=18/25$</p><p>➋ 非对称卷积</p><p>一个3x3卷积又可以在空间上分解为3x1卷积和1x3卷积：</p><p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1ftm716z34xj30vs0jkq69.jpg" alt="asymmetric_convolution"></p><p>再一次减少了计算代价：$(1 \times 3) + (3\times1) / (3 \times 3) = 2/3$</p><h3 id="Inception-module"><a href="#Inception-module" class="headerlink" title="Inception module"></a>Inception module</h3><p>因此基于设计原则➂和卷积核的分解方法➀，本文更新了传统的Inception组件结构：</p><p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1ftm7neonf9j314u0u20vh.jpg" alt="inceptionv2_module1"></p><p>在实践中，作者发现将$n\times n$卷积替换成$1 \times n$和$n\times1$的组合卷积，对于早期的网络层效果不是很好，但是在中期的网络层有很好的表现。基于卷积核的分解方法➁的Inception组件结构：</p><p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1ftm7u6ebzvj31dk128tcb.jpg" alt="inceptionv2_module2"></p><p>基于设计原则➁，作者还提出了第三种Inception组件结构：</p><p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1ftm7zo7emqj31540yk0xc.jpg" alt="Inception_module3"></p><p>作者解释道，仅在最粗糙的网格上使用第三种结构，因为与空间聚集相比，通过1x1卷积进行本地处理的比率增强时，产生高维稀疏表示的位置是最关键的，</p><h3 id="Grid-Size-Reduction"><a href="#Grid-Size-Reduction" class="headerlink" title="Grid Size Reduction"></a>Grid Size Reduction</h3><p>假设输入特征图大小为$d \times d \times k$，我们希望获得$\frac{d}{2} \times \frac{d}{2} \times 2k$大小的特征图，通常会使用池化层来减小其网格大小，常见的方式有以下两种：</p><p><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ftn0p7kdgkj30y40eagmw.jpg" alt="two_ways_reduce_grid_size"></p><p>❶ 先进行池化，再进行卷积（左）</p><p>这种方法的计算代价是$2(\frac{d}{2})^2 k^2$，但是特征图一下子就减小到$(\frac{d}{2})^2 k$，产生了瓶颈，违反了设计原则➀</p><p>❷ 先进行卷积，再进行池化（右）</p><p>这种方法会造成较高的计算代价：$2d^2k^2$</p><p>于是本文就提出了一种既不产生瓶颈，又能减少计算代价的方法，如下图右边所示。该方法使用两个stride为2的模块：池化层$P$和卷积层$C$，并将它们的输出拼接起来。计算代价减小为$2(\frac{d}{2})^2k^2$，然而不是很懂这个方法为什么不产生瓶颈。</p><p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1ftn1hqzbx1j30vo0eutad.jpg" alt="reduce_gride_size"></p><h3 id="Inception-v2-architecture"><a href="#Inception-v2-architecture" class="headerlink" title="Inception-v2 architecture"></a>Inception-v2 architecture</h3><p>将上述方法结合在一起，构成了Incpetion-v2网络：</p><p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1ftkwd3szd8j30um0l6tdx.jpg" alt="Inception-v2"></p><h3 id="Label-Smoothing-Regularization"><a href="#Label-Smoothing-Regularization" class="headerlink" title="Label Smoothing Regularization"></a>Label Smoothing Regularization</h3><p>假设一个训练样本产生$k$个分类的可能性分别为为$p(k)$，实值的分布为$q(k)$，那么交叉熵定义的损失函数为：<br>$$<br>L = - \sum_{k=1}^{K}\log ({p(k)})q(k)<br>$$<br>对输出值$z_k$求偏导：$\frac { \partial \ell } { \partial z _ { k } } = p ( k ) - q ( k )$</p><p>顺便复习了一下Softmax函数及其求导过程👉🏻<a href="https://blog.csdn.net/behamcheung/article/details/71911133#softmax%E5%87%BD%E6%95%B0" target="_blank" rel="external">Softmax函数与交叉熵</a></p><p>假设第$y$个为正确的标签，当$k=y$时，$q(k)=1$，当$k \ne q$时，$q(k)=0$。在这种情况下，最小化交叉熵的过程相当于最大化正确标签的对数似然函数。假设分类正确，那么$z_y \gg  z_k$。文章指出，这样会带来两个问题：</p><p>❶ 可能造成过拟合，如果模型学会为每个训练样本分配到正确标签的完整概率，则不能保证泛化。</p><p>❷ 使得最大的输出值和其他输出值之间的差异变大，降低模型的适应性。</p><p>也就是说，模型对它的预测太过自信。为了让模型不要太骄傲，作者提出了将实值分布$q ( k | x ) = \delta _ { k , y }$替换为标签平滑正则化(label-smoothing regularizatoin, LSR)：<br>$$<br>q ^ { \prime } ( k | x ) = ( 1 - \epsilon ) \delta _ { k , y } + \epsilon u ( k )<br>$$<br>其中$\epsilon$表示权重，$ u(k)$表示一个基于标签的先验分布，本文将其设置为均匀分布，则上式可以写为：<br>$$<br>q ^ { \prime } ( k ) = ( 1 - \epsilon ) \delta _ { k , y } + \frac { \epsilon } { K }<br>$$<br>$q(k)$意味着取值不是1就是0，而$q ^ { \prime } ( k )$意味着所有不正确的分类都有一个正下界。</p><p>我们还可以用交叉熵来理解LSR：<br>$$<br>H \left( q ^ { \prime } , p \right) = - \sum _ { k = 1 } ^ { K } \log p ( k ) q ^ { \prime } ( k ) = ( 1 - \epsilon ) H ( q , p ) + \epsilon H ( u , p )<br>$$<br>其中，$H(u,p)$可以用KL散度来表示：<br>$$<br>H ( u , p ) = D _ { K L } ( u | p ) + H ( u )<br>$$<br>由于KL散度用于衡量两个分布之间的距离，当$u$代表均匀分布时，$H(u)$是固定的，则$H(u,p)$代表预测分布$p$与均匀分布的差异程度。</p><h2 id="Inception-v3"><a href="#Inception-v3" class="headerlink" title="Inception-v3"></a>Inception-v3</h2><p>Inception-v3其实也是👆🏻那篇论文提出的。文章表明移除GoogleNet中的辅助分类器，并没有对实验结果产生不利的影响。实验结果表示，将辅助分类器作为正则项，当支路采用BN的时候，能够使主分类器有更好的结果。因此，本文将Inception-v2加上使用BN的支路称为Inception-v3。</p><h2 id="Inception-v4"><a href="#Inception-v4" class="headerlink" title="Inception-v4"></a>Inception-v4</h2><p><a href="https://arxiv.org/abs/1602.07261" target="_blank" rel="external">《Inception-v4, Inception-ResNet and the Impact of Residual Connections on Learning》</a>探索了ResNet给Inception组件带来的变化，提出了Inception-ResNet-v1和Inception-ResNet-v2，同时加深了网络结构。文章中有很多Inception组件，感觉不是很有意思，就大概滴看一下🤐</p><h2 id="Questions💫"><a href="#Questions💫" class="headerlink" title="Questions💫"></a>Questions💫</h2><ol><li>在Inception组件中，concat操作是直接将特征拼在一起的，若维度采用交叉拼接是否会使特征分布更均匀？</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;GoogleNet&quot;&gt;&lt;a href=&quot;#GoogleNet&quot; class=&quot;headerlink&quot; title=&quot;GoogleNet&quot;&gt;&lt;/a&gt;GoogleNet&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://www.cv-foundation.org/ope
       
     
     </summary>

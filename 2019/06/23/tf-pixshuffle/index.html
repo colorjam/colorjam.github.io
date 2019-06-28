@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="在尝试对PixelShuffle前的卷积层做剪枝时遇到了一些问题，对PixelShuffle的具体操作有了进一步的了解。 PixelShuffle通过将通道重排对图像进行上采样，tf中的函数是tf.depth_to_sapce，第一个参数是Tensor，第二个参数是需要放大倍数。当输入X的大小为[1 2 2 16]，放大倍数为2，H和W各乘2，C除以4，PixelShuffle后的结果就为[1 4">
+<meta name="keywords" content="维修指南">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tensorflow中的PixelShuffle(depth_to_space)">
+<meta property="og:url" content="http://yoursite.com/2019/06/23/tf-pixshuffle/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="在尝试对PixelShuffle前的卷积层做剪枝时遇到了一些问题，对PixelShuffle的具体操作有了进一步的了解。 PixelShuffle通过将通道重排对图像进行上采样，tf中的函数是tf.depth_to_sapce，第一个参数是Tensor，第二个参数是需要放大倍数。当输入X的大小为[1 2 2 16]，放大倍数为2，H和W各乘2，C除以4，PixelShuffle后的结果就为[1 4">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://i.loli.net/2019/06/27/5d14b6a1d9bbf35069.png">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190628095308642.png">
+<meta property="og:updated_time" content="2019-06-28T02:10:01.249Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tensorflow中的PixelShuffle(depth_to_space)">
+<meta name="twitter:description" content="在尝试对PixelShuffle前的卷积层做剪枝时遇到了一些问题，对PixelShuffle的具体操作有了进一步的了解。 PixelShuffle通过将通道重排对图像进行上采样，tf中的函数是tf.depth_to_sapce，第一个参数是Tensor，第二个参数是需要放大倍数。当输入X的大小为[1 2 2 16]，放大倍数为2，H和W各乘2，C除以4，PixelShuffle后的结果就为[1 4">
+<meta name="twitter:image" content="https://i.loli.net/2019/06/27/5d14b6a1d9bbf35069.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Tensorflow中的PixelShuffle(depth_to_space)</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/06/25/weekly-paper-07/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/06/18/weekly-paper-06/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/23/tf-pixshuffle/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&text=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&title=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&is_video=false&description=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Tensorflow中的PixelShuffle(depth_to_space)&body=Check out this article: http://yoursite.com/2019/06/23/tf-pixshuffle/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&title=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&title=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&title=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&title=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&name=Tensorflow中的PixelShuffle(depth_to_space)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Tensorflow中的PixelShuffle(depth_to_space)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-06-23T08:31:38.000Z" itemprop="datePublished">2019-06-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/维修指南/">维修指南</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>在尝试对PixelShuffle前的卷积层做剪枝时遇到了一些问题，对PixelShuffle的具体操作有了进一步的了解。</p>
+<p>PixelShuffle通过将通道重排对图像进行上采样，tf中的函数是<code>tf.depth_to_sapce</code>，第一个参数是<code>Tensor</code>，第二个参数是需要放大倍数。当输入<code>X</code>的大小为<code>[1 2 2 16]</code>，放大倍数为2，H和W各乘2，C除以4，PixelShuffle后的结果就为<code>[1 4 4 4]</code>。</p>
+<p>🔺坑点1：想当然的以为参与重排的通道是<code>[:, :, :, i:i+4]</code></p>
+<p>测试代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">x = tf.range(<span class="number">64</span>)</div><div class="line">x = tf.reshape(x, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">16</span>])</div><div class="line">y = tf.depth_to_space(x, <span class="number">2</span>) <span class="comment"># [1, 4, 4, 4]</span></div></pre></td></tr></table></figure>
+<p>下面看一下具体x和y每个通道的值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>x[:, :, :, <span class="number">0</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>[[[ <span class="number">0</span>, <span class="number">16</span>],</div><div class="line">			[<span class="number">32</span>, <span class="number">48</span>]]]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>x[:, :, :, <span class="number">1</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>[[[ <span class="number">1</span>, <span class="number">17</span>],</div><div class="line">			[<span class="number">33</span>, <span class="number">49</span>]]]</div><div class="line">		 </div><div class="line"><span class="meta">&gt;&gt;&gt; </span>y[:, :, :, <span class="number">0</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>[[[ <span class="number">0</span>,  <span class="number">4</span>, <span class="number">16</span>, <span class="number">20</span>],</div><div class="line">			[ <span class="number">8</span>, <span class="number">12</span>, <span class="number">24</span>, <span class="number">28</span>],</div><div class="line">			[<span class="number">32</span>, <span class="number">36</span>, <span class="number">48</span>, <span class="number">52</span>],</div><div class="line">			[<span class="number">40</span>, <span class="number">44</span>, <span class="number">56</span>, <span class="number">60</span>]]]</div></pre></td></tr></table></figure>
+<p>可以看出<code>y</code>的第0维通道包含的是<code>x</code>通道数为0、4、8、12的特征图。可视化一下就是这样的效果：</p>
+<p><img src="https://i.loli.net/2019/06/27/5d14b6a1d9bbf35069.png" alt=""></p>
+<p>将Y的一个通道单独取出，看一下每个点属于原来X的哪个坐标：</p>
+<p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190628095308642.png" alt="image-20190628095308642"></p>
+<p>可以看到Y的一个通道实际上分成4个象限，在空间上由<code>(0,0)(0,1)(1,0)(1,1)</code>构成。在通道上每4个间隔提取对应通道。这里的间隔对应的是Pixshuffle后的通道数。</p>
+<p>假设原始通道数为<code>c_out</code>，PS后的通道数为<code>ps_out</code>，实际上<code>y</code>的第<code>i</code>通道对应的是<code>x</code>的<code>[i, i+ps_out, i+2*ps_out, i+3*ps_out]</code></p>
+<p>而我原先理解的通道排列方式是❌</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>y[:, :, :, <span class="number">0</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>[[[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">4</span>,  <span class="number">5</span>],</div><div class="line">			[ <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">6</span>,  <span class="number">7</span>],</div><div class="line">			[ <span class="number">8</span>,  <span class="number">9</span>, <span class="number">12</span>, <span class="number">13</span>],</div><div class="line">			[<span class="number">10</span>, <span class="number">11</span>, <span class="number">14</span>, <span class="number">15</span>]]]</div></pre></td></tr></table></figure>
+<p>🔺坑点2：提取k个保留的通道时，只需取索引的前k个值</p>
+<p>假设放大倍率是4，用L1的剪枝方式，需要保留的通道数为<code>c_keep</code>。当对应到具体的剪枝通道的时候，需要找到PixShuffle后剪掉通道所对应的原始卷积输出的4个通道。从上面的坐标我们就可以看出，剪掉Y的0通道时，需要对应剪掉X的0、4、8、12通道。来看看具体的实现。主要分为几步：</p>
+<ol>
+<li>计算Y对应X的通道</li>
+<li>计算Y需要保留的通道</li>
+<li>将Y的通道映射回X</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 1. 计算Y对应X的通道</span></div><div class="line">norm_list, shuffled_idx_list = [], []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(ps_out):</div><div class="line">	shuffled_idx = [i+k*ps_out <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">4</span>)]  <span class="comment"># Y通道对应的4个X通道</span></div><div class="line">	shuffled_idx_list.append(shuffled_idx)</div><div class="line">  norm_sum = tf.reduce_sum(tf.gather(norm_value, shuffled_idx)) <span class="comment"># 提取对应索引的通道</span></div><div class="line">  norm_list.append(sess.run(norm_sum))</div><div class="line">  </div><div class="line"><span class="comment"># 2. 计算需要保留的通道</span></div><div class="line">remain_idx = np.sort(np.argsort(norm_list)[::<span class="number">-1</span>][:int(c_keep/<span class="number">4</span>)])</div><div class="line"></div><div class="line">remain_list = []</div><div class="line"><span class="comment"># 3. 将Y的通道映射回X</span></div><div class="line"><span class="keyword">for</span> remain <span class="keyword">in</span> remain_idx:</div><div class="line">  remain_list.extend(shuffled_idx_list[remain])</div><div class="line">remain_list = np.sort(remain_list)</div></pre></td></tr></table></figure>
+<p>这样<code>remain_list</code>即原始卷积输出需要剪掉的通道索引。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/23/tf-pixshuffle/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&text=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&title=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&is_video=false&description=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Tensorflow中的PixelShuffle(depth_to_space)&body=Check out this article: http://yoursite.com/2019/06/23/tf-pixshuffle/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&title=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&title=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&title=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&title=Tensorflow中的PixelShuffle(depth_to_space)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/23/tf-pixshuffle/&name=Tensorflow中的PixelShuffle(depth_to_space)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
+</div>
+
+</html>
