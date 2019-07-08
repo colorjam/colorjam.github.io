@@ -6,18 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="1️⃣  Universally Slimmable Networks and Improved Training TechniquesThis work extending slimmable networks to execute at arbitrary width, the contributions can list as  Post-Statistics of Batch Normal">
+    <meta name="description" content="1️⃣  Universally Slimmable Networks and Improved Training TechniquesSlimmable network的拓展工作，将固定宽度的网络扩展到任意宽度。提出了3个挑战：  如何解决包含batch-normalization的网络？ 如何更有效地训练US-Nets 与单独训练某个宽度的网络相比，US-Nets是如何提升整体精度的？  🔺">
 <meta name="keywords" content="paper,每周论文">
 <meta property="og:type" content="article">
 <meta property="og:title" content="weekly-paper-07">
 <meta property="og:url" content="http://yoursite.com/2019/06/25/weekly-paper-07/index.html">
 <meta property="og:site_name" content="Colorjam">
-<meta property="og:description" content="1️⃣  Universally Slimmable Networks and Improved Training TechniquesThis work extending slimmable networks to execute at arbitrary width, the contributions can list as  Post-Statistics of Batch Normal">
+<meta property="og:description" content="1️⃣  Universally Slimmable Networks and Improved Training TechniquesSlimmable network的拓展工作，将固定宽度的网络扩展到任意宽度。提出了3个挑战：  如何解决包含batch-normalization的网络？ 如何更有效地训练US-Nets 与单独训练某个宽度的网络相比，US-Nets是如何提升整体精度的？  🔺">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-06-27T11:48:18.266Z">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190703111249984.png">
+<meta property="og:updated_time" content="2019-07-03T03:25:28.778Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="weekly-paper-07">
-<meta name="twitter:description" content="1️⃣  Universally Slimmable Networks and Improved Training TechniquesThis work extending slimmable networks to execute at arbitrary width, the contributions can list as  Post-Statistics of Batch Normal">
+<meta name="twitter:description" content="1️⃣  Universally Slimmable Networks and Improved Training TechniquesSlimmable network的拓展工作，将固定宽度的网络扩展到任意宽度。提出了3个挑战：  如何解决包含batch-normalization的网络？ 如何更有效地训练US-Nets 与单独训练某个宽度的网络相比，US-Nets是如何提升整体精度的？  🔺">
+<meta name="twitter:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190703111249984.png">
     
     
         
@@ -70,6 +72,8 @@
     <br/>
     <span id="actions">
       <ul>
+        
+        <li><a class="icon" href="/2019/06/29/weekly-paper-08/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="/2019/06/23/tf-pixshuffle/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -143,24 +147,31 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="1️⃣-Universally-Slimmable-Networks-and-Improved-Training-Techniques"><a href="#1️⃣-Universally-Slimmable-Networks-and-Improved-Training-Techniques" class="headerlink" title="1️⃣  Universally Slimmable Networks and Improved Training Techniques"></a>1️⃣  Universally Slimmable Networks and Improved Training Techniques</h3><p>This work extending slimmable networks to execute at arbitrary width, the contributions can list as</p>
+    <h3 id="1️⃣-Universally-Slimmable-Networks-and-Improved-Training-Techniques"><a href="#1️⃣-Universally-Slimmable-Networks-and-Improved-Training-Techniques" class="headerlink" title="1️⃣  Universally Slimmable Networks and Improved Training Techniques"></a>1️⃣  Universally Slimmable Networks and Improved Training Techniques</h3><p>Slimmable network的拓展工作，将固定宽度的网络扩展到任意宽度。提出了3个挑战：</p>
 <ol>
-<li><p>Post-Statistics of Batch Normalization</p>
-<p>Instead of using moving averages to test model, calculating BN statistics of all widths after training (exact averages).</p>
-<ul>
-<li>moving averages：</li>
-</ul>
-<p>$$<br>\begin{aligned} \mu_{t} &amp;=m \mu_{t-1}+(1-m) E_{B}\left[x_{B}\right] \\ \sigma_{t}^{2} &amp;=m \sigma_{t-1}^{2}+(1-m) \operatorname{Var}_{B}\left[x_{B}\right] \end{aligned}<br>$$</p>
-<ul>
-<li>exact averages：</li>
-</ul>
-<p>$$<br>\begin{aligned} m &amp;=(t-1) / t \\ \mu_{t} &amp;=m \mu_{t-1}+(1-m) E_{B}\left[x_{B}\right] \\ \sigma_{t}^{2} &amp;=m \sigma_{t-1}^{2}+(1-m) \operatorname{Var}_{B}\left[x_{B}\right] \end{aligned}<br>$$</p>
+<li>如何解决包含batch-normalization的网络？</li>
+<li>如何更有效地训练US-Nets</li>
+<li>与单独训练某个宽度的网络相比，US-Nets是如何提升整体精度的？</li>
+</ol>
+<p>🔺 问题1的解决：</p>
+<ol>
+<li><p>训练阶段每次前向时，计算出该batch的均值和方差，然后对输出进行归一化：<br>$$<br>\hat{x}_{B}=\gamma \frac{x_{B}-E_{B}\left[x_{B}\right]}{\sqrt{\operatorname{Var}_{B}\left[x_{B}\right]+\epsilon}}+\beta<br>$$<br>训练过程会对均值和方差做<strong>moving averages</strong>：<br>$$<br>\begin{aligned} \mu_{t} &amp;=m \mu_{t-1}+(1-m) E_{B}\left[x_{B}\right] \\ \sigma_{t}^{2} &amp;=m \sigma_{t-1}^{2}+(1-m) \operatorname{Var}_{B}\left[x_{B}\right] \end{aligned}<br>$$</p>
+<blockquote>
+<p> 需要注意的是，在PyTorch的实现中，每次进行统计时$Var_B = \frac{n}{n-1}Var_B$，其中 $n=c \times h \times w$</p>
+</blockquote>
+<p>测试阶段，用统计值$\mu=\mu_{T}， \sigma^2=\sigma^2_T$进行归一化：<br>$$<br>\hat{x}_{t e s t}=\gamma^{_} \frac{x_{t e s t}-\mu}{\sqrt{\sigma^{2}+\epsilon}}+\beta^{_}<br>$$<br>其中$\gamma^_, \beta^_$是bn学出的weight和bias。进一步可以表示为：<br>$$<br>\hat{x}_{t e s t}=\gamma^{\prime} x_{t e s t}+\beta^{\prime}, \gamma^{\prime}=\frac{\gamma^{_}}{\sqrt{\sigma^{2}+\epsilon}}, \beta^{\prime}=\beta^{_}-\gamma^{\prime} \mu<br>$$</p>
 </li>
 </ol>
+<p>   如果对不同宽度的网络采用Shared BN，由于特征是相加的，前一层是用不同的通道数，输出值就会有所不同，均值和方差也不同，导致了统计值不准确的问题。Slimmable Network的解决办法是对每个宽度都训练了一个单独的BN层，但如果对所有宽度都这样做代价太大了。本文的解决办法是做exact averages：<br>   $$<br>   \begin{aligned} m &amp;=(t-1) / t \\ \mu_{t} &amp;=m \mu_{t-1}+(1-m) E_{B}\left[x_{B}\right] \\ \sigma_{t}^{2} &amp;=m \sigma_{t-1}^{2}+(1-m) \operatorname{Var}_{B}\left[x_{B}\right] \end{aligned}<br>   $$<br>   统计值的计算不在训练过程中进行，而是训练结束后，用随机采样的训练数据进行估计。</p>
+<p>🔺 问题2的解决：</p>
 <ol>
-<li><p>Sandwich Rule</p>
-<p>This paper assumes that the performances at all widths are bounded by performance of the model at smallest width $0.25 \times$ and largest width $1.0 \times$ , so during training just sample n widths between [min-width, max-width]</p>
-</li>
+<li>本文假设模型的表现限制于宽度$[0.25 \times, 1.0 \times]$，优化lower bound和upper bound就能优化整个网络。于是提出了<strong>Sandwich Rule</strong>，在每次训练时随机采样$n-2$个宽度，加上最小宽度和最大宽度一起训练。同时跟踪这两个模型的验证精度，能大概知道US-Net的lower bound和upper bound。并且，训练最大宽度的模型可以用于<strong>Inplace Distillation</strong>。最大宽度的模型用groud truth做loss，而其它宽度的模型可以用最大宽度模型预测出的soft-probabilities做loss。</li>
+</ol>
+<p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190703111249984.png" alt="image-20190703111249984"></p>
+<p>文章最后坐着讨论了几个话题：</p>
+<ol>
+<li>我们能不能训练一个非均匀的US-Net这样每层能够调整它自己的宽度比？</li>
+<li></li>
 </ol>
 
   </div>

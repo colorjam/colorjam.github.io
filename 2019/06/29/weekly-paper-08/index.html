@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1️⃣  Centripetal SGD for Pruning Very Deep Convolutional Networks with Complicated StructureThe main idea of this work is to make some filters close to each other in the same cluster during training,">
+<meta name="keywords" content="paper,每周论文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="weekly-paper-08">
+<meta property="og:url" content="http://yoursite.com/2019/06/29/weekly-paper-08/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="1️⃣  Centripetal SGD for Pruning Very Deep Convolutional Networks with Complicated StructureThe main idea of this work is to make some filters close to each other in the same cluster during training,">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-07-05T09:03:22.072Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="weekly-paper-08">
+<meta name="twitter:description" content="1️⃣  Centripetal SGD for Pruning Very Deep Convolutional Networks with Complicated StructureThe main idea of this work is to make some filters close to each other in the same cluster during training,">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>weekly-paper-08</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/01/tensor-decompositions/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/06/25/weekly-paper-07/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/29/weekly-paper-08/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/29/weekly-paper-08/&text=weekly-paper-08"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/29/weekly-paper-08/&title=weekly-paper-08"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/29/weekly-paper-08/&is_video=false&description=weekly-paper-08"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=weekly-paper-08&body=Check out this article: http://yoursite.com/2019/06/29/weekly-paper-08/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/29/weekly-paper-08/&title=weekly-paper-08"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/29/weekly-paper-08/&title=weekly-paper-08"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/29/weekly-paper-08/&title=weekly-paper-08"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/29/weekly-paper-08/&title=weekly-paper-08"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/29/weekly-paper-08/&name=weekly-paper-08&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-Centripetal-SGD-for-Pruning-Very-Deep-Convolutional-Networks-with-Complicated-Structure"><span class="toc-number">1.</span> <span class="toc-text">1️⃣  Centripetal SGD for Pruning Very Deep Convolutional Networks with Complicated Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2️⃣-Variational-Convolutional-Neural-Network-Pruning"><span class="toc-number">2.</span> <span class="toc-text">2️⃣ Variational Convolutional Neural Network Pruning</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        weekly-paper-08
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-06-29T02:42:16.000Z" itemprop="datePublished">2019-06-29</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/paper/">paper</a>, <a class="tag-link" href="/tags/每周论文/">每周论文</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="1️⃣-Centripetal-SGD-for-Pruning-Very-Deep-Convolutional-Networks-with-Complicated-Structure"><a href="#1️⃣-Centripetal-SGD-for-Pruning-Very-Deep-Convolutional-Networks-with-Complicated-Structure" class="headerlink" title="1️⃣  Centripetal SGD for Pruning Very Deep Convolutional Networks with Complicated Structure"></a>1️⃣  Centripetal SGD for Pruning Very Deep Convolutional Networks with Complicated Structure</h3><p>The main idea of this work is to make some filters close to each other in the same cluster during training, and propose Centripetal SGD (C-SGD). </p>
+<p>the update rule of C-SGD is<br>$$<br>\boldsymbol{F}^{(j)} \leftarrow \boldsymbol{F}^{(j)}+\tau \Delta \boldsymbol{F}^{(j)}<br>$$</p>
+<p>$$<br>\begin{aligned} \Delta \boldsymbol{F}^{(j)}=&amp;-\frac{\sum_{k \in H(j)} \frac{\partial L}{\partial \boldsymbol{F}^{(k)}}}{|H(j)|}-\eta \boldsymbol{F}^{(j)} \\ &amp;+\epsilon\left(\frac{\sum_{k \in H(j)} \boldsymbol{F}^{(k)}}{|H(j)|}-\boldsymbol{F}^{(j)}\right) \end{aligned}<br>$$</p>
+<p>For the filters in the same cluster 1）objective function are averaged 2）weight decay 3）gradually eliminate the difference in the initial values.</p>
+<h3 id="2️⃣-Variational-Convolutional-Neural-Network-Pruning"><a href="#2️⃣-Variational-Convolutional-Neural-Network-Pruning" class="headerlink" title="2️⃣ Variational Convolutional Neural Network Pruning"></a>2️⃣ Variational Convolutional Neural Network Pruning</h3><p>本文用变分推理来进行剪枝感觉还蛮有意思的。首先文章基于Network Slimming做了一些改进。对于BN的$\gamma$，如果只稀疏这个值，不考虑$\beta$的影响，那实际上归一化后的输出不会为0，而是加上$\beta$后的值，所以文章考虑的改进方式是令$\tilde{\beta} = \gamma \cdot \beta$，<br>$$<br>x_{o u t}=\gamma \cdot B N(x)+\tilde{\beta}<br>$$<br>文中将这个$\gamma$称为<em>channel saliency</em>，我们的目标是学习稀疏的$\gamma$同时最大化条件概率$p(y | x, \gamma)$。</p>
+<p>首先利用贝叶斯公式我们可以得到：$ p(\gamma | \mathcal{D})= \frac{p(\gamma) p(\mathcal{D} | \gamma)} { p(\mathcal{D})}$</p>
+<p>由于$p(\mathcal{D})=\int p(\mathcal{D}, \gamma) d \gamma$难以计算，这个后验概率分布我们很难直接求的。在变分推理中，我们可以用一个参数分布$q_{\phi}(\gamma)$来近似这个后验概率分布。利用KL散度拉近两个分布的距离：$\min _{\phi} D_{K L}\left(q_{\phi}(\gamma) | p(\gamma | \mathcal{D})\right)$。等价于最大化ELBO：<br>$$<br>\mathcal{L}(\phi)=L_{\mathcal{D}}(\phi)-D_{K L}\left(q_{\phi}(\gamma) | p(\gamma)\right)<br>$$<br>其中，$\mathcal{L}_{\mathcal{D}}(\phi)=\sum_{(x, y) \in \mathcal{D}} \mathbb{E}_{q_{\phi}(\gamma)}[\log p(y | x, \gamma)]$</p>
+<p>可以看到目标函数由两部分构成，第一部分是重建项，是极大似然估计，第二部分为正则项，后面会引入一个先验分布对参数进行惩罚，即稀疏$\gamma$。</p>
+<p>对于$\mathcal{L}(\phi)$需要解决两个问题：</p>
+<ol>
+<li>第一项中由于期望的存在，$\mathcal{L}_{\mathcal{D}}(\phi)$的梯度无法直接求得。</li>
+<li>第二项参数分布$q_\phi(\gamma)$和先验分布$p(\gamma)$的选择。</li>
+</ol>
+<p>🔺 问题1的解决：</p>
+<p>​    引入再参化技巧，则$q_{\phi}(\gamma)$可以表示为一个可导函数$\gamma=f(\phi, \epsilon)$，其中$\epsilon \sim \mathcal{N}(0,1)$<br>$$<br>\mathcal{L}_{\mathcal{D}}(\phi) \simeq \mathcal{L}_{\mathcal{D}}^{\mathcal{A}}(\phi)=\frac{N}{M} \sum_{m=1}^{M} \log p\left(y_{i m} | x_{i m}, \gamma_{i m}=f(\phi, \epsilon)\right)<br>$$<br>​    其中$M$为batch size，$N$为data数量。</p>
+<p>​    将模型参数$\mathbf{w}$加入优化目标中：<br>$$<br>\mathcal{L}(\phi, \mathbf{w}) \simeq \mathcal{L}_{\mathcal{D}}^{\mathcal{A}}(\phi, \mathbf{w})-D_{K L}\left(q_{\phi}(\gamma) | p(\gamma)\right)<br>$$</p>
+<p>🔺 问题2的解决：</p>
+<p>​    本文选取高斯分布作为参数的分布：<br>$$<br>q_{\phi}(\gamma)=\prod_{i=1}^{C} q\left(\gamma_{i}\right), \quad \gamma_{i} \sim \mathcal{N}\left(\mu_{i}, \sigma_{i}\right)<br>$$<br>​    为了让学习出的参数$\phi=(\mu, \sigma)$使分布$q_\phi(\gamma)$尽可能稀疏，本文引入的先验分布为：<br>$$<br>p(\gamma)=\prod_{i=1}^{C} p\left(\gamma_{i}\right), \quad \gamma_{i} \sim \mathcal{N}\left(0, \sigma_{i}^{_}\right)<br>$$<br>​    这样就能让$\gamma$尽可能向0值靠近。<br>$$<br>\begin{aligned} D_{K L}\left(q_{\phi}(\gamma) | p(\gamma)\right) &amp;=\sum_{i} D_{K L}\left(q_{\phi}\left(\gamma_{i}\right) | p\left(\gamma_{i}\right)\right) \\ &amp;=\sum_{i} \log \frac{\sigma_{i}^{_}}{\sigma_{i}}+\frac{\sigma_{i}^{2}+\mu_{i}^{2}}{2\left(\sigma_{i}^{*}\right)^{2}}-\frac{1}{2} \end{aligned}<br>$$<br>​    让两个分布的方差相同，则上式可以表示为：<br>$$<br>D_{K L}\left(q_{\phi}(\gamma) | p(\gamma)\right)=\sum_{i} k \mu_{i}^{2}<br>$$</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-Centripetal-SGD-for-Pruning-Very-Deep-Convolutional-Networks-with-Complicated-Structure"><span class="toc-number">1.</span> <span class="toc-text">1️⃣  Centripetal SGD for Pruning Very Deep Convolutional Networks with Complicated Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2️⃣-Variational-Convolutional-Neural-Network-Pruning"><span class="toc-number">2.</span> <span class="toc-text">2️⃣ Variational Convolutional Neural Network Pruning</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/06/29/weekly-paper-08/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/06/29/weekly-paper-08/&text=weekly-paper-08"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/06/29/weekly-paper-08/&title=weekly-paper-08"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/06/29/weekly-paper-08/&is_video=false&description=weekly-paper-08"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=weekly-paper-08&body=Check out this article: http://yoursite.com/2019/06/29/weekly-paper-08/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/06/29/weekly-paper-08/&title=weekly-paper-08"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/06/29/weekly-paper-08/&title=weekly-paper-08"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/06/29/weekly-paper-08/&title=weekly-paper-08"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/06/29/weekly-paper-08/&title=weekly-paper-08"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/06/29/weekly-paper-08/&name=weekly-paper-08&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
+</div>
+
+</html>
