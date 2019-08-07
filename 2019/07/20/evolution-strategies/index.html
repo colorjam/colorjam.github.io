@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="这篇博客 进化策略是一种黑箱优化算法，防止参数陷入局部最优解。进化策略可以看作一种提供一系列候选解决方案来评估一个问题的算法。评估结果基于一个目标函数(objective function)，一个解决方案返回一个适应度(fitness value)，基于当前解决方案的适应度，再生成下一集合的候选者。最简单的伪代码如下： 12345678910111213141516171819202122solv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进化策略">
+<meta property="og:url" content="http://yoursite.com/2019/07/20/evolution-strategies/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="这篇博客 进化策略是一种黑箱优化算法，防止参数陷入局部最优解。进化策略可以看作一种提供一系列候选解决方案来评估一个问题的算法。评估结果基于一个目标函数(objective function)，一个解决方案返回一个适应度(fitness value)，基于当前解决方案的适应度，再生成下一集合的候选者。最简单的伪代码如下： 12345678910111213141516171819202122solv">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-07-20T00:25:32.893Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="进化策略">
+<meta name="twitter:description" content="这篇博客 进化策略是一种黑箱优化算法，防止参数陷入局部最优解。进化策略可以看作一种提供一系列候选解决方案来评估一个问题的算法。评估结果基于一个目标函数(objective function)，一个解决方案返回一个适应度(fitness value)，基于当前解决方案的适应度，再生成下一集合的候选者。最简单的伪代码如下： 12345678910111213141516171819202122solv">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>进化策略</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/26/weekly-paper-10/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/08/weekly-paper-09/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/20/evolution-strategies/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/20/evolution-strategies/&text=进化策略"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/20/evolution-strategies/&title=进化策略"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/20/evolution-strategies/&is_video=false&description=进化策略"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=进化策略&body=Check out this article: http://yoursite.com/2019/07/20/evolution-strategies/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/20/evolution-strategies/&title=进化策略"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/20/evolution-strategies/&title=进化策略"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/20/evolution-strategies/&title=进化策略"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/20/evolution-strategies/&title=进化策略"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/20/evolution-strategies/&name=进化策略&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        进化策略
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-07-19T23:44:06.000Z" itemprop="datePublished">2019-07-20</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><a href="http://blog.otoro.net/2017/10/29/visual-evolution-strategies/" target="_blank" rel="external">这篇博客</a></p>
+<p>进化策略是一种黑箱优化算法，防止参数陷入局部最优解。进化策略可以看作一种提供一系列候选解决方案来评估一个问题的算法。评估结果基于一个目标函数(objective function)，一个解决方案返回一个适应度(fitness value)，基于当前解决方案的适应度，再生成下一集合的候选者。最简单的伪代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">solver = EvolutionStrategy()</div><div class="line"></div><div class="line">while True:</div><div class="line"></div><div class="line">  # 请求ES生成候选者</div><div class="line">  solutions = solver.ask()</div><div class="line"></div><div class="line">  # 初始化适应度</div><div class="line">  fitness_list = np.zeros(solver.popsize)</div><div class="line"></div><div class="line">  # 评估候选者，生成与其对应的适应度</div><div class="line">  for i in range(solver.popsize):</div><div class="line">    fitness_list[i] = evaluate(solutions[i])</div><div class="line"></div><div class="line">  # 返回适应度结果给ES</div><div class="line">  solver.tell(fitness_list)</div><div class="line"></div><div class="line">  # 从ES中获取最优参数和最优适应度</div><div class="line">  best_solution, best_fitness = solver.result()</div><div class="line"></div><div class="line">  if best_fitness &gt; MY_REQUIRED_FITNESS:</div><div class="line">    break</div></pre></td></tr></table></figure>
+<p>以简单的2D问题为例，参数由$\mu=\left(\mu_{x}, \mu_{y}\right)$和$\sigma=\left(\sigma_{x}, \sigma_{y}\right)$组成Simple ES和Simple GA都是固定$\sigma$不变，通过进化算法学习$\mu$，由此CMA-ES算法诞生。它是一种不基于梯度的算法，通过计算所有参数空间的协方差矩阵，在每次迭代时从多元正态分布中采样解决方案。</p>
+<p>上面提到的一些算法只保留了最优解，忽略了其他解决方案，因此也可能忽略大部分对生成下一代有用的信息。结合RL算法，有人提出了REINFORCE-ES以及NES，遵循的原则是不论好坏综合所有候选者以估计梯度，往梯度方向更新参数。核心思想是<strong>最大化采样候选者的适应度期望值</strong>：<br>$$<br>J(\theta)=E_{\theta}[F(z)]=\int F(z) \pi(z, \theta) d z<br>$$<br><a href="http://www.jmlr.org/papers/volume15/wierstra14a/wierstra14a.pdf" target="_blank" rel="external">NES</a>提供了梯度的推导，利用log-likelihood trick和蒙特卡洛采样可以得到：<br>$$<br>\nabla_{\theta} J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} F\left(z^{i}\right) \nabla_{\theta} \log \pi\left(z^{i}, \theta\right)<br>$$<br><a href="http://www-anw.cs.umass.edu/~barto/courses/cs687/williams92simple.pdf" target="_blank" rel="external">REINFORCE</a>为特殊的案例，当$\pi(z, \theta)$是一个factored multi-variate normal distribution，即每个参数服从一个一元正态分布$z_{j} \sim N\left(\mu_{j}, \sigma_{j}\right)$，给出了一个梯度的封闭解：<br>$$<br>\begin{array}{l}{\nabla_{\mu_{j}} \log N\left(z^{i}, \mu, \sigma\right)=\frac{z_{j}^{i}-\mu_{j}}{\sigma_{j}^{2}}} \\ {\nabla_{\sigma_{j}} \log N\left(z^{i}, \mu, \sigma\right)=\frac{\left(z_{j}^{i}-\mu_{j}\right)^{2}-\sigma_{j}^{2}}{\sigma_{j}^{3}}}\end{array}<br>$$<br>这些论文提出了一些tricks，比如PEPG中的antithetic sampling，NES中利用Fisher Information更新梯度等等。</p>
+<p>在OenAI的<a href="https://blog.openai.com/evolution-strategies/" target="_blank" rel="external">论文</a>里，它们固定$\sigma$，只更新$\mu$，主要是解决执行层面的并行运算问题。</p>
+<p>通常进化策略都会采样一个称为Fitness Shaping的trick，把种群适应度转化为种群内部的相对值，即rank一下fitness，保证评估指标的不变性。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/20/evolution-strategies/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/20/evolution-strategies/&text=进化策略"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/20/evolution-strategies/&title=进化策略"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/20/evolution-strategies/&is_video=false&description=进化策略"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=进化策略&body=Check out this article: http://yoursite.com/2019/07/20/evolution-strategies/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/20/evolution-strategies/&title=进化策略"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/20/evolution-strategies/&title=进化策略"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/20/evolution-strategies/&title=进化策略"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/20/evolution-strategies/&title=进化策略"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/20/evolution-strategies/&name=进化策略&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
+</div>
+
+</html>

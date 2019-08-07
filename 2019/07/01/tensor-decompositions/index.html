@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="通过这篇blog了解一下低秩分解。 低秩分解仅作用于线性网络层的权重，可能忽略不同网络层的联系。  There are works that try to address these issues, and its still an active research area.  全连接层的张量分解首先简单介绍一下SVD。奇异值分解(SVD)是对矩阵进行分解：$$A_{n \times m}=U_{">
 <meta property="og:type" content="article">
-<meta property="og:title" content="tensor-decompositions">
+<meta property="og:title" content="卷积核的低秩分解">
 <meta property="og:url" content="http://yoursite.com/2019/07/01/tensor-decompositions/index.html">
 <meta property="og:site_name" content="Colorjam">
 <meta property="og:description" content="通过这篇blog了解一下低秩分解。 低秩分解仅作用于线性网络层的权重，可能忽略不同网络层的联系。  There are works that try to address these issues, and its still an active research area.  全连接层的张量分解首先简单介绍一下SVD。奇异值分解(SVD)是对矩阵进行分解：$$A_{n \times m}=U_{">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-07-01T13:11:09.997Z">
+<meta property="og:updated_time" content="2019-07-28T01:57:23.769Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tensor-decompositions">
+<meta name="twitter:title" content="卷积核的低秩分解">
 <meta name="twitter:description" content="通过这篇blog了解一下低秩分解。 低秩分解仅作用于线性网络层的权重，可能忽略不同网络层的联系。  There are works that try to address these issues, and its still an active research area.  全连接层的张量分解首先简单介绍一下SVD。奇异值分解(SVD)是对矩阵进行分解：$$A_{n \times m}=U_{">
     
     
@@ -36,7 +36,7 @@
         
     
     <!-- title -->
-    <title>tensor-decompositions</title>
+    <title>卷积核的低秩分解</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -87,15 +87,15 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/01/tensor-decompositions/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/01/tensor-decompositions/&text=tensor-decompositions"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=tensor-decompositions"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/01/tensor-decompositions/&is_video=false&description=tensor-decompositions"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=tensor-decompositions&body=Check out this article: http://yoursite.com/2019/07/01/tensor-decompositions/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=tensor-decompositions"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=tensor-decompositions"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=tensor-decompositions"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=tensor-decompositions"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/01/tensor-decompositions/&name=tensor-decompositions&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/01/tensor-decompositions/&text=卷积核的低秩分解"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=卷积核的低秩分解"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/01/tensor-decompositions/&is_video=false&description=卷积核的低秩分解"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=卷积核的低秩分解&body=Check out this article: http://yoursite.com/2019/07/01/tensor-decompositions/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=卷积核的低秩分解"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=卷积核的低秩分解"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=卷积核的低秩分解"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=卷积核的低秩分解"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/01/tensor-decompositions/&name=卷积核的低秩分解&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -112,7 +112,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        tensor-decompositions
+        卷积核的低秩分解
     </h1>
 
 
@@ -203,15 +203,15 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/01/tensor-decompositions/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/01/tensor-decompositions/&text=tensor-decompositions"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=tensor-decompositions"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/01/tensor-decompositions/&is_video=false&description=tensor-decompositions"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=tensor-decompositions&body=Check out this article: http://yoursite.com/2019/07/01/tensor-decompositions/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=tensor-decompositions"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=tensor-decompositions"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=tensor-decompositions"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=tensor-decompositions"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/01/tensor-decompositions/&name=tensor-decompositions&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/01/tensor-decompositions/&text=卷积核的低秩分解"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=卷积核的低秩分解"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/01/tensor-decompositions/&is_video=false&description=卷积核的低秩分解"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=卷积核的低秩分解&body=Check out this article: http://yoursite.com/2019/07/01/tensor-decompositions/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=卷积核的低秩分解"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=卷积核的低秩分解"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=卷积核的低秩分解"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/01/tensor-decompositions/&title=卷积核的低秩分解"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/01/tensor-decompositions/&name=卷积核的低秩分解&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

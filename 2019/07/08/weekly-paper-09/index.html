@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1️⃣ Natural Evolution StrategiesNES是一种利用搜索梯度(search gradients)更新搜索分布参数(parameters of the search distribution)的黑箱优化算法，与经典方法（EDAs）利用最大似然拟合采样分布的方法不同，本文提出的更新策略是沿着更高期望适应度的方向。 最大化所采样样本的适应度的期望值。核心思想就是在每次新的种群">
+<meta name="keywords" content="paper,每周论文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每周论文 Vol.09">
+<meta property="og:url" content="http://yoursite.com/2019/07/08/weekly-paper-09/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="1️⃣ Natural Evolution StrategiesNES是一种利用搜索梯度(search gradients)更新搜索分布参数(parameters of the search distribution)的黑箱优化算法，与经典方法（EDAs）利用最大似然拟合采样分布的方法不同，本文提出的更新策略是沿着更高期望适应度的方向。 最大化所采样样本的适应度的期望值。核心思想就是在每次新的种群">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://i.loli.net/2019/07/08/5d229d3f6943c17863.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/08/5d229f6ae0f3061548.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/08/5d2299a8b796f92761.png">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190708145437180.png">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190708163252563.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/08/5d230b687c16942920.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/08/5d230b390673572266.png">
+<meta property="og:updated_time" content="2019-07-17T13:39:48.882Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="每周论文 Vol.09">
+<meta name="twitter:description" content="1️⃣ Natural Evolution StrategiesNES是一种利用搜索梯度(search gradients)更新搜索分布参数(parameters of the search distribution)的黑箱优化算法，与经典方法（EDAs）利用最大似然拟合采样分布的方法不同，本文提出的更新策略是沿着更高期望适应度的方向。 最大化所采样样本的适应度的期望值。核心思想就是在每次新的种群">
+<meta name="twitter:image" content="https://i.loli.net/2019/07/08/5d229d3f6943c17863.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>每周论文 Vol.09</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/07/20/evolution-strategies/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/02/batch-normalization/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/08/weekly-paper-09/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/08/weekly-paper-09/&text=每周论文 Vol.09"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/08/weekly-paper-09/&title=每周论文 Vol.09"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/08/weekly-paper-09/&is_video=false&description=每周论文 Vol.09"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每周论文 Vol.09&body=Check out this article: http://yoursite.com/2019/07/08/weekly-paper-09/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/08/weekly-paper-09/&title=每周论文 Vol.09"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/08/weekly-paper-09/&title=每周论文 Vol.09"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/08/weekly-paper-09/&title=每周论文 Vol.09"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/08/weekly-paper-09/&title=每周论文 Vol.09"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/08/weekly-paper-09/&name=每周论文 Vol.09&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-Natural-Evolution-Strategies"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ Natural Evolution Strategies</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0-Search-Gradients"><span class="toc-number">1.1.</span> <span class="toc-text">0/ Search Gradients</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Limitations"><span class="toc-number">1.2.</span> <span class="toc-text">1/ Limitations</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        每周论文 Vol.09
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-07-08T01:07:11.000Z" itemprop="datePublished">2019-07-08</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/paper/">paper</a>, <a class="tag-link" href="/tags/每周论文/">每周论文</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="1️⃣-Natural-Evolution-Strategies"><a href="#1️⃣-Natural-Evolution-Strategies" class="headerlink" title="1️⃣ Natural Evolution Strategies"></a>1️⃣ Natural Evolution Strategies</h3><p>NES是一种利用搜索梯度(search gradients)更新搜索分布参数(parameters of the search distribution)的黑箱优化算法，与经典方法（EDAs）利用最大似然拟合采样分布的方法不同，本文提出的更新策略是沿着更高期望适应度的方向。</p>
+<p>最大化所采样样本的适应度的期望值。核心思想就是在每次新的种群里更新mean和std，从新的结果中继续更新</p>
+<h4 id="0-Search-Gradients"><a href="#0-Search-Gradients" class="headerlink" title="0/ Search Gradients"></a>0/ Search Gradients</h4><p>假设我们从分布$\pi(\mathbf z | \theta)$中采样$\mathbf z$，用$f(\mathbf z)$表示该采样的适应度。在该搜索分布下的期望适应度为：<br>$$<br>J(\theta)=\mathbb{E}_{\theta}[f(\mathbf{z})]=\int f(\mathbf{z}) \pi(\mathbf{z} | \theta) d \mathbf{z}<br>$$<br>利用 <a href="http://blog.shakirm.com/2015/11/machine-learning-trick-of-the-day-5-log-derivative-trick/" target="_blank" rel="external">log-likelihood trick</a>：<br>$$<br>\begin{aligned} \nabla_{\theta} J(\theta) &amp;=\nabla_{\theta} \int f(\mathbf{z}) \pi(\mathbf{z} | \theta) d \mathbf{z} \\ &amp;=\int f(\mathbf{z}) \nabla_{\theta} \pi(\mathbf{z} | \theta) d \mathbf{z} \\ &amp;=\int f(\mathbf{z}) \nabla_{\theta} \pi(\mathbf{z} | \theta) \frac{\pi(\mathbf{z} | \theta)}{\pi(\mathbf{z} | \theta)} d \mathbf{z} \\ &amp;=\int\left[f(\mathbf{z}) \nabla_{\theta} \log \pi(\mathbf{z} | \theta)\right] \pi(\mathbf{z} | \theta) d \mathbf{z} \\ &amp;=\mathbb{E}_{\theta}\left[f(\mathbf{z}) \nabla_{\theta} \log \pi(\mathbf{z} | \theta)\right] \end{aligned}<br>$$<br>利用种群大小$\lambda$对搜索梯度进行近似估计：<br>$$<br>\nabla_{\theta} J(\theta) \approx \frac{1}{\lambda} \sum_{k=1}^{\lambda} f\left(\mathbf{z}_{k}\right) \nabla_{\theta} \log \pi\left(\mathbf{z}_{k} | \theta\right)<br>$$<br>$\nabla_{\theta} J(\theta)$提供了梯度上升的方向，最直接的方法参数更新方法：$\theta \leftarrow \theta+\eta \nabla_{\theta} J(\theta)$</p>
+<blockquote>
+<p>我们希望最大化期望值，因此是梯度上升。</p>
+</blockquote>
+<p>这样，我们可以写出标准搜索梯度算法：</p>
+<p><img src="https://i.loli.net/2019/07/08/5d229d3f6943c17863.png" alt=""></p>
+<p>以多元正态分布为例，$\theta=\langle\boldsymbol{\mu}, \boldsymbol{\Sigma}\rangle$为需要学习的分布参数。我们还需要满足$\mathbf{A}^{\top} \mathbf{A}=\mathbf{\Sigma}$的协方差矩阵的平方根矩阵$\mathbf{A} \in \mathbb{R}^{d \times d}$，使得$\mathbf{z}=\boldsymbol{\mu}+\mathbf{A}^{\top} \mathbf{s}$将标准正态分布$\mathbf{s} \sim \mathcal{N}(0, \mathbb{I})$转化为种群个体$\mathbf{z} \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{\Sigma})$，需要对$\boldsymbol{\mu}, \mathbf{\Sigma}$求导，更新算法为：</p>
+<p><img src="https://i.loli.net/2019/07/08/5d229f6ae0f3061548.png" alt=""></p>
+<h4 id="1-Limitations"><a href="#1-Limitations" class="headerlink" title="1/ Limitations"></a>1/ Limitations</h4><p>针对普通搜索梯度算法的局限，本文提出的解决办法可以用下表总结：</p>
+<p><img src="https://i.loli.net/2019/07/08/5d2299a8b796f92761.png" alt=""></p>
+<p>这些问题和方法让我们来一个个攻破。</p>
+<p><strong>a. Natural gradient</strong></p>
+<p>令$\lambda=1, d=1$，$\mu \leftarrow \mu+\eta \frac{z-\mu}{\sigma^{2}},\quad \sigma \leftarrow \sigma+\eta \frac{(z-\mu)^{2}-\sigma^{2}}{\sigma^{3}}$</p>
+<p>由于$\Delta \mu \propto \frac{1}{\sigma}, \Delta \sigma \propto \frac{1}{\sigma}$，$\sigma$同时控制了$\mu$和$\sigma$的更新，造成参数的更新不是尺度不变(scale-invariant)的：我们减小$\sigma$让$\mu$接近最优解的同时也增大了$\sigma$，使其在参数更新的时候再次远离最优解。</p>
+<p>自然梯度的提出便是为了解决尺度不变的问题。原始梯度测量的是参数分布的欧拉距离。自然梯度利用的是参数分布的KL散度。<br>$$<br>\begin{aligned} \max _{\delta \theta} J(\theta+\delta \theta) &amp; \approx J(\theta)+\delta \theta^{\top} \nabla_{\theta} J \\ \text {s.t. } D(\theta+\delta \theta | \theta) &amp;=\varepsilon, \end{aligned}<br>$$<br>$J(\theta)$仍然是期望适应度，$\varepsilon$是一个很小的增量，通过二阶泰勒展开$\lim \delta \theta \rightarrow 0$，$D(\theta+\delta \theta | \theta)=\frac{1}{2} \delta \theta^{\top} \mathbf{F}(\theta) \delta \theta$。其中<br>$$<br>\begin{aligned} \mathbf{F} &amp;=\int \pi(\mathbf{z} | \theta) \nabla_{\theta} \log \pi(\mathbf{z} | \theta) \nabla_{\theta} \log \pi(\mathbf{z} | \theta)^{\top} d \mathbf{z} \\ &amp;=\mathbb{E}\left[\nabla_{\theta} \log \pi(\mathbf{z} | \theta) \nabla_{\theta} \log \pi(\mathbf{z} | \theta)^{\top}\right] \end{aligned}<br>$$<br>表示为费雪信息矩阵(Fisher information matrix)。若$ \mathbf{F}$可逆，则自然梯度表示为：<br>$$<br>\widetilde{\nabla}_{\theta} J=\mathbf{F}^{-1} \nabla_{\theta} J(\theta)<br>$$</p>
+<blockquote>
+<p>推导可以参考<a href="https://wiseodd.github.io/techblog/2018/03/14/natural-gradient/" target="_blank" rel="external">blog</a></p>
+</blockquote>
+<p>然后我们就可以写出标准自然演化策略算法：</p>
+<p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190708145437180.png" alt="image-20190708145437180"></p>
+<p>与算法1的区别就在于，更新的时候梯度乘以了一个费雪信息矩阵的逆。</p>
+<p><strong>b. Fitness shaping</strong></p>
+<p>用效用函数(utility)替an代适应度：<br>$$<br>\nabla_{\theta} J(\theta)=\sum_{k=1}^{\lambda} u_{k} \nabla_{\theta} \log \pi\left(\mathbf{z}_{k} | \theta\right)<br>$$<br>本文定义的效用函数为：<br>$$<br>u_{k}=\frac{\max \left(0, \log \left(\frac{\lambda}{2}+1\right)-\log (k)\right)}{\sum_{j=1}^{\lambda} \max \left(0, \log \left(\frac{\lambda}{2}+1\right)-\log (j)\right)}-\frac{1}{\lambda}<br>$$<br><strong>c. Adapation Sampling</strong></p>
+<p>用质量函数判断，当前采样$\mathbf {z’}$很大程度上优于之前的采样$\mathbf {z}$，才进行参数更新。与单纯的最大化适应度函数本身不同，适应采样最大化的是进步的步伐(pace of progress)。以最重要的参数学习率$\eta_{\sigma}$为例：</p>
+<p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190708163252563.png" alt="image-20190708163252563"></p>
+<p>首先利用$1.5\eta_{\sigma, t}$和$\theta_{t-1}$计算出假想参数$\theta ‘$，计算每个个体的权重$w_k ‘$，用Mann-Whitney test检验两个质量函数，当大于阈值$\rho=\frac{1}{2}-\frac{1}{3(d+1)}$时，增加学习率，否则让它靠近初始的学习率。</p>
+<p><strong>d. Exponential parameterization &amp; Natural coordinate system</strong></p>
+<p>NES不直接更新协方差$\mathbf \Sigma$，考虑以它的平方根$\mathbf A$为参数的正态分布，利用自然梯度进行更新。为了避免估计Fisher矩阵，xNES使用了局部坐标系和指数映射。局部坐标系下的自然梯度为：<br>$$<br>\begin{aligned} \nabla_{\boldsymbol{\delta}} J &amp;=\sum_{k=1}^{\lambda} f\left(\mathbf{z}_{k}\right) \cdot \mathbf{s}_{k} \\ \nabla_{\mathbf{M}} J &amp;=\sum_{k=1}^{\lambda} f\left(\mathbf{z}_{k}\right) \cdot\left(\mathbf{s}_{k} \mathbf{s}_{k}^{\top}-\mathbb{I}\right) \end{aligned}<br>$$<br>其中$\mathbf {s}_k$是局部坐标系下第$k$个最优样本，$\mathbf {z}_k$是目标2坐标系下的相同样本。把协方差因子$\mathbf{A}$分解为步长$\sigma &gt;0$和满足$\operatorname{det}(\mathbf{B})=1$的归一化协方差因子$\mathbf{B}$。这种分解使得两个正交成分可以有各自的学习率（$\eta_{\sigma}$, $\eta_{\mathbf {B}}$），对步长$\sigma$和$B$的更新做了指数映射。</p>
+<p><img src="https://i.loli.net/2019/07/08/5d230b687c16942920.png" alt=""></p>
+<p>本文还提了separable NES(SNES)，使用分离的搜索分布减少计算复杂度。本文的实现方式是限制$\mathbf {A}$为可逆的对角变换矩阵。</p>
+<p><img src="https://i.loli.net/2019/07/08/5d230b390673572266.png" alt=""></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-Natural-Evolution-Strategies"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ Natural Evolution Strategies</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0-Search-Gradients"><span class="toc-number">1.1.</span> <span class="toc-text">0/ Search Gradients</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Limitations"><span class="toc-number">1.2.</span> <span class="toc-text">1/ Limitations</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/08/weekly-paper-09/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/08/weekly-paper-09/&text=每周论文 Vol.09"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/08/weekly-paper-09/&title=每周论文 Vol.09"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/08/weekly-paper-09/&is_video=false&description=每周论文 Vol.09"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每周论文 Vol.09&body=Check out this article: http://yoursite.com/2019/07/08/weekly-paper-09/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/08/weekly-paper-09/&title=每周论文 Vol.09"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/08/weekly-paper-09/&title=每周论文 Vol.09"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/08/weekly-paper-09/&title=每周论文 Vol.09"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/08/weekly-paper-09/&title=每周论文 Vol.09"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/08/weekly-paper-09/&name=每周论文 Vol.09&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
+</div>
+
+</html>

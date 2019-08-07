@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="###  1️⃣ Interpretable and Fine-Grained Visual Explanations for Convolutional Neural Networks本文是基于干扰项方法的可解释。可解释的区域$\mathbf{e}^__{C_T}$可以分为最小保留的区域和_*最小移除区域__，前者意味着这些区域是保证模型分类正确的部分，后者意味着这些区域必须移除以改变模型输出。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每周论文 Vol.10">
+<meta property="og:url" content="http://yoursite.com/2019/07/26/weekly-paper-10/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="###  1️⃣ Interpretable and Fine-Grained Visual Explanations for Convolutional Neural Networks本文是基于干扰项方法的可解释。可解释的区域$\mathbf{e}^__{C_T}$可以分为最小保留的区域和_*最小移除区域__，前者意味着这些区域是保证模型分类正确的部分，后者意味着这些区域必须移除以改变模型输出。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://i.loli.net/2019/07/27/5d3c4f29da39269692.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3cfdb637a8236799.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3cfe28d812326769.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3cff84895ca39428.png">
+<meta property="og:image" content="https://github.com/Hyeji-Kim/ENC/raw/master/fig/overall2.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d42fd271e241820.png">
+<meta property="og:image" content="https://github.com/pedro-morgado/nettailor/raw/master/docs/figs/teaser_row.png">
+<meta property="og:updated_time" content="2019-07-31T13:30:32.838Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="每周论文 Vol.10">
+<meta name="twitter:description" content="###  1️⃣ Interpretable and Fine-Grained Visual Explanations for Convolutional Neural Networks本文是基于干扰项方法的可解释。可解释的区域$\mathbf{e}^__{C_T}$可以分为最小保留的区域和_*最小移除区域__，前者意味着这些区域是保证模型分类正确的部分，后者意味着这些区域必须移除以改变模型输出。">
+<meta name="twitter:image" content="https://i.loli.net/2019/07/27/5d3c4f29da39269692.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>每周论文 Vol.10</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/08/01/Multi-task Learning/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/20/evolution-strategies/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/26/weekly-paper-10/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/26/weekly-paper-10/&text=每周论文 Vol.10"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/26/weekly-paper-10/&title=每周论文 Vol.10"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/26/weekly-paper-10/&is_video=false&description=每周论文 Vol.10"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每周论文 Vol.10&body=Check out this article: http://yoursite.com/2019/07/26/weekly-paper-10/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/26/weekly-paper-10/&title=每周论文 Vol.10"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/26/weekly-paper-10/&title=每周论文 Vol.10"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/26/weekly-paper-10/&title=每周论文 Vol.10"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/26/weekly-paper-10/&title=每周论文 Vol.10"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/26/weekly-paper-10/&name=每周论文 Vol.10&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-Interpretable-and-Fine-Grained-Visual-Explanations-for-Convolutional-Neural-Networks"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ Interpretable and Fine-Grained Visual Explanations for Convolutional Neural Networks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2️⃣-THE-DEEP-WEIGHT-PRIOR"><span class="toc-number">2.</span> <span class="toc-text">2️⃣ THE DEEP WEIGHT PRIOR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3️⃣-DSC-Dense-Sparse-Convolution-for-Vectorized-Inference-of-Convolutional-Neural-Networks"><span class="toc-number">3.</span> <span class="toc-text">3️⃣ DSC: Dense-Sparse Convolution for Vectorized Inference of Convolutional Neural Networks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4️⃣-Efficient-Neural-Network-Compression"><span class="toc-number">4.</span> <span class="toc-text">4️⃣ Efficient Neural Network Compression</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5️⃣-ECC-Platform-Independent-Energy-Constrained-Deep-Neural-Network-Compression-via-a-Bilinear-Regression-Model"><span class="toc-number">5.</span> <span class="toc-text">5️⃣ ECC: Platform-Independent Energy-Constrained Deep Neural Network Compression via a Bilinear Regression Model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NETTAILOR-Tuning-the-architecture-not-just-the-weights"><span class="toc-number">6.</span> <span class="toc-text">NETTAILOR: Tuning the architecture, not just the weights</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        每周论文 Vol.10
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-07-26T15:48:10.000Z" itemprop="datePublished">2019-07-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>### </p>
+<h3 id="1️⃣-Interpretable-and-Fine-Grained-Visual-Explanations-for-Convolutional-Neural-Networks"><a href="#1️⃣-Interpretable-and-Fine-Grained-Visual-Explanations-for-Convolutional-Neural-Networks" class="headerlink" title="1️⃣ Interpretable and Fine-Grained Visual Explanations for Convolutional Neural Networks"></a>1️⃣ Interpretable and Fine-Grained Visual Explanations for Convolutional Neural Networks</h3><p><strong>本文是基于干扰项方法的可解释</strong>。可解释的区域$\mathbf{e}^__{C_T}$可以分为<strong>最小保留的区域</strong>和_*最小移除区域__，前者意味着这些区域是保证模型分类正确的部分，后者意味着这些区域必须移除以改变模型输出。</p>
+<p>添加干扰项的图像可以表示为：$\mathbf{e}=\mathbf{m} \cdot \mathbf{x}+(1-\mathbf{m}) \cdot \mathbf{r}$，通过训练使mask稀疏。</p>
+<ul>
+<li><p>保留解释：<br>$$<br>\begin{aligned} \mathbf{e}_{c_{T}}^{_} &amp;=\mathbf{m}_{c_{T}}^{_} \cdot \mathbf{x} \\ \mathbf{m}_{c_{T}}^{*} &amp;=\underset{\mathbf{m}_{c_{T}}}{\arg \min }\left\{\varphi\left(y_{x}^{c_{T}}, y_{e}^{c_{T}}\right)+\lambda \cdot\left|\mathbf{m}_{c_{T}}\right|_{1}\right\} \end{aligned}<br>$$<br>图像中的e区域，保证模型的分类正确。</p>
+</li>
+<li><p>移除解释：<br>$$<br>\begin{aligned} \mathbf{e}_{c_{T}}^{_} &amp;=\mathbf{m}_{c_{T}}^{_} \cdot \mathbf{x} \\ \mathbf{m}_{c_{T}}^{*} &amp;=\underset{\mathbf{m}_{e_{T}}}{\arg \max }\left\{\varphi\left(y_{x}^{c_{T}}, y_{e}^{c_{T}}\right)+\lambda \cdot\left|\mathbf{m}_{c_{T}}\right|_{1}\right\} \end{aligned}<br>$$<br>图像中的e区域，使得模型分类错误。</p>
+</li>
+</ul>
+<h3 id="2️⃣-THE-DEEP-WEIGHT-PRIOR"><a href="#2️⃣-THE-DEEP-WEIGHT-PRIOR" class="headerlink" title="2️⃣ THE DEEP WEIGHT PRIOR"></a>2️⃣ THE DEEP WEIGHT PRIOR</h3><p>【ICLR2019】</p>
+<p>本文的目标是能够通过某个概率分布生成网络的权重。可以看作是增强网络初始化的一种方法。以前贝叶斯神经网络都是需要对参数的先验分布$p(W)$进行假设，通常是log-uniform。<br>$$<br>\mathcal{L}(\theta)=\sum_{i=1}^{N} \mathbb{E}_{q_{\theta}(W)} \log p\left(y_{i} | x_{i}, W\right)-D_{\mathrm{KL}}\left(q_{\theta}(W) | p(W)\right) \rightarrow \max _{\theta}<br>$$<br>VAE是通过隐变量$z_i$估计后验概率分布$q(z_i|x_i)$的方法。其中$x_i$是生成图像。<br>$$<br>\mathcal{L}(\theta, \phi)=\sum_{i=1}^{N} \mathbb{E}_{q_{\theta}\left(z_{i} | x_{i}\right)} \log p_{\phi}\left(x_{i} | z_{i}\right)-D_{\mathrm{KL}}\left(q_{\theta}\left(z_{i} | x_{i}\right) | p\left(z_{i}\right)\right) \rightarrow \max _{\theta, \phi}<br>$$<br>本文的假设是基于预训练的网络参数$\hat{p}_{l}(w)$，参数的先验概率分布为：<br>$$<br>\hat{p}_{l}(w)=\int p\left(w | z ; \phi_{l}\right) p_{l}(z) d z<br>$$<br>引入auxiliary lower bound KL:<br>$$<br>\begin{array}{l}{D_{\mathrm{KL}}(q(W) | \hat{p}(W))=\sum_{l, i, j} D_{\mathrm{KL}}\left(q\left(w_{i j}^{l} | \theta_{i j}^{l}\right) | \hat{p}_{l}\left(w_{i j}^{l}\right)\right) \leq \sum_{l, i, j}\left(-H\left(q\left(w_{i j}^{l} | \theta_{i j}^{l}\right)\right)+\right.} \\ {+\mathbb{E}_{q\left(w_{i j}^{l} | \theta_{i j}^{l}\right)}\left[D_{\mathrm{KL}}\left(r\left(z | w_{i j}^{l} ; \psi_{l}\right) | p_{l}(z)\right)-\mathbb{E}_{r\left(z | w_{i j}^{l} ; \psi_{l}\right)} \log p\left(w_{i j}^{l} | z ; \phi_{l}\right)\right] )=D_{\mathrm{KL}}^{b o u n d}}\end{array}<br>$$<br>这样就和VAE对上，用VAE的encoder估计参数的先验概率（文章假设隐变量$z_i$服从N(0,1)），然后用VAE估计网络参数的先验概率分布，然后从该分布中生成网络的参数。</p>
+<p><img src="https://i.loli.net/2019/07/27/5d3c4f29da39269692.png" alt=""></p>
+<h3 id="3️⃣-DSC-Dense-Sparse-Convolution-for-Vectorized-Inference-of-Convolutional-Neural-Networks"><a href="#3️⃣-DSC-Dense-Sparse-Convolution-for-Vectorized-Inference-of-Convolutional-Neural-Networks" class="headerlink" title="3️⃣ DSC: Dense-Sparse Convolution for Vectorized Inference of Convolutional Neural Networks"></a>3️⃣ DSC: Dense-Sparse Convolution for Vectorized Inference of Convolutional Neural Networks</h3><p>【CVPR2019】</p>
+<p>本文是从很现实的角度做压缩，基于具体的Winograd convolution的压缩方式。</p>
+<p><strong>计算单元向量化</strong>：从现实角度来看，从内存中读取8-bit整形和32-bit浮点型的能耗相同，从i7 CPU读取数据64-bits数据和Altera Arria 10度去32-bit数据的能耗相同。只读取同bit数据(align data)填充寄存器只需要一次操作，同时读取不同bit数据(unaligned data)则需要两次操作。通常CPU数据流缓存块的大小是64bytes (64*8bits)，意味着64x8-bit整形和 16x32-bit的数据可以平行填充寄存器。</p>
+<p><strong>WInograd convolution</strong>：基于Winograd卷积是用更多的加法来减少惩罚操作，2D Winograd Convolution F(2x2, 3x3)的计算公式如下：</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3cfdb637a8236799.png" alt=""></p>
+<p><strong>Dense-Sparse Convolution</strong></p>
+<p><img src="https://i.loli.net/2019/07/28/5d3cfe28d812326769.png" alt=""></p>
+<p>针对Sparse Convolution，把卷积核用CSR格式存放，进行direct sparse convolution。</p>
+<p>针对Sparse-Dense Convolution，作者先通过一个threshold判断的卷积核的稀疏程度，然后用下面的公式进行计算：</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3cff84895ca39428.png" alt=""></p>
+<h3 id="4️⃣-Efficient-Neural-Network-Compression"><a href="#4️⃣-Efficient-Neural-Network-Compression" class="headerlink" title="4️⃣ Efficient Neural Network Compression"></a>4️⃣ Efficient Neural Network Compression</h3><p>【CVPR2019】</p>
+<p>本文的压缩方法是针对卷积核进行低秩分解，目标是找到针对整个网络的最优rank以进行压缩（相当于通道ratio）</p>
+<p><img src="https://github.com/Hyeji-Kim/ENC/raw/master/fig/overall2.png" alt="i"></p>
+<p>两种Layer-wise Accuracy Metrics</p>
+<ul>
+<li><p>PCA energy-based：$y_{p, l}\left(r_{l}\right)$<br>$$<br>y_{p, l}\left(r_{l}\right)=\frac{\sigma_{l}^{\prime}\left(r_{l}\right)-\sigma_{l}^{\prime}(1)}{\sigma_{l}^{\prime}\left(r_{l}^{\max }\right)-\sigma_{l}^{\prime}(1)}<br>$$<br>其中第$l$层的秩是$r_l$，$\sigma_l(d)$是经过分解的第$d$个对角值，$\sigma_{l}^{\prime}\left(r_{l}\right)=\sum^{r_l}_{d=1}\sigma_l(d)$表示卷积核分解后对应秩的元素之和，进行归一化。</p>
+</li>
+<li><p>Measurement-based Metric：$y_{m, l}\left(r_{l}\right)$</p>
+<p>只改变网络层$l$的秩，所获得的整体精度。用VBMF进行秩的采样。</p>
+</li>
+</ul>
+<p>假设每层的metric是独立的，联合概率分布表示网络整体的accuracy metric：<br>$$<br>\mathrm{P}(A ; R)=\prod_{l=1}^{L} \mathrm{P}\left(a_{l} ; r_{l}\right)<br>$$<br>三种Overall accuracy metric：</p>
+<ul>
+<li>Measurement-based：$A_{m}(R)=\prod_{l=1}^{L} y_{m, l}\left(r_{l}\right)$</li>
+<li><p>PCA-based：$A_{p}(R)=\prod_{l=1}^{L} y_{p, l}\left(r_{l}\right)$</p>
+</li>
+<li><p>combied metric：$A_{c}(R)=\left\{A_{p}(R) \times \frac{C(R)}{C_{\text {orig}}}\right\}+A_{m}(R)$</p>
+</li>
+</ul>
+<p><strong>ENC-Map</strong>：利用Accuracy-Complexity的映射来选择每层的rank配置。文章认为让网络每层的具有相同的精度损失与具有相同压缩率相比，是更合理的压缩策略。因此假设在VBMF生成的rank下，每层的metric都相同：<br>$$<br>R_{e}=R | y_{i, l}\left(r_{l}\right)=y_{i, k}\left(r_{k}\right)<br>$$<br>然后我们可以计算出$R_e$的复杂度$C(R)=\sum_{l=1}^{L} C_{l}\left(r_{l}\right)=\sum_{l=1}^{L} c_{l} r_{l}$</p>
+<p>于是有了complexity和accuracy的映射：$f_{C-A}： \mathbb{R} \rightarrow \mathbb{R}$，进一步得到complexity和accuracy到rank的映射：$f_{C-R}：\mathbb{R} \rightarrow \mathbb{R}^L$。</p>
+<p><strong>ENC-Model/Inf</strong>：将扩展ENC-Map至rank的组合问题，需要搜索合适的rank，通过1. 利用已知复杂度来限制 2. 把长得差不多的的卷积核的rank分到一组。</p>
+<h3 id="5️⃣-ECC-Platform-Independent-Energy-Constrained-Deep-Neural-Network-Compression-via-a-Bilinear-Regression-Model"><a href="#5️⃣-ECC-Platform-Independent-Energy-Constrained-Deep-Neural-Network-Compression-via-a-Bilinear-Regression-Model" class="headerlink" title="5️⃣ ECC: Platform-Independent Energy-Constrained Deep Neural Network Compression via a Bilinear Regression Model"></a>5️⃣ ECC: Platform-Independent Energy-Constrained Deep Neural Network Compression via a Bilinear Regression Model</h3><p>本文用限制能耗来进行模型压缩，提出了用一个双线性回归模型来估计target硬件平台的能耗。</p>
+<p>目标用下面的公式表示：<br>$$<br>\begin{array}{cl}{\min _{\mathcal{W}, \mathbf{s}}} &amp; {\ell(\mathcal{W})} \ \\{\text { s.t. }} &amp; {\phi\left(\mathbf{w}^{(u)}\right) \leq s^{(u)}, \quad u \in \mathcal{U}}\\ \ {} &amp; {\mathcal{E}(\mathbf{s}) \leq E_{\text { budget }}}\end{array}<br>$$<br>解决上面问题需要解决稀疏率到能量的映射模型$\mathcal{E}(\mathbf{s})$。用data-driven的方法来训练这个近似模型$\hat{\mathcal{E}}$：<br>$$<br>\hat{\mathcal{E}}=\underset{f \in \mathcal{F}}{\arg \min } \mathbb{E}_{\mathbf{s}}\left[(f(\mathbf{s})-\mathcal{E}(\mathbf{s}))^{2}\right]<br>$$<br>用双线性模型来估计网络整体能耗：<br>$$<br>\mathcal{F} :=\{f(\mathbf{s})=a_{0}+\sum_{j=1}^{|\mathcal{U}|} a_{j} s_{j} s_{j+1} : a_{0}, a_{1}, \ldots, a_{|\mathcal{U}|} \in \mathbb{R}_{+} \}<br>$$<br>ECC整体框架分为两个部分，Online和Offline部分。在Offline部分建立近似能量估计模型$\hat{\mathcal{E}}$</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d42fd271e241820.png" alt=""></p>
+<p>Online部分基于能量模型进行压缩和ADMM进行压缩。将目标转为minmax优化问题：<br>$$<br>\min _{\mathcal{W}, \mathbf{s}} \max _{z \geq 0, \mathbf{y} \geq \mathbf{0}} \mathcal{L}(\mathcal{W}, \mathbf{s}, \mathbf{y}, z)<br>$$<br>引入对偶变量$y$和$z$用于限制稀疏率，引入z用于限制能量：<br>$$<br>\mathcal{L}(\mathcal{W}, \mathbf{s}, \mathbf{y}, z) \quad :=\ell(\mathcal{W})+\mathcal{L}_{1}(\mathcal{W}, \mathbf{s}, \mathbf{y})+\mathcal{L}_{2}(\mathbf{s}, z)<br>$$<br>其中$\mathcal{L}_{1}(\mathcal{W}, \mathbf{s}, \mathbf{y}) \quad :=\quad \frac{\rho_{1}}{2} \sum_{u}\left[\phi\left(\mathbf{w}^{(u)}\right)-s^{(u)}\right]_{+}^{2}+\sum_{u} y^{(u)}\left(\phi\left(\mathbf{w}^{(u)}\right)-s^{(u)}\right), \mathcal{L}_{2}(\mathbf{s}, z)$</p>
+<p>$\mathcal{L}_{2}(\mathbf{s}, z) :=\frac{\rho_{2}}{2}\left[\hat{\mathcal{E}}(\mathbf{s})-E_{\mathrm{budget}}\right]_{+}^{2}+z\left(\hat{\mathcal{E}}(\mathbf{s})-E_{\text { budget }}\right)$</p>
+<p>算法通过迭代更新参数来达到最终目标</p>
+<ul>
+<li>Update $W$：用Proximal Adam</li>
+<li><p>Update $s$：$\mathbf{s}^{t+1}=\mathbf{s}^{t}-\beta\left(\nabla_{\mathbf{s}} \mathcal{L}_{1}\left(\mathcal{W}, \mathbf{s}^{t}, \mathbf{y}\right)+\nabla_{\mathbf{s}} \mathcal{L}_{2}\left(\mathbf{s}^{t}, z\right)\right)$</p>
+</li>
+<li><p>Update 对偶变量：$\begin{aligned} y^{(u)^{t+1}} &amp;=\left[y^{(u)^{t}}+\rho_{1}\left(\phi\left(\mathbf{w}^{(u)}\right)-s^{(u)}\right)\right]_{+} \\ z^{t+1} &amp;=\left[z^{t}+\rho_{2}\left(\hat{\mathcal{E}}(\mathbf{s})-E_{\mathrm{budget}}\right)\right]_{+} \end{aligned}$</p>
+</li>
+</ul>
+<h3 id="NETTAILOR-Tuning-the-architecture-not-just-the-weights"><a href="#NETTAILOR-Tuning-the-architecture-not-just-the-weights" class="headerlink" title="NETTAILOR: Tuning the architecture, not just the weights"></a>NETTAILOR: Tuning the architecture, not just the weights</h3><p>这篇文章很有意思，不止fintune网络权重，还FT网络结构。目前大部分网络使用的是相同的backbone，没有考虑到网络结构本身的影响。可能小一些的网络在目标数据集上就足够了。本文将pre-trained的backbone网络结构为universal blocks，加上一些task-specific网络来生成新的网络。通过soft-attention机制和网络的复杂度限制来学习新的网络结构和权重。</p>
+<p>一些相关工作包括迁移学习、多任务学习（增强任务之间的泛化性），迁移学习假设图像来自不同的域，MTL假设所有任务是处于同域的。Domain adaptation解决两个不同域数据集的任务。Cascaded classifiers &amp; Adaptive inference graphs能够自动调整网络的拓扑结构。但是针对不同的任务要训练不同的网络，NETTAILOR通过重用universal blocks，只训练task相关的block来解决multi-domain transfer learning problems。</p>
+<p>算法主要分成以下四步：1. 在目标任务上用pre-trained网络训练一个teacher network。2. 定义包括proxy layers的学生网络。3. 在目标任务上只训练task-specific参数，同时加上复杂度限制。4. 精简网络结构后进行finetune。</p>
+<p><img src="https://github.com/pedro-morgado/nettailor/raw/master/docs/figs/teaser_row.png" alt="img"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-Interpretable-and-Fine-Grained-Visual-Explanations-for-Convolutional-Neural-Networks"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ Interpretable and Fine-Grained Visual Explanations for Convolutional Neural Networks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2️⃣-THE-DEEP-WEIGHT-PRIOR"><span class="toc-number">2.</span> <span class="toc-text">2️⃣ THE DEEP WEIGHT PRIOR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3️⃣-DSC-Dense-Sparse-Convolution-for-Vectorized-Inference-of-Convolutional-Neural-Networks"><span class="toc-number">3.</span> <span class="toc-text">3️⃣ DSC: Dense-Sparse Convolution for Vectorized Inference of Convolutional Neural Networks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4️⃣-Efficient-Neural-Network-Compression"><span class="toc-number">4.</span> <span class="toc-text">4️⃣ Efficient Neural Network Compression</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5️⃣-ECC-Platform-Independent-Energy-Constrained-Deep-Neural-Network-Compression-via-a-Bilinear-Regression-Model"><span class="toc-number">5.</span> <span class="toc-text">5️⃣ ECC: Platform-Independent Energy-Constrained Deep Neural Network Compression via a Bilinear Regression Model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NETTAILOR-Tuning-the-architecture-not-just-the-weights"><span class="toc-number">6.</span> <span class="toc-text">NETTAILOR: Tuning the architecture, not just the weights</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/26/weekly-paper-10/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/26/weekly-paper-10/&text=每周论文 Vol.10"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/26/weekly-paper-10/&title=每周论文 Vol.10"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/26/weekly-paper-10/&is_video=false&description=每周论文 Vol.10"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每周论文 Vol.10&body=Check out this article: http://yoursite.com/2019/07/26/weekly-paper-10/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/26/weekly-paper-10/&title=每周论文 Vol.10"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/26/weekly-paper-10/&title=每周论文 Vol.10"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/26/weekly-paper-10/&title=每周论文 Vol.10"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/26/weekly-paper-10/&title=每周论文 Vol.10"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/26/weekly-paper-10/&name=每周论文 Vol.10&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
+</div>
+
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Multi-task Learning多任务同时进行不分主次，多个相关的任务放在一起学习，任务之间的知识共享和共同学习。  Cross-stitch Networks for Multi-task Learning   提出一个”cross-stitch”单元，学习的activation之间的线性映射，期望找到最优的share / task-specific特征组合。 方法：基于一个AlexNet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Colorjam">
+<meta property="og:url" content="http://yoursite.com/2019/08/01/Multi-task Learning/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="Multi-task Learning多任务同时进行不分主次，多个相关的任务放在一起学习，任务之间的知识共享和共同学习。  Cross-stitch Networks for Multi-task Learning   提出一个”cross-stitch”单元，学习的activation之间的线性映射，期望找到最优的share / task-specific特征组合。 方法：基于一个AlexNet">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190803113347827.png">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190803113821256.png">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190805213652297.png">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190807104608124.png">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190803164905002.png">
+<meta property="og:image" content="https://github.com/pedro-morgado/nettailor/raw/master/docs/figs/teaser_row.png">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190804144750941.png">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190805171712077.png">
+<meta property="og:updated_time" content="2019-08-07T02:46:08.550Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Colorjam">
+<meta name="twitter:description" content="Multi-task Learning多任务同时进行不分主次，多个相关的任务放在一起学习，任务之间的知识共享和共同学习。  Cross-stitch Networks for Multi-task Learning   提出一个”cross-stitch”单元，学习的activation之间的线性映射，期望找到最优的share / task-specific特征组合。 方法：基于一个AlexNet">
+<meta name="twitter:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190803113347827.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Colorjam</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/08/01/Quantization/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/07/26/weekly-paper-10/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/08/01/Multi-task Learning/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/08/01/Multi-task Learning/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/08/01/Multi-task Learning/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/08/01/Multi-task Learning/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/08/01/Multi-task Learning/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Multi-task-Learning"><span class="toc-number">1.</span> <span class="toc-text">Multi-task Learning</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-08-01T03:16:59.168Z" itemprop="datePublished">2019-08-01</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Multi-task-Learning"><a href="#Multi-task-Learning" class="headerlink" title="Multi-task Learning"></a>Multi-task Learning</h1><p>多任务同时进行不分主次，多个相关的任务放在一起学习，任务之间的知识共享和共同学习。</p>
+<ul>
+<li><p>Cross-stitch Networks for Multi-task Learning </p>
+<ul>
+<li>提出一个”cross-stitch”单元，学习的<strong>activation</strong>之间的线性映射，期望找到最优的share / task-specific特征组合。</li>
+<li>方法：基于一个AlexNet（one-task network），然后在两个任务上分别进行finetune获得网络A和B，引入corss-stitching。</li>
+<li>数据集和任务：<ul>
+<li>Semantic segmentation（SemSeg）and Surface Normal Prediction（SN）on NYU-v2 </li>
+<li>object detection and attribute prediction on PASCAL VOC 2008</li>
+</ul>
+</li>
+<li>实验：<ul>
+<li>初始值$\alpha$的影响，one-task / ensemble两个网络 / split architecture / MTL-shared</li>
+</ul>
+</li>
+</ul>
+<p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190803113347827.png" alt="image-20190803113347827"></p>
+<blockquote>
+<p>只考虑权重，没有考虑网络结构的影响。而且增加了模型大小。</p>
+</blockquote>
+</li>
+<li><p><strong>DAN</strong>: Incremental Learning Through Deep Adaptation (ICLR2018)</p>
+<p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190803113821256.png" alt="image-20190803113821256"></p>
+</li>
+<li><ul>
+<li><p>假设基于的是保持网络结构不变，在T1任务上训练好的网络N，通过改变网络权重能够迁移到T2任务。</p>
+</li>
+<li><p>方法：基于VGG-B，引入controller modules，封装了原先的卷积层，对原始权重做了一下线性变换，每个任务有一个二值变量$\alpha$，控制选择原始权重or新的权重。</p>
+</li>
+<li><p>数据集和任务：Caltech-256, CIFAR-10, Daimler, GTSR, Omniglot, Plankton imagery data, Human Sketch dataset, SVHN</p>
+</li>
+<li><p>实验：</p>
+<ul>
+<li>control-module中W的初始化方式</li>
+<li>base network的选择</li>
+<li>Visual Decathlon Challenge：</li>
+</ul>
+<blockquote>
+<p>不同于cross-stitch的jointly learning，而是one-by-one，在一个网络的基础上训练出另外一个。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>Learning multiple visual domains with residual adapters（NIPS2017）</p>
+</li>
+<li><p>Efficient parametrization of multi-domain deep neural networks（CVPR2018）</p>
+<p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190805213652297.png" alt="image-20190805213652297"></p>
+</li>
+</ul>
+<ul>
+<li><ul>
+<li>和👆一篇是同一个作者，不同的是一个上一篇用串行的adapaters，这篇用并行的。</li>
+<li>方法：基于ResNet结构引入residual adapters，引入较少的参数对feature进行了变换。</li>
+<li>实验：<ul>
+<li>adapters的位置（early / mid / late）</li>
+<li>和在各自任务上获得finetune网络进行比较</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>LEARNING TO SHARE: SIMULTANEOUS PARAMETER TYING AND SPARSIFICATION IN DEEP LEARNING （ICLR2018）</li>
+</ul>
+<ul>
+<li><p><strong>Piggyback</strong>: Adapting a Single Network to Multiple Tasks by Learning to Mask Weights</p>
+<p><a href="https://github.com/arunmallya/piggyback" target="_blank" rel="external">https://github.com/arunmallya/piggyback</a></p>
+<ul>
+<li>one-by-one learning</li>
+<li>每个卷积核学习一个mask（剪枝），mask的值为0和1（量化）</li>
+<li>数据集：CUBS / Stanford Cars / WikiArt / Sketch</li>
+<li>方法：不改变pretrained模型的backbone，学习binary mask，让卷积核稀疏以达到适应新数据集的目的。</li>
+</ul>
+<p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190807104608124.png" alt="image-20190807104608124"></p>
+</li>
+<li><p><strong>MTAN</strong>: End-to-End Multi-Task Learning with Attention  (cvpr2019)</p>
+<p><a href="https://github.com/lorenmt/mtan" target="_blank" rel="external">https://github.com/lorenmt/mtan</a></p>
+</li>
+</ul>
+<p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190803164905002.png" alt="image-20190803164905002"></p>
+<ul>
+<li><ul>
+<li>jointly learning，几个任务是同时训的。</li>
+<li>有一个backbone网络作为task-shared网络（本文采用SegNet），每个任务有对应的attention module。</li>
+<li>提出了DWA，动态平衡loss系数。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>Nerttailor (cvpr2019)</p>
+<p><a href="https://github.com/pedro-morgado/nettailor" target="_blank" rel="external">https://github.com/pedro-morgado/nettailor</a></p>
+<p><img src="https://github.com/pedro-morgado/nettailor/raw/master/docs/figs/teaser_row.png" alt="img"></p>
+<ul>
+<li><p>one-by-one learning，先在一个任务上训练完迁移到另一个任务上。</p>
+</li>
+<li><p>universarial network是在目标任务上fine-tune一个pre-trained网络，区别在于不仅改变权重，还改变了网络的结构。soft Attention+NAS。</p>
+</li>
+<li><p>动态改变网络结构，backbone是在一个域上训好的ResNet，通过搜索辅助单元。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190804144750941.png" alt="image-20190804144750941"></p>
+<ul>
+<li><p>Efficient parametrization of multi-domain deep neural networks</p>
+<p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20190805171712077.png" alt="image-20190805171712077"></p>
+<ul>
+<li>网络结构相同的网络，第一个卷积层不同（输入不同）</li>
+<li>通过权值共享的方式进行两个域模型的压缩。首先怼了GrOWL(Group weighted order lasso)的方法。</li>
+<li><strong>三个数据集：</strong>SUN-RGBD Dataset（RGB图像和深度图），UCF-101 Dataset（Youtube videos），HMDB-51 Dataset（video）</li>
+<li><strong>两个任务：</strong>RGB-D Scene Classification：Alex-Net，Action Recognition Tasks：VGG-16</li>
+</ul>
+</li>
+</ul>
+<p>weight sharing?</p>
+<p>基于特征</p>
+<ul>
+<li>不同任务特征转换，学习特征之间的线性组合（Cross-stitch、Deep Adaptation</li>
+<li><p>特征选择，稀疏（Group sparsity）</p>
+</li>
+<li><p>分解，低秩分解</p>
+</li>
+</ul>
+<p>基于任务聚类</p>
+<ul>
+<li>加权最近邻分类器。针对每个任务，通过调整权重实现最小化类内距离，最大化类间距离。每个任务之间构建转化矩阵A，其中$a_{ij}$表示使用任务$T_j$的分类器对任务$T_i$样本进行分类的繁花精度。基于矩阵A，将$m$个任务聚成$r$个簇。一个簇里各个任务的样本共享，每个簇训练出一个共同的加权最近邻分类器。</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Multi-task-Learning"><span class="toc-number">1.</span> <span class="toc-text">Multi-task Learning</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/08/01/Multi-task Learning/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/08/01/Multi-task Learning/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/08/01/Multi-task Learning/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/08/01/Multi-task Learning/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/08/01/Multi-task Learning/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
+</div>
+
+</html>
