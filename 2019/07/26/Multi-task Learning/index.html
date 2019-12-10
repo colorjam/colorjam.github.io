@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Multi-task Learning多任务同时进行不分主次，多个相关的任务放在一起学习，任务之间的知识共享和共同学习。  Cross-stitch Networks for Multi-task Learning   提出一个”cross-stitch”单元，学习的activation之间的线性映射，期望找到最优的share / task-specific特征组合。 方法：基于一个AlexNet">
+    <meta name="description" content="###  Multi-task Learning多任务同时进行不分主次，多个相关的任务放在一起学习，任务之间的知识共享和共同学习。  Cross-stitch Networks for Multi-task Learning   提出一个”cross-stitch”单元，学习的activation之间的线性映射，期望找到最优的share / task-specific特征组合。 方法：基于一个Al">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Colorjam">
-<meta property="og:url" content="http://yoursite.com/2019/08/01/Multi-task Learning/index.html">
+<meta property="og:title" content="Multi-task Learning">
+<meta property="og:url" content="http://yoursite.com/2019/07/26/Multi-task Learning/index.html">
 <meta property="og:site_name" content="Colorjam">
-<meta property="og:description" content="Multi-task Learning多任务同时进行不分主次，多个相关的任务放在一起学习，任务之间的知识共享和共同学习。  Cross-stitch Networks for Multi-task Learning   提出一个”cross-stitch”单元，学习的activation之间的线性映射，期望找到最优的share / task-specific特征组合。 方法：基于一个AlexNet">
+<meta property="og:description" content="###  Multi-task Learning多任务同时进行不分主次，多个相关的任务放在一起学习，任务之间的知识共享和共同学习。  Cross-stitch Networks for Multi-task Learning   提出一个”cross-stitch”单元，学习的activation之间的线性映射，期望找到最优的share / task-specific特征组合。 方法：基于一个Al">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190803113347827.png">
 <meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190803113821256.png">
@@ -21,10 +21,10 @@
 <meta property="og:image" content="https://github.com/pedro-morgado/nettailor/raw/master/docs/figs/teaser_row.png">
 <meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190804144750941.png">
 <meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190805171712077.png">
-<meta property="og:updated_time" content="2019-08-07T02:46:08.550Z">
+<meta property="og:updated_time" content="2019-12-10T17:00:50.702Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Colorjam">
-<meta name="twitter:description" content="Multi-task Learning多任务同时进行不分主次，多个相关的任务放在一起学习，任务之间的知识共享和共同学习。  Cross-stitch Networks for Multi-task Learning   提出一个”cross-stitch”单元，学习的activation之间的线性映射，期望找到最优的share / task-specific特征组合。 方法：基于一个AlexNet">
+<meta name="twitter:title" content="Multi-task Learning">
+<meta name="twitter:description" content="###  Multi-task Learning多任务同时进行不分主次，多个相关的任务放在一起学习，任务之间的知识共享和共同学习。  Cross-stitch Networks for Multi-task Learning   提出一个”cross-stitch”单元，学习的activation之间的线性映射，期望找到最优的share / task-specific特征组合。 方法：基于一个Al">
 <meta name="twitter:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20190803113347827.png">
     
     
@@ -45,7 +45,7 @@
         
     
     <!-- title -->
-    <title>Colorjam</title>
+    <title>Multi-task Learning</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -79,10 +79,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2019/09/17/weekly-paper-11/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2019/09/17/蒸馏乱炖/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/2019/07/26/weekly-paper-10/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/2019/07/26/The Reparameterization Trick/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -95,16 +95,16 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/08/01/Multi-task Learning/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/08/01/Multi-task Learning/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/08/01/Multi-task Learning/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/08/01/Multi-task Learning/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/08/01/Multi-task Learning/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/26/Multi-task Learning/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/26/Multi-task Learning/&text=Multi-task Learning"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/26/Multi-task Learning/&title=Multi-task Learning"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/26/Multi-task Learning/&is_video=false&description=Multi-task Learning"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Multi-task Learning&body=Check out this article: http://yoursite.com/2019/07/26/Multi-task Learning/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/26/Multi-task Learning/&title=Multi-task Learning"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/26/Multi-task Learning/&title=Multi-task Learning"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/26/Multi-task Learning/&title=Multi-task Learning"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/26/Multi-task Learning/&title=Multi-task Learning"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/26/Multi-task Learning/&name=Multi-task Learning&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -121,7 +121,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        
+        Multi-task Learning
     </h1>
 
 
@@ -133,7 +133,7 @@
       
     <div class="postdate">
       
-        <time datetime="2019-08-01T03:16:59.168Z" itemprop="datePublished">2019-08-01</time>
+        <time datetime="2019-07-26T15:48:10.000Z" itemprop="datePublished">2019-07-26</time>
         
       
     </div>
@@ -148,7 +148,8 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="Multi-task-Learning"><a href="#Multi-task-Learning" class="headerlink" title="Multi-task Learning"></a>Multi-task Learning</h1><p>多任务同时进行不分主次，多个相关的任务放在一起学习，任务之间的知识共享和共同学习。</p>
+    <p>### </p>
+<h1 id="Multi-task-Learning"><a href="#Multi-task-Learning" class="headerlink" title="Multi-task Learning"></a>Multi-task Learning</h1><p>多任务同时进行不分主次，多个相关的任务放在一起学习，任务之间的知识共享和共同学习。</p>
 <ul>
 <li><p>Cross-stitch Networks for Multi-task Learning </p>
 <ul>
@@ -305,16 +306,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/08/01/Multi-task Learning/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/08/01/Multi-task Learning/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/08/01/Multi-task Learning/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/08/01/Multi-task Learning/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/08/01/Multi-task Learning/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/08/01/Multi-task Learning/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/26/Multi-task Learning/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/26/Multi-task Learning/&text=Multi-task Learning"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/26/Multi-task Learning/&title=Multi-task Learning"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/26/Multi-task Learning/&is_video=false&description=Multi-task Learning"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Multi-task Learning&body=Check out this article: http://yoursite.com/2019/07/26/Multi-task Learning/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/26/Multi-task Learning/&title=Multi-task Learning"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/26/Multi-task Learning/&title=Multi-task Learning"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/26/Multi-task Learning/&title=Multi-task Learning"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/26/Multi-task Learning/&title=Multi-task Learning"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/26/Multi-task Learning/&name=Multi-task Learning&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

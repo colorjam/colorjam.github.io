@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2019/11/23/%E8%92%B8%E9%A6%8F%E4%B9%B1%E7%82%96/</loc>
+    <loc>http://yoursite.com/2019/09/17/%E8%92%B8%E9%A6%8F%E4%B9%B1%E7%82%96/</loc>
     
-    <lastmod>2019-12-01T03:24:12.748Z</lastmod>
+    <lastmod>2019-12-10T17:02:28.554Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/07/26/The%20Reparameterization%20Trick/</loc>
+    
+    <lastmod>2019-12-10T17:01:35.663Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/07/26/Multi-task%20Learning/</loc>
+    
+    <lastmod>2019-12-10T17:00:50.702Z</lastmod>
     
   </url>
   
@@ -23,30 +37,9 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/11/02/The%20Reparameterization%20Trick/</loc>
-    
-    <lastmod>2019-11-02T05:20:37.544Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/10/01/weekly-paper-12/</loc>
-    
-    <lastmod>2019-10-01T01:10:53.864Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2019/09/17/weekly-paper-11/</loc>
     
     <lastmod>2019-09-21T05:06:08.085Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/08/01/Multi-task%20Learning/</loc>
-    
-    <lastmod>2019-08-07T02:46:08.550Z</lastmod>
     
   </url>
   
