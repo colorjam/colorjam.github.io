@@ -2,16 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2019/08/01/Multi-task%20Learning/</loc>
+    <loc>http://yoursite.com/2019/11/23/%E8%92%B8%E9%A6%8F%E4%B9%B1%E7%82%96/</loc>
     
-    <lastmod>2019-08-07T02:46:08.550Z</lastmod>
+    <lastmod>2019-12-01T03:24:12.748Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/08/01/Quantization/</loc>
+    <loc>http://yoursite.com/2019/11/05/Scalable%20training%20of%20artificial%20neural%20networks%20with%20adaptive%20sparse%20connectivity%20inspired%20by%20network%20science/</loc>
     
-    <lastmod>2019-08-01T05:53:21.563Z</lastmod>
+    <lastmod>2019-11-15T11:20:47.822Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/11/02/Approximated%20Oracle%20FIlter%20Pruning/</loc>
+    
+    <lastmod>2019-11-04T10:51:09.066Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/11/02/The%20Reparameterization%20Trick/</loc>
+    
+    <lastmod>2019-11-02T05:20:37.544Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/10/01/weekly-paper-12/</loc>
+    
+    <lastmod>2019-10-01T01:10:53.864Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/09/17/weekly-paper-11/</loc>
+    
+    <lastmod>2019-09-21T05:06:08.085Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/08/01/Multi-task%20Learning/</loc>
+    
+    <lastmod>2019-08-07T02:46:08.550Z</lastmod>
     
   </url>
   
@@ -159,13 +194,6 @@
     <loc>http://yoursite.com/2019/05/11/weekly-paper-01/</loc>
     
     <lastmod>2019-05-12T09:01:21.046Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/05/05/linux-cat/</loc>
-    
-    <lastmod>2019-05-12T05:29:04.159Z</lastmod>
     
   </url>
   

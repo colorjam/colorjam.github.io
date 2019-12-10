@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="蒸馏乱炖参考RepDistiller，整理一下目前SOTA的蒸馏方法。  (KD) - Distilling the Knowledge in a Neural Network  Hinton提的，在温度的作用下，最小化T和S输出概率的交叉熵： 123p_s = F.log_softmax(y_s/T, dim=1)p_t = F.softmax(y_t/T, dim=1)loss = F.kl_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Colorjam">
+<meta property="og:url" content="http://yoursite.com/2019/11/23/蒸馏乱炖/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="蒸馏乱炖参考RepDistiller，整理一下目前SOTA的蒸馏方法。  (KD) - Distilling the Knowledge in a Neural Network  Hinton提的，在温度的作用下，最小化T和S输出概率的交叉熵： 123p_s = F.log_softmax(y_s/T, dim=1)p_t = F.softmax(y_t/T, dim=1)loss = F.kl_">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-12-01T03:24:12.748Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Colorjam">
+<meta name="twitter:description" content="蒸馏乱炖参考RepDistiller，整理一下目前SOTA的蒸馏方法。  (KD) - Distilling the Knowledge in a Neural Network  Hinton提的，在温度的作用下，最小化T和S输出概率的交叉熵： 123p_s = F.log_softmax(y_s/T, dim=1)p_t = F.softmax(y_t/T, dim=1)loss = F.kl_">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Colorjam</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/11/23/蒸馏乱炖/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/11/23/蒸馏乱炖/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#蒸馏乱炖"><span class="toc-number">1.</span> <span class="toc-text">蒸馏乱炖</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-23T07:22:29.837Z" itemprop="datePublished">2019-11-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="蒸馏乱炖"><a href="#蒸馏乱炖" class="headerlink" title="蒸馏乱炖"></a>蒸馏乱炖</h1><p>参考<a href="https://github.com/HobbitLong/RepDistiller" target="_blank" rel="external">RepDistiller</a>，整理一下目前SOTA的蒸馏方法。</p>
+<ol>
+<li><p><strong>(KD) - Distilling the Knowledge in a Neural Network </strong></p>
+<p>Hinton提的，在温度的作用下，最小化T和S输出概率的交叉熵：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">p_s = F.log_softmax(y_s/T, dim=<span class="number">1</span>)</div><div class="line">p_t = F.softmax(y_t/T, dim=<span class="number">1</span>)</div><div class="line">loss = F.kl_div(p_s, p_t, size_average=<span class="keyword">False</span>) * (T**<span class="number">2</span>) / y_s.shape[<span class="number">0</span>]</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p><strong>(FitNet) - Fitnets: hints for thin deep net,  _ICLR2015_</strong></p>
+<p>可以解决T和S的feature map尺寸不一致的问题，对S的feature map进行变换后，和T的feature map做MSE loss：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">regress_s = ConvReg(feat_s[opt.hint_layer].shape, feat_t[opt.hint_layer].shape)</div><div class="line">f_s = regress_s(feat_s[opt.hint_layer])</div><div class="line">f_t = feat_t[opt.hint_layer]</div><div class="line">loss = F.mse_loss(f_s, f_t)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p><strong>(AT) - Paying More Attention to Attention: Improving the Performance of Convolutional Neural Networks via Attention Transfer, _ICLR2017_</strong></p>
+<p>把T和S的信息压缩到spatial维度 $\mathcal{F}: R^{C \times H \times W} \rightarrow R^{H \times W}$，最小化它们之间的距离：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">at</span><span class="params">(x)</span>:</span> F.normalize(x.pow(<span class="number">2</span>).mean(<span class="number">1</span>).view(x.size(<span class="number">0</span>), <span class="number">-1</span>))</div><div class="line">loss = (at(f_s) - at(f_t)).pow(<span class="number">2</span>).mean()</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>(SP) - Similarity-Preserving Knowledge Distillation, _ICCV2019_</strong></p>
+<p>基于AT的改进，让T和S的信息在mini-batch的图像之间尽可能相似：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">bsz = f_s.shape[<span class="number">0</span>]</div><div class="line">f_s = f_s.view(bsz, <span class="number">-1</span>)</div><div class="line">f_t = f_t.view(bsz, <span class="number">-1</span>)</div><div class="line"></div><div class="line">G_s = F.normalize(torch.mm(f_s, torch.t(f_s)))</div><div class="line">G_t = F.normalize(torch.mm(f_t, torch.t(f_t)))</div><div class="line"></div><div class="line">loss = (G_t - G_s).pow(<span class="number">2</span>).view(<span class="number">-1</span>, <span class="number">1</span>).sum(<span class="number">0</span>) / (bsz * bsz)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p><strong>(CC) - Correlation Congruence for Knowledge Distillation, _ICCV2019_</strong></p>
+<p>在embedded space，不同层的feature map之间存在相关性，让这个相关性保持一致：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">embed_s = LinearEmbed(feat_s[<span class="number">-1</span>].shape[<span class="number">1</span>], opt.feat_dim)</div><div class="line">embed_t = LinearEmbed(feat_t[<span class="number">-1</span>].shape[<span class="number">1</span>], opt.feat_dim)</div><div class="line">delta = torch.abs(embed_s - embed_t)</div><div class="line">loss = torch.mean((delta[:<span class="number">-1</span>] * delta[<span class="number">1</span>:]).sum(<span class="number">1</span>))</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p><strong>(VID) - Variational Information Distillation for Knowledge Transfer, _CVPR2019_</strong></p>
+<p>最大化T和S之间的互信息$I(t ; s)$。这个互信息可以理解为已知学生S的信息，对T中知识不确定性的减少量。最大化互信息即希望这个不确定性减少得尽可能多。由于互信息中的概率分布难以计算，用变分概率进行近似，即最大化activations间的条件概率分布$\mathbb{E}_{t, s}[\log q(\boldsymbol{t} | s)]$。本文采用的$q$是高斯分布（这个过程用了很多log, exp进行数值转换，需要恶补数学）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">self.log_scale = torch.nn.Parameter(</div><div class="line">	np.log(np.exp(init_pred_var-eps)<span class="number">-1.0</span>) * torch.ones(num_target_channels)</div><div class="line">	)</div><div class="line"></div><div class="line">pred_mean = self.regressor(f_s)</div><div class="line">pred_var = torch.log(<span class="number">1.0</span>+torch.exp(self.log_scale))+self.eps</div><div class="line">pred_var = pred_var.view(<span class="number">1</span>, <span class="number">-1</span>, <span class="number">1</span>, <span class="number">1</span>)</div><div class="line">neg_log_prob = <span class="number">0.5</span>*(</div><div class="line">	(pred_mean-target)**<span class="number">2</span>/pred_var+torch.log(pred_var)</div><div class="line">	)</div><div class="line">loss = torch.mean(neg_log_prob)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p><strong>(RKD) - Relational Knowledge Distillation, _CVPR2019_</strong></p>
+<p>这个中心思想和CC是一致的，都是让T中信息的相对结构在S中也保持一致。但是CC首先对feature做了一个映射，本文提了pairwise的distance loss和ternary的angle loss。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">student = f_s.view(f_s.shape[<span class="number">0</span>], <span class="number">-1</span>)</div><div class="line">teacher = f_t.view(f_t.shape[<span class="number">0</span>], <span class="number">-1</span>)</div><div class="line"></div><div class="line"><span class="comment"># RKD distance loss</span></div><div class="line">t_d = self.pdist(teacher, squared=<span class="keyword">False</span>)</div><div class="line">mean_td = t_d[t_d &gt; <span class="number">0</span>].mean()</div><div class="line">t_d = t_d / mean_td</div><div class="line"></div><div class="line">d = self.pdist(student, squared=<span class="keyword">False</span>)</div><div class="line">mean_d = d[d &gt; <span class="number">0</span>].mean()</div><div class="line">d = d / mean_d</div><div class="line"></div><div class="line">loss_d = F.smooth_l1_loss(d, t_d)</div><div class="line"></div><div class="line"><span class="comment"># RKD Angle loss</span></div><div class="line"><span class="keyword">with</span> torch.no_grad():</div><div class="line">td = (teacher.unsqueeze(<span class="number">0</span>) - teacher.unsqueeze(<span class="number">1</span>))</div><div class="line">norm_td = F.normalize(td, p=<span class="number">2</span>, dim=<span class="number">2</span>)</div><div class="line">t_angle = torch.bmm(norm_td, norm_td.transpose(<span class="number">1</span>, <span class="number">2</span>)).view(<span class="number">-1</span>)</div><div class="line"></div><div class="line">sd = (student.unsqueeze(<span class="number">0</span>) - student.unsqueeze(<span class="number">1</span>))</div><div class="line">norm_sd = F.normalize(sd, p=<span class="number">2</span>, dim=<span class="number">2</span>)</div><div class="line">s_angle = torch.bmm(norm_sd, norm_sd.transpose(<span class="number">1</span>, <span class="number">2</span>)).view(<span class="number">-1</span>)</div><div class="line"></div><div class="line">loss_a = F.smooth_l1_loss(s_angle, t_angle)</div><div class="line"></div><div class="line">loss = self.w_d * loss_d + self.w_a * loss_a</div><div class="line"></div><div class="line"><span class="keyword">return</span> loss</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p><strong>(PKT) - Learning Deep Representations with Probabilistic Knowledge Transfer, _ECCV2018_</strong></p>
+<p>基于KDE计算features的条件概率分布，利用cosine similarity-based作为密度估计的核。用KL散度让老师和学生信息的条件概率分布相似。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Normalize each vector by its norm</span></div><div class="line">output_net_norm = torch.sqrt(torch.sum(output_net ** <span class="number">2</span>, dim=<span class="number">1</span>, keepdim=<span class="keyword">True</span>))</div><div class="line">output_net = output_net / (output_net_norm + eps)</div><div class="line">output_net[output_net != output_net] = <span class="number">0</span></div><div class="line"></div><div class="line">target_net_norm = torch.sqrt(torch.sum(target_net ** <span class="number">2</span>, dim=<span class="number">1</span>, keepdim=<span class="keyword">True</span>))</div><div class="line">target_net = target_net / (target_net_norm + eps)</div><div class="line">target_net[target_net != target_net] = <span class="number">0</span></div><div class="line"></div><div class="line"><span class="comment"># Calculate the cosine similarity</span></div><div class="line">model_similarity = torch.mm(output_net, output_net.transpose(<span class="number">0</span>, <span class="number">1</span>))</div><div class="line">target_similarity = torch.mm(target_net, target_net.transpose(<span class="number">0</span>, <span class="number">1</span>))</div><div class="line"></div><div class="line"><span class="comment"># Scale cosine similarity to 0..1</span></div><div class="line">model_similarity = (model_similarity + <span class="number">1.0</span>) / <span class="number">2.0</span></div><div class="line">target_similarity = (target_similarity + <span class="number">1.0</span>) / <span class="number">2.0</span></div><div class="line"></div><div class="line"><span class="comment"># Transform them into probabilities</span></div><div class="line">model_similarity = model_similarity / torch.sum(model_similarity, dim=<span class="number">1</span>, keepdim=<span class="keyword">True</span>)</div><div class="line">target_similarity = target_similarity / torch.sum(target_similarity, dim=<span class="number">1</span>, keepdim=<span class="keyword">True</span>)</div><div class="line"></div><div class="line"><span class="comment"># Calculate the KL-divergence</span></div><div class="line">loss = torch.mean(target_similarity * torch.log((target_similarity + eps) / (model_similarity + eps)))</div><div class="line"></div><div class="line"><span class="keyword">return</span> loss</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p><strong>(AB) - Knowledge Transfer via Distillation of Activation Boundaries Formed by Hidden Neurons, _AAAI2019_</strong></p>
+<p>本文探索的是权重的初始化方式。通过让T和S中activations大于0值的数量相似，提出了activation transfer loss。这个loss可以直接计算出来是一个常数不可导，于是将其转化为hinge loss，最小化activation transfer loss相当于以teacher的$\rho(x)$作为label，学习一个二值分类器。<br>$$<br>\begin{aligned} \mathcal{L}(\boldsymbol{I})=&amp; | \rho(\mathcal{T}(\boldsymbol{I})) \odot \sigma(\mu \mathbf{1}-\mathcal{S}(\boldsymbol{I})) \\ &amp;+(\mathbf{1}-\rho(\mathcal{T}(\boldsymbol{I}))) \odot \sigma(\mu \mathbf{1}+\mathcal{S}(\boldsymbol{I})) |_{2}^{2} \end{aligned}<br>$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">loss = ((source + self.margin) ** <span class="number">2</span> * ((source &gt; -self.margin) &amp; (target &lt;= <span class="number">0</span>)).float() +</div><div class="line">				(source - self.margin) ** <span class="number">2</span> * ((source &lt;= self.margin) &amp; (target &gt; <span class="number">0</span>)).float())</div><div class="line">loss = torch.abs(loss).sum()</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p><strong>(FT) - Paraphrasing Complex Network: Network Compression via Factor Transfer, _NIPS2018_</strong></p>
+<p>提出了两个卷积模块paraphraser和translator。前者通过无监督训练（最小化input feature maps和output feature masp）来提取teacher factors，后者用于提取student factors。(这个感觉没啥意思就不去看代码了）</p>
+</li>
+</ol>
+<ol>
+<li><p><strong>(FSP) - A Gift from Knowledge Distillation: Fast Optimization, Network Minimization and Transfer Learning, _CVPR2017_</strong></p>
+<p>本文的方法也是用于初始化S权重的。知识由两个不同层的features maps之间的inner product构成，最小化T和S的FSP矩阵。</p>
+</li>
+</ol>
+<ol>
+<li><p><strong>(NST) - Like what you like: knowledge distill via neuron selectivity transfer</strong></p>
+<p>本文提取的知识是neuron selectivity，通过最小化分布之间的Maximum Mean Discrepancy(MMD) metric 进行蒸馏。</p>
+</li>
+<li></li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#蒸馏乱炖"><span class="toc-number">1.</span> <span class="toc-text">蒸馏乱炖</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/11/23/蒸馏乱炖/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/11/23/蒸馏乱炖/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/11/23/蒸馏乱炖/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
+</div>
+
+</html>

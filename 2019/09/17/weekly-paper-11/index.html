@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1️⃣ EFFICIENT MULTI-OBJECTIVE NEURAL ARCHITEC-TURE SEARCH VIA LAMARCKIAN EVOLUTION 多目标优化 提出LEMONADE进化算法   计算复杂度度高 approximate network morphisms    LEMONADE 多目标：  expensive-to-evaluate objectives (vali">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每周论文 Vol.11">
+<meta property="og:url" content="http://yoursite.com/2019/09/17/weekly-paper-11/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="1️⃣ EFFICIENT MULTI-OBJECTIVE NEURAL ARCHITEC-TURE SEARCH VIA LAMARCKIAN EVOLUTION 多目标优化 提出LEMONADE进化算法   计算复杂度度高 approximate network morphisms    LEMONADE 多目标：  expensive-to-evaluate objectives (vali">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/var/folders/57/3j4d0hq111q_7_xy_7jvjbm40000gn/T/ro.nextwave.Snappy/ro.nextwave.Snappy/B6E153F0-7C45-490E-824D-FC3D5E9B6E50.png">
+<meta property="og:updated_time" content="2019-09-21T05:06:08.085Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="每周论文 Vol.11">
+<meta name="twitter:description" content="1️⃣ EFFICIENT MULTI-OBJECTIVE NEURAL ARCHITEC-TURE SEARCH VIA LAMARCKIAN EVOLUTION 多目标优化 提出LEMONADE进化算法   计算复杂度度高 approximate network morphisms    LEMONADE 多目标：  expensive-to-evaluate objectives (vali">
+<meta name="twitter:image" content="http://yoursite.com/var/folders/57/3j4d0hq111q_7_xy_7jvjbm40000gn/T/ro.nextwave.Snappy/ro.nextwave.Snappy/B6E153F0-7C45-490E-824D-FC3D5E9B6E50.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>每周论文 Vol.11</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/10/01/weekly-paper-12/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/08/01/Multi-task Learning/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/09/17/weekly-paper-11/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/09/17/weekly-paper-11/&text=每周论文 Vol.11"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/09/17/weekly-paper-11/&title=每周论文 Vol.11"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/09/17/weekly-paper-11/&is_video=false&description=每周论文 Vol.11"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每周论文 Vol.11&body=Check out this article: http://yoursite.com/2019/09/17/weekly-paper-11/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/09/17/weekly-paper-11/&title=每周论文 Vol.11"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/09/17/weekly-paper-11/&title=每周论文 Vol.11"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/09/17/weekly-paper-11/&title=每周论文 Vol.11"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/09/17/weekly-paper-11/&title=每周论文 Vol.11"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/09/17/weekly-paper-11/&name=每周论文 Vol.11&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-EFFICIENT-MULTI-OBJECTIVE-NEURAL-ARCHITEC-TURE-SEARCH-VIA-LAMARCKIAN-EVOLUTION"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ EFFICIENT MULTI-OBJECTIVE NEURAL ARCHITEC-TURE SEARCH VIA LAMARCKIAN EVOLUTION</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2️⃣-Deep-Learning-Architecture-Search-by-Neuro-Cell-based-Evolution-with-Function-Preserving-Mutations"><span class="toc-number">2.</span> <span class="toc-text">2️⃣ Deep Learning Architecture Search by Neuro-Cell-based Evolution with Function-Preserving Mutations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3️⃣-RETHINKING-THE-SMALLER-NORM-LESS-INFORMATIVE-ASSUMPTION-IN-CHANNEL-PRUNING-OF-CONVOLUTION-LAYERS-ICLR-2018"><span class="toc-number">3.</span> <span class="toc-text">3️⃣ RETHINKING THE SMALLER-NORM-LESS-INFORMATIVE ASSUMPTION IN CHANNEL PRUNING OF CONVOLUTION LAYERS [ICLR 2018]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4️⃣-Net2Net-ACCELERATING-LEARNING-VIA-KNOWLEDGE-TRANSFER"><span class="toc-number">4.</span> <span class="toc-text">4️⃣ Net2Net: ACCELERATING LEARNING VIA KNOWLEDGE TRANSFER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5️⃣-Data-Distillation-Towards-Omni-Supervised-Learning"><span class="toc-number">5.</span> <span class="toc-text">5️⃣ Data Distillation: Towards Omni-Supervised Learning</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        每周论文 Vol.11
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-09-17T02:07:11.000Z" itemprop="datePublished">2019-09-17</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="1️⃣-EFFICIENT-MULTI-OBJECTIVE-NEURAL-ARCHITEC-TURE-SEARCH-VIA-LAMARCKIAN-EVOLUTION"><a href="#1️⃣-EFFICIENT-MULTI-OBJECTIVE-NEURAL-ARCHITEC-TURE-SEARCH-VIA-LAMARCKIAN-EVOLUTION" class="headerlink" title="1️⃣ EFFICIENT MULTI-OBJECTIVE NEURAL ARCHITEC-TURE SEARCH VIA LAMARCKIAN EVOLUTION"></a>1️⃣ EFFICIENT MULTI-OBJECTIVE NEURAL ARCHITEC-TURE SEARCH VIA LAMARCKIAN EVOLUTION</h3><ul>
+<li>多目标优化<ul>
+<li>提出LEMONADE进化算法</li>
+</ul>
+</li>
+<li>计算复杂度度高<ul>
+<li>approximate network morphisms</li>
+</ul>
+</li>
+</ul>
+<p><strong>LEMONADE</strong></p>
+<p>多目标：</p>
+<ul>
+<li>expensive-to-evaluate objectives (valid error)</li>
+<li>cheap-to-evaluate objects (model size)</li>
+</ul>
+<p>变异：</p>
+<ul>
+<li><p>network morphism operators (insert convolution, insert skip connection, increase number of filters)</p>
+</li>
+<li><p>approximate network morphism operators (remove layer, prune filters, replace layer)</p>
+</li>
+</ul>
+<p>算法迭代：</p>
+<ol>
+<li><p>基于cheap目标计算概率分布，从该概率分布中采样出父代网络</p>
+</li>
+<li><p>利用NM/ANM变异生成子代网络</p>
+</li>
+<li><p>基于cheap目标计算概率分布，从该概率分布中采样出子代网络</p>
+</li>
+<li><p>对采样出的子代进行评估</p>
+</li>
+<li>利用当前种群和生成的子代计算Pareto front，生成新一代种群</li>
+</ol>
+<p>步骤1.中的概率分布基于一个核密度估计：<br>$$<br>p_{\mathcal{P}}(N)=\frac{c}{p_{K D E}\left(f_{\text {cheap }}(N)\right)}<br>$$<br>​                           </p>
+<p>进行两次采样的原因：变异出的子代网络cheap目标与父代很接近，很可能在$f_{cheap}$密度较低的区域生成子代。</p>
+<h3 id="2️⃣-Deep-Learning-Architecture-Search-by-Neuro-Cell-based-Evolution-with-Function-Preserving-Mutations"><a href="#2️⃣-Deep-Learning-Architecture-Search-by-Neuro-Cell-based-Evolution-with-Function-Preserving-Mutations" class="headerlink" title="2️⃣ Deep Learning Architecture Search by Neuro-Cell-based Evolution with Function-Preserving Mutations"></a>2️⃣ Deep Learning Architecture Search by Neuro-Cell-based Evolution with Function-Preserving Mutations</h3><p>本文主要是Chen et al.的扩展工作，加入了separable conv.</p>
+<p>假设：卷积网络由一系列神经元细胞构成，并且利用function-preserving操作不断进行杂交。</p>
+<p><strong>Function-Preseving</strong></p>
+<p>将teacher network $f$ 转化为student network $g$ 的当且仅当输出保持不变的操作：<br>$$<br>\forall \mathrm{x} : f\left(\mathrm{x} | \boldsymbol{\theta}^{(f)}\right)=g\left(\mathrm{x} | \boldsymbol{\theta}^{(g)}\right)<br>$$</p>
+<ul>
+<li><p>Layer Widening</p>
+<p>将filters数从o扩充到$o’$，扩充部分从已有部分中随机采样。</p>
+</li>
+</ul>
+<p>  $$<br>  V_{\cdot, \cdot, j}^{(l)}=\left\{\begin{array}{ll}{W_{\cdot, \cdot, j}^{(l)},} &amp; {j \leq o} \\ {W_{\cdot, \cdot, r}^{(l)}} &amp; {r \text { uniformly sampled from }\{1, \ldots, o\}}\end{array}\right.<br>  $$<br>  为了保持function-preserving特性，需要在下一层权重也做处理，除以重复数量$n_j$：<br>  $$<br>  V_{\cdot, j,}^{(l+1)}=\frac{1}{n_{j}} W_{\cdot, \cdot, j}^{(l+1)}<br>  $$<br>  本文将这个机制扩展到了separable conv</p>
+<ul>
+<li><p>Layer Deepening：也是扩展到了seprable conv</p>
+</li>
+<li><p>Kernel Widening： padding</p>
+</li>
+<li>Insert Skip Connections：添加权重为0的残差连接</li>
+<li>Branch Layers</li>
+</ul>
+<h3 id="3️⃣-RETHINKING-THE-SMALLER-NORM-LESS-INFORMATIVE-ASSUMPTION-IN-CHANNEL-PRUNING-OF-CONVOLUTION-LAYERS-ICLR-2018"><a href="#3️⃣-RETHINKING-THE-SMALLER-NORM-LESS-INFORMATIVE-ASSUMPTION-IN-CHANNEL-PRUNING-OF-CONVOLUTION-LAYERS-ICLR-2018" class="headerlink" title="3️⃣ RETHINKING THE SMALLER-NORM-LESS-INFORMATIVE ASSUMPTION IN CHANNEL PRUNING OF CONVOLUTION LAYERS [ICLR 2018]"></a>3️⃣ RETHINKING THE SMALLER-NORM-LESS-INFORMATIVE ASSUMPTION IN CHANNEL PRUNING OF CONVOLUTION LAYERS [ICLR 2018]</h3><p>本文分析了regularization可能失败并且适用范围局限的两个点：</p>
+<ol>
+<li><p>Model Reparameterization</p>
+<p>控制网络不同层的权重norm是很难的。需要与reparameterization patterns作斗争。以Lasso为例：<br>$$<br>\min _{\left\{W_{i}\right\}_{i=1}^{2 n}} \mathbb{E}_{(x, y) \sim \mathcal{D}}\left|W_{2 n} _ \ldots _ W_{2} _ W_{1} _ x-y\right|^{2}+\lambda \sum_{i=1}^{n}\left|W_{2 i}\right|_{j}<br>$$<br>由于解并不是唯一的，永远可以找到一个其它参数集合$\left\{W_{i}^{\prime}\right\}_{i=1}^{2 n}$ ，使得total loss更小，但也满足$l_0$norm不变：<br>$$<br>W_{i}^{\prime}=\alpha W_{i}, i=1,3, \ldots, 2 n-1 \text { and } W_{i}^{\prime}=W_{i} / \alpha, i=2,4, \ldots, 2 n<br>$$<br>基于梯度的学习在探索这样的reparameterization patterns时很不高效。</p>
+</li>
+<li><p>Transform Invariance</p>
+<p>batch normalization与weight regularization是不兼容的。<br>$$<br>x^{l+1}=\max \left\{\gamma \cdot \mathrm{BN}_{\mu, \sigma, \epsilon}\left(W^{l} * x^{l}\right)+\beta, 0\right\}<br>$$<br>当对$W^l$进行uniform scaling，由于后续的BN操作，实际上对输出$x^{l+1}$是没有影响的。此外，如果对多层权重一起norm，是不知道如何选择每层合适的penalty。</p>
+</li>
+</ol>
+<p>本文的剪枝策略是通过ISTA算法稀疏BN的$\gamma$。具体算法如下图所示：</p>
+<p><img src="/var/folders/57/3j4d0hq111q_7_xy_7jvjbm40000gn/T/ro.nextwave.Snappy/ro.nextwave.Snappy/B6E153F0-7C45-490E-824D-FC3D5E9B6E50.png" alt="B6E153F0-7C45-490E-824D-FC3D5E9B6E50"></p>
+<p>最主要的三个超参：</p>
+<ol>
+<li>$\mu$ (learning rate)：加速收敛和稀疏。但是过大会导致SGD不收敛。</li>
+<li>$\rho$ (sparse penalty)：收敛时的稀疏率。</li>
+<li>$\alpha$ (rescaling): 用于pre-trained模型的trick，可以让权重的优化慢于$\lambda$的优化。</li>
+</ol>
+<p>本文提了几点超参优化策略：</p>
+<ol>
+<li>检查 cross-enterpy loss 和 regularizatoin loss，选择一个$\rho$使得两个loss在一开始比较接近。</li>
+<li>选择一个合适的学习率。</li>
+<li>如果是pretrained模型，检查模型中 $\lambda$ 的平均数值，选择一个 $\alpha$ 使得 $\gamma^l$ 近似于$100\mu\lambda^l\rho$。</li>
+<li>如果在一开始 regularizatoin loss 线性下降，$\lambda$s 在0周围，可能decrease $\alpha$ and restart；如果$\lambda$s 的稀疏率很快接近100%，可能需要decrease $\rho$ and restart；如果 cross-entropy loss保持不变/快速上升，可能需要decrease $\mu$ or $\rho$ and restart。</li>
+</ol>
+<blockquote>
+<p>感觉和Network slimming相比，并没有什么很大的亮点。除了提出的$\gamma-W$ rescaling tirck，和用ISTA算法来稀疏$\gamma$。</p>
+</blockquote>
+<h3 id="4️⃣-Net2Net-ACCELERATING-LEARNING-VIA-KNOWLEDGE-TRANSFER"><a href="#4️⃣-Net2Net-ACCELERATING-LEARNING-VIA-KNOWLEDGE-TRANSFER" class="headerlink" title="4️⃣ Net2Net: ACCELERATING LEARNING VIA KNOWLEDGE TRANSFER"></a>4️⃣ Net2Net: ACCELERATING LEARNING VIA KNOWLEDGE TRANSFER</h3><p>本文提出了function-preseving transformations，让知识从小网络到大网络迁移。</p>
+<h3 id="5️⃣-Data-Distillation-Towards-Omni-Supervised-Learning"><a href="#5️⃣-Data-Distillation-Towards-Omni-Supervised-Learning" class="headerlink" title="5️⃣ Data Distillation: Towards Omni-Supervised Learning"></a>5️⃣ Data Distillation: Towards Omni-Supervised Learning</h3><p>self-training：在无标签数据上进行预测，并用它们来更新模型。</p>
+<p>本文通过ensemble多个data transformations来进行知识蒸馏。</p>
+<p>self-pruning？</p>
+<ol>
+<li>在labeled data上训练模型</li>
+<li>将讯号的模型应用在使用多个transformations的unlabeld data数据集上</li>
+<li>将unlabeld data的预测结果通过ensemble转为labels</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1️⃣-EFFICIENT-MULTI-OBJECTIVE-NEURAL-ARCHITEC-TURE-SEARCH-VIA-LAMARCKIAN-EVOLUTION"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ EFFICIENT MULTI-OBJECTIVE NEURAL ARCHITEC-TURE SEARCH VIA LAMARCKIAN EVOLUTION</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2️⃣-Deep-Learning-Architecture-Search-by-Neuro-Cell-based-Evolution-with-Function-Preserving-Mutations"><span class="toc-number">2.</span> <span class="toc-text">2️⃣ Deep Learning Architecture Search by Neuro-Cell-based Evolution with Function-Preserving Mutations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3️⃣-RETHINKING-THE-SMALLER-NORM-LESS-INFORMATIVE-ASSUMPTION-IN-CHANNEL-PRUNING-OF-CONVOLUTION-LAYERS-ICLR-2018"><span class="toc-number">3.</span> <span class="toc-text">3️⃣ RETHINKING THE SMALLER-NORM-LESS-INFORMATIVE ASSUMPTION IN CHANNEL PRUNING OF CONVOLUTION LAYERS [ICLR 2018]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4️⃣-Net2Net-ACCELERATING-LEARNING-VIA-KNOWLEDGE-TRANSFER"><span class="toc-number">4.</span> <span class="toc-text">4️⃣ Net2Net: ACCELERATING LEARNING VIA KNOWLEDGE TRANSFER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5️⃣-Data-Distillation-Towards-Omni-Supervised-Learning"><span class="toc-number">5.</span> <span class="toc-text">5️⃣ Data Distillation: Towards Omni-Supervised Learning</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/09/17/weekly-paper-11/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/09/17/weekly-paper-11/&text=每周论文 Vol.11"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/09/17/weekly-paper-11/&title=每周论文 Vol.11"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/09/17/weekly-paper-11/&is_video=false&description=每周论文 Vol.11"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=每周论文 Vol.11&body=Check out this article: http://yoursite.com/2019/09/17/weekly-paper-11/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/09/17/weekly-paper-11/&title=每周论文 Vol.11"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/09/17/weekly-paper-11/&title=每周论文 Vol.11"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/09/17/weekly-paper-11/&title=每周论文 Vol.11"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/09/17/weekly-paper-11/&title=每周论文 Vol.11"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/09/17/weekly-paper-11/&name=每周论文 Vol.11&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
+</div>
+
+</html>
