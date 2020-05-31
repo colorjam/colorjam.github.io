@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="剪枝是模型压缩的一个子领域，依据剪枝粒度可以分为非结构化/结构化剪枝，依据实现方法可以大致分为基于度量标准/基于重建误差/基于稀疏训练的剪枝，并且逐渐有向AutoML发展的趋势。由于实现方法在剪枝粒度上是有通用性的，本文主要从实现方法进行展开，康康近年来关于剪枝的有的没的，从个人角度对近几年经典的剪枝方法以及其拓展进行一下梳理。 基于度量标准的剪枝这类方法通常是提出一个判断神经元是否重要的度量标准">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模型压缩 | 剪枝乱炖">
+<meta property="og:url" content="http://yoursite.com/2019/12/11/pruning/index.html">
+<meta property="og:site_name" content="Colorjam">
+<meta property="og:description" content="剪枝是模型压缩的一个子领域，依据剪枝粒度可以分为非结构化/结构化剪枝，依据实现方法可以大致分为基于度量标准/基于重建误差/基于稀疏训练的剪枝，并且逐渐有向AutoML发展的趋势。由于实现方法在剪枝粒度上是有通用性的，本文主要从实现方法进行展开，康康近年来关于剪枝的有的没的，从个人角度对近几年经典的剪枝方法以及其拓展进行一下梳理。 基于度量标准的剪枝这类方法通常是提出一个判断神经元是否重要的度量标准">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/Users/colorjam/Desktop/image-20191213134813210.png">
+<meta property="og:updated_time" content="2019-12-13T08:48:14.012Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="模型压缩 | 剪枝乱炖">
+<meta name="twitter:description" content="剪枝是模型压缩的一个子领域，依据剪枝粒度可以分为非结构化/结构化剪枝，依据实现方法可以大致分为基于度量标准/基于重建误差/基于稀疏训练的剪枝，并且逐渐有向AutoML发展的趋势。由于实现方法在剪枝粒度上是有通用性的，本文主要从实现方法进行展开，康康近年来关于剪枝的有的没的，从个人角度对近几年经典的剪枝方法以及其拓展进行一下梳理。 基于度量标准的剪枝这类方法通常是提出一个判断神经元是否重要的度量标准">
+<meta name="twitter:image" content="http://yoursite.com/Users/colorjam/Desktop/image-20191213134813210.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>模型压缩 | 剪枝乱炖</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+    
+</head>
+
+<div id="particles-js"></div>
+<body class="max-width mx-auto px3 ltr">    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/15/NAG/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/12/11/pruning/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/12/11/pruning/&text=模型压缩 | 剪枝乱炖"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/12/11/pruning/&title=模型压缩 | 剪枝乱炖"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/12/11/pruning/&is_video=false&description=模型压缩 | 剪枝乱炖"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=模型压缩 | 剪枝乱炖&body=Check out this article: http://yoursite.com/2019/12/11/pruning/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/12/11/pruning/&title=模型压缩 | 剪枝乱炖"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/12/11/pruning/&title=模型压缩 | 剪枝乱炖"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/12/11/pruning/&title=模型压缩 | 剪枝乱炖"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/12/11/pruning/&title=模型压缩 | 剪枝乱炖"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/12/11/pruning/&name=模型压缩 | 剪枝乱炖&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于度量标准的剪枝"><span class="toc-number">1.</span> <span class="toc-text">基于度量标准的剪枝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于重建误差的剪枝"><span class="toc-number">2.</span> <span class="toc-text">基于重建误差的剪枝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于稀疏训练的剪枝"><span class="toc-number">3.</span> <span class="toc-text">基于稀疏训练的剪枝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Random-and-Rethinking"><span class="toc-number">4.</span> <span class="toc-text">Random and Rethinking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#走向NAS的自动化剪枝"><span class="toc-number">5.</span> <span class="toc-text">走向NAS的自动化剪枝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#剪枝之外"><span class="toc-number">6.</span> <span class="toc-text">剪枝之外</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Reference"><span class="toc-number">6.1.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        模型压缩 | 剪枝乱炖
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Colorjam</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-11T06:48:12.000Z" itemprop="datePublished">2019-12-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>剪枝是模型压缩的一个子领域，依据剪枝粒度可以分为非结构化/结构化剪枝，依据实现方法可以大致分为基于度量标准/基于重建误差/基于稀疏训练的剪枝，并且逐渐有向AutoML发展的趋势。由于实现方法在剪枝粒度上是有通用性的，本文主要从实现方法进行展开，康康近年来关于剪枝的有的没的，从个人角度对近几年经典的剪枝方法以及其拓展进行一下梳理。</p>
+<h2 id="基于度量标准的剪枝"><a href="#基于度量标准的剪枝" class="headerlink" title="基于度量标准的剪枝"></a>基于度量标准的剪枝</h2><p>这类方法通常是提出一个判断神经元是否重要的度量标准，依据这个标准计算出衡量神经元重要性的值，将不重要的神经元剪掉。在神经网络中可以用于度量的值主要分为3大块：<strong>Weight / Activation / Gradient</strong>。各种神奇的组合就产出了各种metric玩法。</p>
+<blockquote>
+<p>这里的神经元可以为非结构化剪枝中的单个weight亦或结构化剪枝中的整个filter。</p>
+</blockquote>
+<p><strong>Weight：</strong>基于结构化剪枝中比较经典的方法是<a href="https://arxiv.org/pdf/1608.08710.pdf" target="_blank" rel="external">Pruning Filters for Efficient ConvNets</a>(ICLR2017)，基于L1-norm判断filter的重要性。<a href="https://arxiv.org/pdf/1811.00250.pdf" target="_blank" rel="external">Filter Pruning via Geometric Median for Deep Convolutional Neural Networks Acceleration</a>(CVPR2019) 把绝对重要性拉到相对层面，认为与其他filters太相似的filter不重要。</p>
+<p><strong>Activation：</strong><a href="https://arxiv.org/abs/1607.03250" target="_blank" rel="external">Network trimming: A data-driven neuron pruning approach towards efficient deep architectures</a> 用activations中0的比例 (Average Percentage of Zeros, APoZ)作为度量标准，<a href="https://arxiv.org/abs/1706.05791" target="_blank" rel="external">An Entropy-based Pruning Method for CNN Compression</a> 则利用信息熵进行剪枝。</p>
+<p><strong>Gradient：</strong>这类方法通常从Loss出发寻找对损失影响最小的神经元。将目标函数用泰勒展开的方法可以追溯到上世纪90年代初，比如Lecun的<a href="http://yann.lecun.com/exdb/publis/pdf/lecun-90b.pdf" target="_blank" rel="external">Optimal Brain Damage</a> 和 <a href="https://authors.library.caltech.edu/54983/3/647-second-order-derivatives-for-network-pruning-optimal-brain-surgeon%281%29.pdf" target="_blank" rel="external">Second order derivatives for network pruning: Optimal Brain Surgeon </a>。近年来比较有代表性的就是<a href="https://arxiv.org/abs/1611.06440" target="_blank" rel="external">Pruning Convolutional Neural Networks for Resource Efficient</a>(ICLR2017)，对activation在0点进行泰勒展开。原作者也很好的向我们展现了如何优雅地进行方法迁移 <a href="https://arxiv.org/abs/1906.10771" target="_blank" rel="external">Importance Estimation for Neural Network Pruning</a>(CVPR2019)，换成weight的展开再加个平方。类似的方法还有 <a href="https://arxiv.org/abs/1801.05787" target="_blank" rel="external">Faster gaze prediction with dense networks and Fisher pruning</a>，用Fisher信息来近似Hessian矩阵。<a href="https://arxiv.org/abs/1810.02340" target="_blank" rel="external">SNIP: Single-shot Network Pruning based on Connection Sensitivity</a>(ICLR2019)则直接利用导数对随机初始化的权重进行非结构化剪枝。相关工作同样可以追溯到上世纪80年代末<a href="https://papers.nips.cc/paper/119-skeletonization-a-technique-for-trimming-the-fat-from-a-network-via-relevance-assessment" target="_blank" rel="external">Skeletonization: A Technique for Trimming the Fat from a Network via Relevance Assessment</a>(NIPS1988)。历史总是惊人的相似：</p>
+<p><img src="/Users/colorjam/Desktop/image-20191213134813210.png" alt="image-20191213134813210"></p>
+<p>还有一些考虑实际硬件部署并结合度量标准进行剪枝的方法，对网络层的剪枝顺序进行了选择。<a href="https://arxiv.org/pdf/1611.05128.pdf" target="_blank" rel="external">Designing Energy-Efficient Convolutional Neural Networks using Energy-Aware Pruning</a>(CVPR2017)利用每层的energy consumption来决定剪枝顺序，<a href="https://arxiv.org/abs/1804.03230" target="_blank" rel="external">NetAdapt: Platform-Aware Neural Network Adaptation for Mobile Applications</a>(ECCV2018)建立了latency的表，利用贪心的方式决定该剪的层。</p>
+<h2 id="基于重建误差的剪枝"><a href="#基于重建误差的剪枝" class="headerlink" title="基于重建误差的剪枝"></a>基于重建误差的剪枝</h2><p>这类方法通过最小化特征输出的重建误差来确定哪些filters要进行剪裁，即找到当前层对后面的网络层输出没啥影响的信息。<a href="https://arxiv.org/abs/1707.06342" target="_blank" rel="external">ThiNet: A Filter Level Pruning Method for Deep Neural Network Compression</a> 采用贪心法，<a href="https://arxiv.org/abs/1707.06168" target="_blank" rel="external">Channel Pruning for Accelerating Very Deep Neural Networks</a>(ICLR2017) 则采用Lasso regression。<a href="https://arxiv.org/abs/1711.05908" target="_blank" rel="external">NISP: Pruning Networks using Neuron Importance Score Propagation</a>(CVPR2018) 通过最小化网络倒数第二层的重建误差，并将反向传播的误差累积考虑在内，来决定前面哪些filters需要裁剪。</p>
+<h2 id="基于稀疏训练的剪枝"><a href="#基于稀疏训练的剪枝" class="headerlink" title="基于稀疏训练的剪枝"></a>基于稀疏训练的剪枝</h2><p>这类方法采用训练的方式，结合各种regularizer来让网络的权重变得稀疏，于是可以将接近于0的值剪掉。<a href="https://arxiv.org/abs/1608.03665" target="_blank" rel="external">Learning Structured Sparsity in Deep Neural Networks</a> 用group Lasso进行结构化稀疏，包括filters, channels, filter shapes, depth。 <a href="https://arxiv.org/abs/1707.01213" target="_blank" rel="external">Data-Driven Sparse Structure Selection for Deep Neural Networks</a>(ECCV2018)通过引入可学习的mask，用APG算法来稀疏mask达到结构化剪枝。由于每个通道的输出都会经过BN，可以巧妙地直接稀疏BN的scaling factor，比如 <a href="https://arxiv.org/abs/1708.06519" target="_blank" rel="external">Learning Efficient Convolutional Networks through Network Slimming</a>(ICCV2017) 采用L1 regularizer，<a href="https://arxiv.org/abs/1802.00124" target="_blank" rel="external">Rethinking the Smaller-Norm-Less-Informative Assumption in Channel Pruning of Convolution Layers</a>(ICLR2018) 则采用ISTA来进行稀疏。<a href="https://arxiv.org/abs/1711.06798" target="_blank" rel="external">MorphNet: Fast &amp; Simple Resource-Constrained Structure Learning of Deep Networks</a>(CVPR2018) 也是直接利用L1 regularizer，但是结合了MobileNet中的width-multiplier，加上了shink-expand操作，能够更好的满足资源限制。</p>
+<h2 id="Random-and-Rethinking"><a href="#Random-and-Rethinking" class="headerlink" title="Random and Rethinking"></a>Random and Rethinking</h2><p>有采用各种剪枝方法的就有和这些剪枝方法对着干的。<a href="https://arxiv.org/pdf/1801.10447.pdf" target="_blank" rel="external">Recovering from Random Pruning: On the Plasticity of Deep Convolutional Neural Networks</a> 就表明了度量标准都没啥用，随机赛高。<a href="">Rethinking the Value of Network Pruning</a>(ICLR2019) 则表示剪枝策略实际上是为了获得网络结构，挑战了传统的 train-prune-finetune的剪枝流程。<a href="https://arxiv.org/abs/1909.12579" target="_blank" rel="external">Pruning from Scratch</a> 则直接用Network Slimming的方法对训练过程中的剪枝结构进行了一波分析，发现直接采用random初始化的网络权重能够获得更丰富的剪枝结构。</p>
+<h2 id="走向NAS的自动化剪枝"><a href="#走向NAS的自动化剪枝" class="headerlink" title="走向NAS的自动化剪枝"></a>走向NAS的自动化剪枝</h2><p>从<a href="https://arxiv.org/abs/1802.03494" target="_blank" rel="external">AMC: AutoML for Model Compression and Acceleration on Mobile Devices</a>[ECCV2018]开始将强化学习引入剪枝，剪枝的研究开始套上各种Auto的帽子，玩法更是层出不穷。<a href="https://arxiv.org/abs/1903.11728" target="_blank" rel="external">AutoSlim: Towards One-Shot Architecture Search for Channel Numbers</a>先训练出一个slimmable model（类似NAS中的SuperNet <a href="https://arxiv.org/abs/1908.09791" target="_blank" rel="external">Once for All: Train One Network and Specialize it for Efficient Deployment</a>），继而通过贪心的方式逐步对网络进行裁剪。 <a href="https://arxiv.org/abs/1905.09717" target="_blank" rel="external">Network Pruning via Transformable Architecture Search</a>(NIPS2019) 则把NAS可导的一套迁移过来做剪枝。<a href="http://proceedings.mlr.press/v97/ding19a.html" target="_blank" rel="external">Approximated Oracle Filter Pruning for Destructive CNN Width Optimization</a>(ICML2019)平行操作网络的所有层，用二分搜索的方式确定每层的剪枝数。<a href="https://arxiv.org/pdf/1911.07478.pdf" target="_blank" rel="external">Fine-Grained Neural Architecture Search</a>把NAS的粒度降到了通道，包含了空的操作即剪枝。还有各种拿进化来做的也就不提了。</p>
+<p>此外，还有基于信息瓶颈的方法<a href="https://arxiv.org/abs/1802.10399" target="_blank" rel="external">Compressing Neural Networks using the Variational Information Bottleneck</a>(ICML2018)，聚类的方法<a href="http://openaccess.thecvf.com/content_CVPR_2019/html/Ding_Centripetal_SGD_for_Pruning_Very_Deep_Convolutional_Networks_With_Complicated_CVPR_2019_paper.html" target="_blank" rel="external">Centripetal SGD for Pruning Very Deep Convolutional Networks with Complicated Structure</a>(CPVR2019)，等等等等等……</p>
+<h2 id="剪枝之外"><a href="#剪枝之外" class="headerlink" title="剪枝之外"></a>剪枝之外</h2><p><strong>提升精度：</strong> 利用剪枝的方式来提升模型精度，比如<a href="https://arxiv.org/abs/1607.04381" target="_blank" rel="external">DSD: Dense-Sparse-Dense Training for Deep Neural Networks</a>(ICLR2017)利用非结构化剪枝，阶段性的砍掉某些权重再恢复。稀疏训练<a href="https://arxiv.org/abs/1907.04840" target="_blank" rel="external">Sparse Networks from Scratch: Faster Training without Losing Performance</a>在训练过程中保持网络的稀疏率不变，动态调整层间的稀疏率。</p>
+<p><strong>动态结构：</strong>不同的输入图片可以走网络中的不同结构。<a href="https://arxiv.org/abs/1711.08393" target="_blank" rel="external">BlockDrop: Dynamic Inference Paths in Residual Networks</a>(CVPR2018)引入一个Policy Network，以Block为单位进行选择。<a href="https://openreview.net/pdf?id=BJxh2j0qYm" target="_blank" rel="external">Dynamic Channel Pruning: Feature Boosting and Suppression</a>(ICLR2019)引入SEBlock，以Channel为单位进行选择。<a href="https://arxiv.org/abs/1908.06294" target="_blank" rel="external">Improved Techniques for Training Adaptive Deep Networks</a>采用截断式的选择，简单的图片采用靠前的网路层解决，复杂的加入后面得网络层。</p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="https://blog.csdn.net/jinzhuojun/article/details/100621397" target="_blank" rel="external">闲话模型压缩之网络剪枝（Network Pruning）篇</a></p>
+<p><a href="https://draveness.me/sketch-and-sketch" target="_blank" rel="external">技术文章配图指南</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于度量标准的剪枝"><span class="toc-number">1.</span> <span class="toc-text">基于度量标准的剪枝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于重建误差的剪枝"><span class="toc-number">2.</span> <span class="toc-text">基于重建误差的剪枝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于稀疏训练的剪枝"><span class="toc-number">3.</span> <span class="toc-text">基于稀疏训练的剪枝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Random-and-Rethinking"><span class="toc-number">4.</span> <span class="toc-text">Random and Rethinking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#走向NAS的自动化剪枝"><span class="toc-number">5.</span> <span class="toc-text">走向NAS的自动化剪枝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#剪枝之外"><span class="toc-number">6.</span> <span class="toc-text">剪枝之外</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Reference"><span class="toc-number">6.1.</span> <span class="toc-text">Reference</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/12/11/pruning/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/12/11/pruning/&text=模型压缩 | 剪枝乱炖"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/12/11/pruning/&title=模型压缩 | 剪枝乱炖"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/12/11/pruning/&is_video=false&description=模型压缩 | 剪枝乱炖"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=模型压缩 | 剪枝乱炖&body=Check out this article: http://yoursite.com/2019/12/11/pruning/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/12/11/pruning/&title=模型压缩 | 剪枝乱炖"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/12/11/pruning/&title=模型压缩 | 剪枝乱炖"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/12/11/pruning/&title=模型压缩 | 剪枝乱炖"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/12/11/pruning/&title=模型压缩 | 剪枝乱炖"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/12/11/pruning/&name=模型压缩 | 剪枝乱炖&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Colorjam
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- particles -->
+<script src="/lib/particles/particles.min.js"></script>
+<script type="text/javascript">
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+            "value": 60,
+            "density": {
+                "enable": true,
+                "value_area": 1200
+            }
+            },
+            "color": {
+            "value": "#d25e5e"
+            },
+            "shape": {
+            "type": "circle",
+            "stroke": {
+                "width": 0,
+                "color": "#000000"
+            },
+            "polygon": {
+                "nb_sides": 3
+            },
+            "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+            }
+            },
+            "opacity": {
+            "value": 0.35,
+            "random": false,
+            "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+            }
+            },
+            "size": {
+            "value": 2,
+            "random": true,
+            "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+            }
+            },
+            "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#e88181",
+            "opacity": 0.352750653390415,
+            "width": 0.9620472365193136
+            },
+            "move": {
+            "enable": true,
+            "speed": 6,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+            }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+            "onhover": {
+                "enable": true,
+                "mode": "repulse"
+            },
+            "onclick": {
+                "enable": true,
+                "mode": "push"
+            },
+            "resize": true
+            },
+            "modes": {
+            "grab": {
+                "distance": 400,
+                "line_linked": {
+                "opacity": 1
+                }
+            },
+            "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+            },
+            "repulse": {
+                "distance": 200,
+                "duration": 0.4
+            },
+            "push": {
+                "particles_nb": 4
+            },
+            "remove": {
+                "particles_nb": 2
+            }
+            }
+        },
+        "retina_detect": true
+        });
+</script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+<div style="width:300px;margin:0 auto; padding:20px 0;">
+  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
+</div>
+
+</html>
