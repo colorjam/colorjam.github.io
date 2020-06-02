@@ -6,19 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Approximated Oracle FIlter Pruning本文提出了AOFP框架，通过binary search搜索下一个剪枝filters，并且同时finetune模型。  每个网络层$i$，利用前一层的输出和当前层的filters做如下映射：$$\boldsymbol{M}^{(i)}=\zeta^{(i)}\left(\boldsymbol{M}^{(i-1)}, \mathcal">
+    <meta name="description" content="###  本文提出了AOFP框架，通过binary search搜索下一个剪枝filters，并且同时finetune模型。  每个网络层$i$，利用前一层的输出和当前层的filters做如下映射：$$\boldsymbol{M}^{(i)}=\zeta^{(i)}\left(\boldsymbol{M}^{(i-1)}, \mathcal{F}_{i}\right)$$用$T$来代表filter">
+<meta name="keywords" content="paper">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Colorjam">
-<meta property="og:url" content="http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/index.html">
+<meta property="og:title" content="Approximated Oracle FIlter Pruning">
+<meta property="og:url" content="http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/index.html">
 <meta property="og:site_name" content="Colorjam">
-<meta property="og:description" content="Approximated Oracle FIlter Pruning本文提出了AOFP框架，通过binary search搜索下一个剪枝filters，并且同时finetune模型。  每个网络层$i$，利用前一层的输出和当前层的filters做如下映射：$$\boldsymbol{M}^{(i)}=\zeta^{(i)}\left(\boldsymbol{M}^{(i-1)}, \mathcal">
+<meta property="og:description" content="###  本文提出了AOFP框架，通过binary search搜索下一个剪枝filters，并且同时finetune模型。  每个网络层$i$，利用前一层的输出和当前层的filters做如下映射：$$\boldsymbol{M}^{(i)}=\zeta^{(i)}\left(\boldsymbol{M}^{(i-1)}, \mathcal{F}_{i}\right)$$用$T$来代表filter">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20191102155014824.png">
 <meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20191104142609953.png">
-<meta property="og:updated_time" content="2019-11-04T10:51:09.066Z">
+<meta property="og:updated_time" content="2020-06-02T14:38:30.860Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Colorjam">
-<meta name="twitter:description" content="Approximated Oracle FIlter Pruning本文提出了AOFP框架，通过binary search搜索下一个剪枝filters，并且同时finetune模型。  每个网络层$i$，利用前一层的输出和当前层的filters做如下映射：$$\boldsymbol{M}^{(i)}=\zeta^{(i)}\left(\boldsymbol{M}^{(i-1)}, \mathcal">
+<meta name="twitter:title" content="Approximated Oracle FIlter Pruning">
+<meta name="twitter:description" content="###  本文提出了AOFP框架，通过binary search搜索下一个剪枝filters，并且同时finetune模型。  每个网络层$i$，利用前一层的输出和当前层的filters做如下映射：$$\boldsymbol{M}^{(i)}=\zeta^{(i)}\left(\boldsymbol{M}^{(i-1)}, \mathcal{F}_{i}\right)$$用$T$来代表filter">
 <meta name="twitter:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20191102155014824.png">
     
     
@@ -39,7 +40,7 @@
         
     
     <!-- title -->
-    <title>Colorjam</title>
+    <title>Approximated Oracle FIlter Pruning</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -65,7 +66,7 @@
          
           <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articles</a></li>
         
       </ul>
     </span>
@@ -73,10 +74,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2019/07/26/weekly-paper-10/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/2019/09/17/weekly-paper-11/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/2019/07/20/evolution-strategies/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -89,21 +90,21 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&text=Approximated Oracle FIlter Pruning"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&title=Approximated Oracle FIlter Pruning"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&is_video=false&description=Approximated Oracle FIlter Pruning"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Approximated Oracle FIlter Pruning&body=Check out this article: http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&title=Approximated Oracle FIlter Pruning"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&title=Approximated Oracle FIlter Pruning"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&title=Approximated Oracle FIlter Pruning"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&title=Approximated Oracle FIlter Pruning"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&name=Approximated Oracle FIlter Pruning&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Approximated-Oracle-FIlter-Pruning"><span class="toc-number">1.</span> <span class="toc-text">Approximated Oracle FIlter Pruning</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#存在问题："><span class="toc-number">1.0.1.</span> <span class="toc-text">存在问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决问题："><span class="toc-number">1.0.2.</span> <span class="toc-text">解决问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具体操作："><span class="toc-number">1.0.3.</span> <span class="toc-text">具体操作：</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#存在问题："><span class="toc-number">1.</span> <span class="toc-text">存在问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决问题："><span class="toc-number">2.</span> <span class="toc-text">解决问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具体操作："><span class="toc-number">3.</span> <span class="toc-text">具体操作：</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -115,7 +116,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        
+        Approximated Oracle FIlter Pruning
     </h1>
 
 
@@ -127,7 +128,7 @@
       
     <div class="postdate">
       
-        <time datetime="2019-11-02T07:18:15.182Z" itemprop="datePublished">2019-11-02</time>
+        <time datetime="2019-07-24T15:48:10.000Z" itemprop="datePublished">2019-07-24</time>
         
       
     </div>
@@ -136,13 +137,19 @@
       
 
       
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/paper/">paper</a>
+    </div>
+
 
     </div>
   </header>
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="Approximated-Oracle-FIlter-Pruning"><a href="#Approximated-Oracle-FIlter-Pruning" class="headerlink" title="Approximated Oracle FIlter Pruning"></a>Approximated Oracle FIlter Pruning</h1><p>本文提出了AOFP框架，通过binary search搜索下一个剪枝filters，并且同时finetune模型。</p>
+    <p>### </p>
+<p>本文提出了AOFP框架，通过binary search搜索下一个剪枝filters，并且同时finetune模型。</p>
 <p><img src="/Users/colorjam/Library/Application Support/typora-user-images/image-20191102155014824.png" alt="image-20191102155014824"></p>
 <p>每个网络层$i$，利用前一层的输出和当前层的filters做如下映射：<br>$$<br>\boldsymbol{M}^{(i)}=\zeta^{(i)}\left(\boldsymbol{M}^{(i-1)}, \mathcal{F}_{i}\right)<br>$$<br>用$T$来代表filter的重要性，oracle的标准：<br>$$<br>T(\boldsymbol{F})=\sum_{(x, y) \in(X, Y)}(L(x, y, \mathcal{F}-\boldsymbol{F})-L(x, y, \mathcal{F}))<br>$$<br>每次只砍一个filters太耗时，引入剪枝粒度$g$，对少数filters一起剪枝。</p>
 <h3 id="存在问题："><a href="#存在问题：" class="headerlink" title="存在问题："></a>存在问题：</h3><ol>
@@ -214,27 +221,27 @@
          
           <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articles</a></li>
         
       </ul>
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Approximated-Oracle-FIlter-Pruning"><span class="toc-number">1.</span> <span class="toc-text">Approximated Oracle FIlter Pruning</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#存在问题："><span class="toc-number">1.0.1.</span> <span class="toc-text">存在问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决问题："><span class="toc-number">1.0.2.</span> <span class="toc-text">解决问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具体操作："><span class="toc-number">1.0.3.</span> <span class="toc-text">具体操作：</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#存在问题："><span class="toc-number">1.</span> <span class="toc-text">存在问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决问题："><span class="toc-number">2.</span> <span class="toc-text">解决问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具体操作："><span class="toc-number">3.</span> <span class="toc-text">具体操作：</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/11/02/Approximated Oracle FIlter Pruning/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&text=Approximated Oracle FIlter Pruning"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&title=Approximated Oracle FIlter Pruning"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&is_video=false&description=Approximated Oracle FIlter Pruning"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Approximated Oracle FIlter Pruning&body=Check out this article: http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&title=Approximated Oracle FIlter Pruning"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&title=Approximated Oracle FIlter Pruning"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&title=Approximated Oracle FIlter Pruning"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&title=Approximated Oracle FIlter Pruning"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/07/24/Approximated Oracle FIlter Pruning/&name=Approximated Oracle FIlter Pruning&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -262,7 +269,7 @@
          
           <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articles</a></li>
         
       </ul>
     </nav>
@@ -435,8 +442,4 @@
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 </body>
-<div style="width:300px;margin:0 auto; padding:20px 0;">
-  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
-</div>
-
 </html>

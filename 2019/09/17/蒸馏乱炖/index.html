@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="###  蒸馏乱炖参考RepDistiller，整理一下目前SOTA的蒸馏方法。  (KD) - Distilling the Knowledge in a Neural Network  Hinton提的，在温度的作用下，最小化T和S输出概率的交叉熵： 123p_s = F.log_softmax(y_s/T, dim=1)p_t = F.softmax(y_t/T, dim=1)loss =">
+    <meta name="description" content="参考RepDistiller，整理一下目前SOTA的蒸馏方法。  (KD) - Distilling the Knowledge in a Neural Network  Hinton提的，在温度的作用下，最小化T和S输出概率的交叉熵： 123p_s = F.log_softmax(y_s/T, dim=1)p_t = F.softmax(y_t/T, dim=1)loss = F.kl_div(">
 <meta property="og:type" content="article">
-<meta property="og:title" content="蒸馏乱炖">
+<meta property="og:title" content="模型压缩 | 蒸馏乱炖">
 <meta property="og:url" content="http://yoursite.com/2019/09/17/蒸馏乱炖/index.html">
 <meta property="og:site_name" content="Colorjam">
-<meta property="og:description" content="###  蒸馏乱炖参考RepDistiller，整理一下目前SOTA的蒸馏方法。  (KD) - Distilling the Knowledge in a Neural Network  Hinton提的，在温度的作用下，最小化T和S输出概率的交叉熵： 123p_s = F.log_softmax(y_s/T, dim=1)p_t = F.softmax(y_t/T, dim=1)loss =">
+<meta property="og:description" content="参考RepDistiller，整理一下目前SOTA的蒸馏方法。  (KD) - Distilling the Knowledge in a Neural Network  Hinton提的，在温度的作用下，最小化T和S输出概率的交叉熵： 123p_s = F.log_softmax(y_s/T, dim=1)p_t = F.softmax(y_t/T, dim=1)loss = F.kl_div(">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-10T17:02:28.554Z">
+<meta property="og:updated_time" content="2020-06-02T14:40:13.448Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="蒸馏乱炖">
-<meta name="twitter:description" content="###  蒸馏乱炖参考RepDistiller，整理一下目前SOTA的蒸馏方法。  (KD) - Distilling the Knowledge in a Neural Network  Hinton提的，在温度的作用下，最小化T和S输出概率的交叉熵： 123p_s = F.log_softmax(y_s/T, dim=1)p_t = F.softmax(y_t/T, dim=1)loss =">
+<meta name="twitter:title" content="模型压缩 | 蒸馏乱炖">
+<meta name="twitter:description" content="参考RepDistiller，整理一下目前SOTA的蒸馏方法。  (KD) - Distilling the Knowledge in a Neural Network  Hinton提的，在温度的作用下，最小化T和S输出概率的交叉熵： 123p_s = F.log_softmax(y_s/T, dim=1)p_t = F.softmax(y_t/T, dim=1)loss = F.kl_div(">
     
     
         
@@ -36,7 +36,7 @@
         
     
     <!-- title -->
-    <title>蒸馏乱炖</title>
+    <title>模型压缩 | 蒸馏乱炖</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -62,7 +62,7 @@
          
           <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articles</a></li>
         
       </ul>
     </span>
@@ -87,20 +87,20 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/09/17/蒸馏乱炖/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&text=蒸馏乱炖"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=蒸馏乱炖"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&is_video=false&description=蒸馏乱炖"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=蒸馏乱炖&body=Check out this article: http://yoursite.com/2019/09/17/蒸馏乱炖/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=蒸馏乱炖"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=蒸馏乱炖"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=蒸馏乱炖"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=蒸馏乱炖"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&name=蒸馏乱炖&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&text=模型压缩 | 蒸馏乱炖"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=模型压缩 | 蒸馏乱炖"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&is_video=false&description=模型压缩 | 蒸馏乱炖"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=模型压缩 | 蒸馏乱炖&body=Check out this article: http://yoursite.com/2019/09/17/蒸馏乱炖/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=模型压缩 | 蒸馏乱炖"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=模型压缩 | 蒸馏乱炖"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=模型压缩 | 蒸馏乱炖"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=模型压缩 | 蒸馏乱炖"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&name=模型压缩 | 蒸馏乱炖&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#蒸馏乱炖"><span class="toc-number">1.</span> <span class="toc-text">蒸馏乱炖</span></a></li></ol>
+      
     </div>
   </span>
 </div>
@@ -112,7 +112,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        蒸馏乱炖
+        模型压缩 | 蒸馏乱炖
     </h1>
 
 
@@ -139,8 +139,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>### </p>
-<h1 id="蒸馏乱炖"><a href="#蒸馏乱炖" class="headerlink" title="蒸馏乱炖"></a>蒸馏乱炖</h1><p>参考<a href="https://github.com/HobbitLong/RepDistiller" target="_blank" rel="external">RepDistiller</a>，整理一下目前SOTA的蒸馏方法。</p>
+    <p>参考<a href="https://github.com/HobbitLong/RepDistiller" target="_blank" rel="external">RepDistiller</a>，整理一下目前SOTA的蒸馏方法。</p>
 <ol>
 <li><p><strong>(KD) - Distilling the Knowledge in a Neural Network </strong></p>
 <p>Hinton提的，在温度的作用下，最小化T和S输出概率的交叉熵：</p>
@@ -226,27 +225,27 @@
          
           <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articles</a></li>
         
       </ul>
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#蒸馏乱炖"><span class="toc-number">1.</span> <span class="toc-text">蒸馏乱炖</span></a></li></ol>
+      
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/09/17/蒸馏乱炖/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&text=蒸馏乱炖"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=蒸馏乱炖"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&is_video=false&description=蒸馏乱炖"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=蒸馏乱炖&body=Check out this article: http://yoursite.com/2019/09/17/蒸馏乱炖/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=蒸馏乱炖"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=蒸馏乱炖"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=蒸馏乱炖"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=蒸馏乱炖"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&name=蒸馏乱炖&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&text=模型压缩 | 蒸馏乱炖"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=模型压缩 | 蒸馏乱炖"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&is_video=false&description=模型压缩 | 蒸馏乱炖"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=模型压缩 | 蒸馏乱炖&body=Check out this article: http://yoursite.com/2019/09/17/蒸馏乱炖/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=模型压缩 | 蒸馏乱炖"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=模型压缩 | 蒸馏乱炖"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=模型压缩 | 蒸馏乱炖"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&title=模型压缩 | 蒸馏乱炖"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/09/17/蒸馏乱炖/&name=模型压缩 | 蒸馏乱炖&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -274,7 +273,7 @@
          
           <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articles</a></li>
         
       </ul>
     </nav>
@@ -447,8 +446,4 @@
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 </body>
-<div style="width:300px;margin:0 auto; padding:20px 0;">
-  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
-</div>
-
 </html>

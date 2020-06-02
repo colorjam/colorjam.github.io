@@ -2,9 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/05/25/weekly-paper-04/</loc>
+    
+    <lastmod>2020-06-02T14:40:49.792Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/09/17/%E8%92%B8%E9%A6%8F%E4%B9%B1%E7%82%96/</loc>
+    
+    <lastmod>2020-06-02T14:40:13.448Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/11/05/Scalable%20training%20of%20artificial%20neural%20networks%20with%20adaptive%20sparse%20connectivity%20inspired%20by%20network%20science/</loc>
+    
+    <lastmod>2020-06-02T14:39:48.522Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/09/17/weekly-paper-11/</loc>
+    
+    <lastmod>2020-06-02T14:38:48.943Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/07/26/Multi-task%20Learning/</loc>
+    
+    <lastmod>2020-06-02T14:38:39.712Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/07/24/Approximated%20Oracle%20FIlter%20Pruning/</loc>
+    
+    <lastmod>2020-06-02T14:38:30.860Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/12/12/NAG/</loc>
+    
+    <lastmod>2020-06-02T14:35:58.741Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/07/26/The%20Reparameterization%20Trick/</loc>
     
-    <lastmod>2020-05-31T17:34:27.406Z</lastmod>
+    <lastmod>2020-06-02T13:29:45.233Z</lastmod>
     
   </url>
   
@@ -16,51 +65,9 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/12/15/NAG/</loc>
-    
-    <lastmod>2019-12-14T18:27:19.463Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2019/12/11/pruning/</loc>
     
     <lastmod>2019-12-13T08:48:14.012Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/09/17/%E8%92%B8%E9%A6%8F%E4%B9%B1%E7%82%96/</loc>
-    
-    <lastmod>2019-12-10T17:02:28.554Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/07/26/Multi-task%20Learning/</loc>
-    
-    <lastmod>2019-12-10T17:00:50.702Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/11/05/Scalable%20training%20of%20artificial%20neural%20networks%20with%20adaptive%20sparse%20connectivity%20inspired%20by%20network%20science/</loc>
-    
-    <lastmod>2019-11-15T11:20:47.822Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/11/02/Approximated%20Oracle%20FIlter%20Pruning/</loc>
-    
-    <lastmod>2019-11-04T10:51:09.066Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/09/17/weekly-paper-11/</loc>
-    
-    <lastmod>2019-09-21T05:06:08.085Z</lastmod>
     
   </url>
   
@@ -142,13 +149,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/05/25/weekly-paper-04/</loc>
-    
-    <lastmod>2019-05-27T12:12:52.191Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2019/05/19/weekly-paper-03/</loc>
     
     <lastmod>2019-05-23T10:42:12.181Z</lastmod>
@@ -180,13 +180,6 @@
     <loc>http://yoursite.com/2019/05/13/weekly-paper-02/</loc>
     
     <lastmod>2019-05-19T04:29:39.092Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/05/17/pair-wise-loss/</loc>
-    
-    <lastmod>2019-05-17T08:08:40.815Z</lastmod>
     
   </url>
   
@@ -236,13 +229,6 @@
     <loc>http://yoursite.com/2017/10/18/machine-learning-in-action-note2/</loc>
     
     <lastmod>2018-11-06T15:16:54.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2018/08/06/adversiarial-compression/</loc>
-    
-    <lastmod>2018-08-17T07:36:04.000Z</lastmod>
     
   </url>
   

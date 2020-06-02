@@ -6,22 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Prune during training Sparse evolutionary training (SET) simplifies prune–regrowth cycles by using heuristics for random growth at the end of each training epoch.  主要针对全连接层，提出利用 sparse connected layer">
+    <meta name="description" content="Sparse evolutionary training (SET) simplifies prune–regrowth cycles by using heuristics for random growth at the end of each training epoch.  主要针对全连接层，提出利用 sparse connected layer代替fully connected lay">
+<meta name="keywords" content="paper">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Colorjam">
+<meta property="og:title" content="Prune during training">
 <meta property="og:url" content="http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/index.html">
 <meta property="og:site_name" content="Colorjam">
-<meta property="og:description" content="Prune during training Sparse evolutionary training (SET) simplifies prune–regrowth cycles by using heuristics for random growth at the end of each training epoch.  主要针对全连接层，提出利用 sparse connected layer">
+<meta property="og:description" content="Sparse evolutionary training (SET) simplifies prune–regrowth cycles by using heuristics for random growth at the end of each training epoch.  主要针对全连接层，提出利用 sparse connected layer代替fully connected lay">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20191105100616370.png">
 <meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20191105103114233.png">
 <meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20191105103724605.png">
 <meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20191105102431690.png">
 <meta property="og:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20191115191831435.png">
-<meta property="og:updated_time" content="2019-11-15T11:20:47.822Z">
+<meta property="og:updated_time" content="2020-06-02T14:39:48.522Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Colorjam">
-<meta name="twitter:description" content="Prune during training Sparse evolutionary training (SET) simplifies prune–regrowth cycles by using heuristics for random growth at the end of each training epoch.  主要针对全连接层，提出利用 sparse connected layer">
+<meta name="twitter:title" content="Prune during training">
+<meta name="twitter:description" content="Sparse evolutionary training (SET) simplifies prune–regrowth cycles by using heuristics for random growth at the end of each training epoch.  主要针对全连接层，提出利用 sparse connected layer代替fully connected lay">
 <meta name="twitter:image" content="http://yoursite.com/Users/colorjam/Library/Application%20Support/typora-user-images/image-20191105100616370.png">
     
     
@@ -42,7 +43,7 @@
         
     
     <!-- title -->
-    <title>Colorjam</title>
+    <title>Prune during training</title>
     <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
     <!-- persian styles -->
@@ -68,7 +69,7 @@
          
           <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articles</a></li>
         
       </ul>
     </span>
@@ -79,7 +80,7 @@
         <li><a class="icon" href="/2019/12/11/pruning/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/2019/11/02/Approximated Oracle FIlter Pruning/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/2019/09/17/weekly-paper-11/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -93,20 +94,20 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&text=Prune during training"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title=Prune during training"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&is_video=false&description=Prune during training"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Prune during training&body=Check out this article: http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title=Prune during training"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title=Prune during training"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title=Prune during training"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title=Prune during training"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&name=Prune during training&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Prune-during-training"><span class="toc-number">1.</span> <span class="toc-text">Prune during training</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NeST-A-Neural-Network-Synthesis-Tool-Based-on-a-Grow-and-Prune-Paradigm"><span class="toc-number">1.0.1.</span> <span class="toc-text">NeST: A Neural Network Synthesis Tool Based on a Grow-and-Prune Paradigm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parameter-Efficient-Training-of-Deep-Convolutional-Neural-Networks-by-Dynamic-Sparse-Reparameterization"><span class="toc-number">1.0.2.</span> <span class="toc-text">Parameter Efficient Training of Deep Convolutional Neural Networks by Dynamic Sparse Reparameterization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dynamic-pruning-with-feedback"><span class="toc-number">1.0.3.</span> <span class="toc-text">Dynamic pruning with feedback</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sparse-Networks-from-Scratch-Faster-Training-without-Losing-Performance"><span class="toc-number">1.0.4.</span> <span class="toc-text">Sparse Networks from Scratch: Faster Training without Losing Performance</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#NeST-A-Neural-Network-Synthesis-Tool-Based-on-a-Grow-and-Prune-Paradigm"><span class="toc-number">1.</span> <span class="toc-text">NeST: A Neural Network Synthesis Tool Based on a Grow-and-Prune Paradigm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parameter-Efficient-Training-of-Deep-Convolutional-Neural-Networks-by-Dynamic-Sparse-Reparameterization"><span class="toc-number">2.</span> <span class="toc-text">Parameter Efficient Training of Deep Convolutional Neural Networks by Dynamic Sparse Reparameterization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dynamic-pruning-with-feedback"><span class="toc-number">3.</span> <span class="toc-text">Dynamic pruning with feedback</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sparse-Networks-from-Scratch-Faster-Training-without-Losing-Performance"><span class="toc-number">4.</span> <span class="toc-text">Sparse Networks from Scratch: Faster Training without Losing Performance</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -118,7 +119,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        
+        Prune during training
     </h1>
 
 
@@ -130,7 +131,7 @@
       
     <div class="postdate">
       
-        <time datetime="2019-11-05T01:59:32.849Z" itemprop="datePublished">2019-11-05</time>
+        <time datetime="2019-11-05T15:48:10.000Z" itemprop="datePublished">2019-11-05</time>
         
       
     </div>
@@ -139,13 +140,18 @@
       
 
       
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/paper/">paper</a>
+    </div>
+
 
     </div>
   </header>
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="Prune-during-training"><a href="#Prune-during-training" class="headerlink" title="Prune during training"></a>Prune during training</h1><blockquote>
+    <blockquote>
 <p>Sparse evolutionary training (SET) simplifies prune–regrowth cycles by using heuristics for random growth at the end of each training epoch.</p>
 </blockquote>
 <p>主要针对全连接层，提出利用 sparse connected layer代替fully connected layer。</p>
@@ -209,27 +215,27 @@
          
           <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articles</a></li>
         
       </ul>
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Prune-during-training"><span class="toc-number">1.</span> <span class="toc-text">Prune during training</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NeST-A-Neural-Network-Synthesis-Tool-Based-on-a-Grow-and-Prune-Paradigm"><span class="toc-number">1.0.1.</span> <span class="toc-text">NeST: A Neural Network Synthesis Tool Based on a Grow-and-Prune Paradigm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parameter-Efficient-Training-of-Deep-Convolutional-Neural-Networks-by-Dynamic-Sparse-Reparameterization"><span class="toc-number">1.0.2.</span> <span class="toc-text">Parameter Efficient Training of Deep Convolutional Neural Networks by Dynamic Sparse Reparameterization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dynamic-pruning-with-feedback"><span class="toc-number">1.0.3.</span> <span class="toc-text">Dynamic pruning with feedback</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sparse-Networks-from-Scratch-Faster-Training-without-Losing-Performance"><span class="toc-number">1.0.4.</span> <span class="toc-text">Sparse Networks from Scratch: Faster Training without Losing Performance</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#NeST-A-Neural-Network-Synthesis-Tool-Based-on-a-Grow-and-Prune-Paradigm"><span class="toc-number">1.</span> <span class="toc-text">NeST: A Neural Network Synthesis Tool Based on a Grow-and-Prune Paradigm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parameter-Efficient-Training-of-Deep-Convolutional-Neural-Networks-by-Dynamic-Sparse-Reparameterization"><span class="toc-number">2.</span> <span class="toc-text">Parameter Efficient Training of Deep Convolutional Neural Networks by Dynamic Sparse Reparameterization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dynamic-pruning-with-feedback"><span class="toc-number">3.</span> <span class="toc-text">Dynamic pruning with feedback</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sparse-Networks-from-Scratch-Faster-Training-without-Losing-Performance"><span class="toc-number">4.</span> <span class="toc-text">Sparse Networks from Scratch: Faster Training without Losing Performance</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=&body=Check out this article: http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&text=Prune during training"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title=Prune during training"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&is_video=false&description=Prune during training"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Prune during training&body=Check out this article: http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title=Prune during training"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title=Prune during training"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title=Prune during training"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&title=Prune during training"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/11/05/Scalable training of artificial neural networks with adaptive sparse connectivity inspired by network science/&name=Prune during training&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -257,7 +263,7 @@
          
           <li><a href="/about/">About</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">Articles</a></li>
         
       </ul>
     </nav>
@@ -430,8 +436,4 @@
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 </body>
-<div style="width:300px;margin:0 auto; padding:20px 0;">
-  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033436" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">闽公网安备 35020302033436号</p></a>
-</div>
-
 </html>
